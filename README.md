@@ -1,6 +1,6 @@
 # Hide and Seek-Unity environment for Reinforcement Learning
 Hide and Seek environment is a project built with [Unity](https://unity.com/) and [ML-Agents](https://github.com/Unity-Technologies/ml-agents). 
-It intends for neuroscience inspired reinforcement learning. This project includes Unity assets and an example OpenAI Gym environment.  
+It intends for neuroscience inspired reinforcement learning. This project includes Unity assets and an example of OpenAI Gym environment.  
 ## Features
 ### Unity assets
 Unity assets support custimizing terrain, rocks and players in Unity Editor.

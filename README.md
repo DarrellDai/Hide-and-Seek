@@ -21,7 +21,7 @@ when a player is destroyed.
 ## Instruction
 ### OpenAI Gym environment
 1. Install [ML-Agents](https://github.com/Unity-Technologies/ml-agents)
-2. run `mlagents-learn <config path> --env <env path> --run-id <run id>`. `<config path>` is a training configuration, 
+2. Run `mlagents-learn <config path> --env <env path> --run-id <run id>`. `<config path>` is a training configuration, 
 an example is `\Training\Config\Hider.yaml`. `<env path>` is the path of an envionment, an example is `\Env\Hide and Seek.exe`. `<run id>` is an id set for training, 
 e.g. HAS_1.
 3. Press `Alt`+`Enter` to enter full screen

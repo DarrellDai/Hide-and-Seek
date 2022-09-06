@@ -93,9 +93,9 @@ public class PlayerSpawner : MonoBehaviour
         {
             //Set camera as field of view
             gameAgent.transform.Find("Eye").Find("Camera").gameObject.SetActive(true);
-            cameras[order] = gameAgent.transform.Find("Eye").Find("Camera").GetComponent<Camera>();
+            cameras[order] = gameAgent.transform.Find("Eye").Find("Camera").GetComponent<Camera>(); 
             cameras[order].fieldOfView = fieldOfView;
-            float halfNumOfWindows = Mathf.RoundToInt(players.Length / 2f);
+            float halfNumOfWindows = players.Length>1? Mathf.RoundToInt(players.Length / 2f):1;
             cameras[order].rect = new Rect(0.3f + (1 - 0.3f) / halfNumOfWindows * Mathf.Floor(order % halfNumOfWindows),
                 0.5f * (1 - Mathf.Floor(order / halfNumOfWindows)), (1 - 0.3f) / halfNumOfWindows,
                 0.5f);

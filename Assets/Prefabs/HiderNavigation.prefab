@@ -103,17 +103,15 @@ MonoBehaviour:
     m_Flags: 0
   isCollided: 0
   isOut: 0
-  lastPosition: {x: 0, y: 0, z: 0}
   mapSize: 0
-  moveSpeed: 0.5
+  moveSpeed: 6
   rotateSpeed: 200
-  vcam: {fileID: 0}
   orderOfPlayer: 0
   trainingMode: 0
   destinationSpawner: {fileID: 0}
   extraOffset: 0.1
-  overlapTestBoxSize: {x: 0, y: 0, z: 0}
-  position: {x: 0, y: 0, z: 0}
+  overlapTestBoxSizeForDestination: {x: 0, y: 0, z: 0}
+  destinationPosition: {x: 0, y: 0, z: 0}
   toChooseNextDestination: 1
   destination: {fileID: 0}
   navMeshAgent: {fileID: 0}

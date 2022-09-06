@@ -156,11 +156,10 @@ public class GameAgent : Agent
     /// Collect obsevrations
     /// </summary>
     /// <param name="sensor"></param>
-    public override void CollectObservations(VectorSensor sensor)
+    /*public override void CollectObservations(VectorSensor sensor)
     {
-        //Add self's destinationPosition
-        sensor.AddObservation(transform.position);
-    }
+        
+    }*/
     
     public void OnCollisionEnter(Collision collision)
     {

@@ -1,37 +1,43 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class PlayerSpawner : MonoBehaviour
 {
     [Tooltip("Player spawner as the parent of all players")]
     public GameObject playerSpawner;
-    
+
     private TerrainAndRockSetting terrainAndRockSetting;
     private int seed;
     private float itemSpread;
+
     [Tooltip("The distance away from bound as the range for spawning")]
     public static float distanceFromBound = 10;
+
     [HideInInspector] public Vector3 randPosition;
-    
+
     [Tooltip("The box size the destination needs to be away from rocks and other players")]
     public float overlapTestBoxSize = 2;
-    
+
     private LayerMask hiderLayer;
     private LayerMask seekerLayer;
     private LayerMask rockLayer;
     private LayerMask terrainLayer;
     private bool overlap;
+
     [Tooltip("Player spawner as the parent of all destinations")]
     public GameObject destinationSpawner;
+
     [Tooltip("Player spawner as the parent of all field of views mesh")]
     public GameObject fieldOfViewSpawner;
-    [Tooltip("Players to spawn")]
-    public Player[] players;
+
+    [Tooltip("Players to spawn")] public Player[] players;
+
     [Tooltip("Player's camera is active if true")]
     public bool hasCameras;
-    
+
     private Camera[] cameras;
-    
+
     [Tooltip("field of view of player's camera")]
     public int fieldOfView;
 
@@ -66,16 +72,17 @@ public class PlayerSpawner : MonoBehaviour
     private void Update()
     {
         //Respawn all players if all hiders are caught
-        if (CountNumHider(playerSpawner) == 0)
+        if (CountActiveNumHider(playerSpawner) == 0)
         {
-            DestoryChildren(playerSpawner.transform);
-            for (int i = 0; i < players.Length; i++)
+            for (int i = 0; i < playerSpawner.transform.childCount; i++)
             {
-                SpawnPlayer(i);
+                if (playerSpawner.transform.GetChild(i).tag == "Hider")
+                {
+                    ResetCamera(playerSpawner.transform.GetChild(i));
+                }
             }
         }
     }
-
     /// <summary>
     /// Spawn players which are not too close to each other.
     /// </summary>
@@ -93,9 +100,9 @@ public class PlayerSpawner : MonoBehaviour
         {
             //Set camera as field of view
             gameAgent.transform.Find("Eye").Find("Camera").gameObject.SetActive(true);
-            cameras[order] = gameAgent.transform.Find("Eye").Find("Camera").GetComponent<Camera>(); 
+            cameras[order] = gameAgent.transform.Find("Eye").Find("Camera").GetComponent<Camera>();
             cameras[order].fieldOfView = fieldOfView;
-            float halfNumOfWindows = players.Length>1? Mathf.RoundToInt(players.Length / 2f):1;
+            float halfNumOfWindows = players.Length > 1 ? Mathf.RoundToInt(players.Length / 2f) : 1;
             cameras[order].rect = new Rect(0.3f + (1 - 0.3f) / halfNumOfWindows * Mathf.Floor(order % halfNumOfWindows),
                 0.5f * (1 - Mathf.Floor(order / halfNumOfWindows)), (1 - 0.3f) / halfNumOfWindows,
                 0.5f);
@@ -161,6 +168,34 @@ public class PlayerSpawner : MonoBehaviour
     }
 
     /// <summary>
+    /// Count the number of hiders left
+    /// </summary>
+    /// <returns></returns>
+    public static int CountActiveNumHider(GameObject gameObject)
+    {
+        if (gameObject.transform.childCount == 0)
+            return 0;
+        int numHider = 0;
+        for (int i = 0; i < gameObject.transform.childCount; i++)
+        {
+            if (gameObject.transform.GetChild(i).tag == "Hider")
+            {
+                if (gameObject.transform.GetChild(i).GetChild(0).gameObject.activeSelf &&
+                    gameObject.transform.GetChild(i).GetChild(1).gameObject.activeSelf)
+                {
+                    numHider++;
+                }
+                /*if (gameObject.transform.GetChild(i).gameObject.activeSelf)
+                {
+                    numHider++;
+                }*/
+            }
+        }
+
+        return numHider;
+    }
+
+    /// <summary>
     /// Destroy all terrain chunk before generate new terrain.
     /// </summary>
     /// <param name="transform"></param>
@@ -180,6 +215,22 @@ public class PlayerSpawner : MonoBehaviour
                 DestroyImmediate(child);
             }
         }
+    }
+    /// <summary>
+    /// Reset the camera to normal from blackout
+    /// </summary>
+    /// <param name="transform"></param>
+    void ResetCamera(Transform transform)
+    {
+        //Turn its camera to black when a hider is caught 
+        Camera camera = transform.Find("Eye").Find("Camera").GetComponent<Camera>();
+        Vector3 position = camera.transform.position;
+        Quaternion rotation = camera.transform.rotation;
+        Rect rect = camera.rect;
+        camera.Reset();
+        camera.transform.position = position;
+        camera.transform.rotation = rotation;
+        camera.rect = rect;
     }
 
     [System.Serializable]

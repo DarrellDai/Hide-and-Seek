@@ -138,7 +138,7 @@ public class GameAgent : Agent
             isCollided = true;
         }
         //End episode if self is a hider and get caught 
-        if (collision.gameObject.CompareTag("Hider") && gameObject.CompareTag("Hider"))
+        if (collision.gameObject.CompareTag("Seeker") && gameObject.CompareTag("Hider"))
         {
             Debug.Log("Player"+orderOfPlayer+" is caught");
             //Add reward when get caught as a hider

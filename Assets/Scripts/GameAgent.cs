@@ -121,11 +121,18 @@ public class GameAgent : Agent
             EndEpisode();
             return;
         }
+        else
+        {
+            if (gameObject.CompareTag("Seeker"))
+            {
+                AddReward(-0.001f);
+            }
+        }
 
         //Add reward for surviving each step
         if (gameObject.CompareTag("Hider") && !alive)
             AddReward(0.001f);
-        
+
         if (alive)
             MoveAgent(actionBuffers.DiscreteActions);
     }

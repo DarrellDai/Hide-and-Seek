@@ -1,3 +1,4 @@
+using System;
 using Unity.Mathematics;
 using UnityEngine;
 using Unity.MLAgents;
@@ -39,6 +40,9 @@ public class GameAgent : Agent
     
     //If true, destroy the hider on the next step 
     private bool hiderDestroyFlag;
+    
+    //If true, meaning the agent is still activated 
+    public bool alive;
     /// <summary>
     /// Initialize ML-agent.
     /// </summary>
@@ -62,6 +66,118 @@ public class GameAgent : Agent
         MaxStep = trainingMode ? 5000 : 0;
     }
 
+    /// <summary>
+    /// Heuristic control, where W: go forward, S: go backward, A: turn left, D: turn right.
+    /// </summary>
+    /// <param name="actionsOut"></param>
+    public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        var discreteActionsOut = actionsOut.DiscreteActions;
+        discreteActionsOut[0] = (int)moveInput.ReadValue<float>();
+        discreteActionsOut[1] = (int)dirInput.ReadValue<float>();
+    }
+    /// <summary>
+    /// Initialize player when episode begins
+    /// </summary>
+    public override void OnEpisodeBegin()
+    {
+        alive = true;
+        gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        gameObject.transform.GetChild(1).gameObject.SetActive(true);
+        RelocatePlayer();
+        GetComponent<Rigidbody>().velocity=Vector3.zero;
+        GetComponent<Rigidbody>().angularVelocity=Vector3.zero;
+    }
+
+    /// <summary>
+    /// Collect obsevrations
+    /// </summary>
+    /// <param name="sensor"></param>
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        sensor.AddObservation(alive);
+        sensor.AddObservation(PlayerSpawner.CountActiveNumHider(transform.parent.gameObject));
+    }
+    /// <summary>
+    /// Update agent's status when action is received.
+    /// </summary>
+    /// <param name="actionBuffers"></param>
+    public override void OnActionReceived(ActionBuffers actionBuffers)
+    {   
+        
+        //Destroy hiders when caught
+        if (gameObject.CompareTag("Hider") && hiderDestroyFlag)
+        {
+            alive = false;
+            hiderDestroyFlag = false;
+            gameObject.transform.GetChild(0).gameObject.SetActive(false);
+            gameObject.transform.GetChild(1).gameObject.SetActive(false);
+            return;
+        }
+        
+        //End episode when all hiders are caught
+        if (PlayerSpawner.CountActiveNumHider(transform.parent.gameObject) == 0)
+        {
+            EndEpisode();
+            return;
+        }
+        else
+        {
+            if (gameObject.CompareTag("Seeker"))
+            {
+                AddReward(-0.001f);
+            }
+        }
+
+        //Add reward for surviving each step
+        if (gameObject.CompareTag("Hider") && !alive)
+            AddReward(0.001f);
+
+        if (alive)
+            MoveAgent(actionBuffers.DiscreteActions);
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        //Set isCollided = true when agent collides a rock
+        if (collision.gameObject.CompareTag("Rock"))
+        {
+            isCollided = true;
+        }
+        //End episode if self is a hider and get caught 
+        if (collision.gameObject.CompareTag("Seeker") && gameObject.CompareTag("Hider"))
+        {
+            Debug.Log("Player"+orderOfPlayer+" is caught");
+            //Add reward when get caught as a hider
+            AddReward(-1);
+            hiderDestroyFlag = true;
+            
+            //Turn its camera to black when a hider is caught 
+            Camera camera = transform.Find("Eye").Find("Camera").GetComponent<Camera>();
+            camera.clearFlags = CameraClearFlags.SolidColor;
+            camera.backgroundColor=Color.black;
+            camera.cullingMask = 0;
+        }
+
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        //Set isCollided = false when agent exit collision from a rock
+        if (collision.gameObject.CompareTag("Rock"))
+        {
+            isCollided = false;
+        }
+        
+    }
+    /// <summary>
+    /// Disable inputs when agent is destroyed.
+    /// </summary>
+    private void OnDestroy()
+    {
+        moveInput.Disable();
+        dirInput.Disable(); 
+    }
     /// <summary>
     /// Move agent by control.
     /// </summary>
@@ -116,116 +232,15 @@ public class GameAgent : Agent
         }
     }
     /// <summary>
-    /// Update agent's status when action is received.
-    /// </summary>
-    /// <param name="actionBuffers"></param>
-    public override void OnActionReceived(ActionBuffers actionBuffers)
-    {   
-        //Destroy hiders when caught
-        if (gameObject.CompareTag("Hider") && hiderDestroyFlag)
-        {
-            Destroy(gameObject); 
-        }
-        //Add reward for surviving each step
-        else if (gameObject.CompareTag("Hider") && !hiderDestroyFlag)
-            AddReward(0.001f);
-        MoveAgent(actionBuffers.DiscreteActions);
-    }
-    
-    /// <summary>
-    /// Heuristic control, where W: go forward, S: go backward, A: turn left, D: turn right.
-    /// </summary>
-    /// <param name="actionsOut"></param>
-    public override void Heuristic(in ActionBuffers actionsOut)
-    {
-        var discreteActionsOut = actionsOut.DiscreteActions;
-        discreteActionsOut[0] = (int)moveInput.ReadValue<float>();
-        discreteActionsOut[1] = (int)dirInput.ReadValue<float>();
-    }
-    /*/// <summary>
-    /// Initialize player when episode begins
-    /// </summary>
-    public override void OnEpisodeBegin() 
-    {
-        RelocatePlayer();
-        GetComponent<Rigidbody>().velocity=Vector3.zero;
-        GetComponent<Rigidbody>().angularVelocity=Vector3.zero;
-    }*/
-
-    /// <summary>
-    /// Collect obsevrations
-    /// </summary>
-    /// <param name="sensor"></param>
-    /*public override void CollectObservations(VectorSensor sensor)
-    {
-        
-    }*/
-    
-    public void OnCollisionEnter(Collision collision)
-    {
-        //Set isCollided = true when agent collides a rock
-        if (collision.gameObject.CompareTag("Rock"))
-        {
-            isCollided = true;
-        }
-        //End episode if self is a hider and get caught 
-        if (collision.gameObject.CompareTag("Seeker") && gameObject.CompareTag("Hider"))
-        {
-            Debug.Log("Player"+orderOfPlayer+" is caught");
-            //Add reward when get caught as a hider
-            AddReward(-1);
-            hiderDestroyFlag = true;
-            
-            //Turn its camera to black when a hider is caught 
-            Camera camera = transform.Find("Eye").Find("Camera").GetComponent<Camera>();
-            camera.clearFlags = CameraClearFlags.SolidColor;
-            camera.backgroundColor=Color.black;
-            camera.cullingMask = 0;
-            
-            EndEpisode();
-
-        }
-        if (collision.gameObject.CompareTag("Hider") && gameObject.CompareTag("Seeker"))
-        {
-            //Add reward when catch a hider as a seeker
-            AddReward(1);
-            
-            //End seeker's episode when all hiders are caught
-            if (PlayerSpawner.CountNumHider(transform.parent.gameObject) == 0)
-            {
-                Debug.Log("episode ends");
-                EndEpisode();
-            }
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        //Set isCollided = false when agent exit collision from a rock
-        if (collision.gameObject.CompareTag("Rock"))
-        {
-            isCollided = false;
-        }
-        
-    }
-    
-    /*/// <summary>
     /// Place the player to a random destinationPosition
     /// </summary>
     void RelocatePlayer()
     {
         transform.rotation=quaternion.identity;
         playerSpawner.FindRandPosition();
-        transform.destinationPosition = playerSpawner.randPosition;
+        transform.position = playerSpawner.randPosition;
         GetComponent<PlaceObjectsToSurface>().StartPlacing();
-    }*/
-    
-    /// <summary>
-    /// Disable inputs when agent is destroyed.
-    /// </summary>
-    private void OnDestroy()
-    {
-        moveInput.Disable();
-        dirInput.Disable(); 
     }
+    
+
 }

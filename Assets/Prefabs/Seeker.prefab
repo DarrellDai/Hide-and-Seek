@@ -16,12 +16,20 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1873819494543363414, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
+      propertyPath: TeamId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873819494543363414, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
       propertyPath: m_BehaviorName
       value: Seeker
       objectReference: {fileID: 0}
     - target: {fileID: 1873819494543363414, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
       propertyPath: m_BehaviorType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873819494543363414, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
+      propertyPath: m_BrainParameters.VectorObservationSize
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2271765189817258503, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
       propertyPath: m_Layer

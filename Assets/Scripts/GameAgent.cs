@@ -81,9 +81,11 @@ public class GameAgent : Agent
     /// </summary>
     public override void OnEpisodeBegin()
     {
+        Debug.Log("Player"+orderOfPlayer+" begins");
         alive = true;
-        gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        gameObject.transform.GetChild(0).gameObject.SetActive(true); 
         gameObject.transform.GetChild(1).gameObject.SetActive(true);
+        PlayerSpawner.ResetCamera(gameObject.transform);
         RelocatePlayer();
         GetComponent<Rigidbody>().velocity=Vector3.zero;
         GetComponent<Rigidbody>().angularVelocity=Vector3.zero;
@@ -97,44 +99,40 @@ public class GameAgent : Agent
     {
         sensor.AddObservation(alive);
         sensor.AddObservation(PlayerSpawner.CountActiveNumHider(transform.parent.gameObject));
+        if (gameObject.CompareTag("Seeker"))
+        {
+            AddReward(-0.01f);
+        }
+        
+        //Add reward for surviving each step
+        if (gameObject.CompareTag("Hider") && alive)
+            AddReward(0.01f);
     }
     /// <summary>
     /// Update agent's status when action is received.
     /// </summary>
     /// <param name="actionBuffers"></param>
     public override void OnActionReceived(ActionBuffers actionBuffers)
-    {   
+    {
+        if (alive)
+            MoveAgent(actionBuffers.DiscreteActions); 
         
         //Destroy hiders when caught
         if (gameObject.CompareTag("Hider") && hiderDestroyFlag)
         {
-            alive = false;
             hiderDestroyFlag = false;
             gameObject.transform.GetChild(0).gameObject.SetActive(false);
             gameObject.transform.GetChild(1).gameObject.SetActive(false);
-            return;
         }
-        
         //End episode when all hiders are caught
         if (PlayerSpawner.CountActiveNumHider(transform.parent.gameObject) == 0)
         {
+            Debug.Log("Player"+orderOfPlayer+"alive: "+alive);
+            Debug.Log("done");
             EndEpisode();
             return;
         }
-        else
-        {
-            if (gameObject.CompareTag("Seeker"))
-            {
-                AddReward(-0.001f);
-            }
-        }
 
-        //Add reward for surviving each step
-        if (gameObject.CompareTag("Hider") && !alive)
-            AddReward(0.001f);
-
-        if (alive)
-            MoveAgent(actionBuffers.DiscreteActions);
     }
 
     public void OnCollisionEnter(Collision collision)
@@ -144,14 +142,15 @@ public class GameAgent : Agent
         {
             isCollided = true;
         }
-        //End episode if self is a hider and get caught 
-        if (collision.gameObject.CompareTag("Seeker") && gameObject.CompareTag("Hider"))
+
+        if (collision.gameObject.CompareTag("Seeker") && gameObject.CompareTag("Hider")) 
         {
             Debug.Log("Player"+orderOfPlayer+" is caught");
             //Add reward when get caught as a hider
-            AddReward(-1);
+            AddReward(-1); 
             hiderDestroyFlag = true;
-            
+            alive = false;
+
             //Turn its camera to black when a hider is caught 
             Camera camera = transform.Find("Eye").Find("Camera").GetComponent<Camera>();
             camera.clearFlags = CameraClearFlags.SolidColor;

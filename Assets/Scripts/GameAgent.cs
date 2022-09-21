@@ -64,6 +64,8 @@ public class GameAgent : Agent
         
         //Set the MaxStep as 5000 in training mode, 0 (inf) in inference mode
         MaxStep = trainingMode ? 5000 : 0;
+        
+        RelocatePlayer();
     }
 
     /// <summary>
@@ -156,6 +158,11 @@ public class GameAgent : Agent
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.backgroundColor=Color.black;
             camera.cullingMask = 0;
+        }
+        if (collision.gameObject.CompareTag("Hider") && gameObject.CompareTag("Seeker")) 
+        {
+            //Add reward when catch a hider
+            AddReward(1);
         }
 
     }

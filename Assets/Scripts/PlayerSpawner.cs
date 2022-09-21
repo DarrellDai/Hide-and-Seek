@@ -180,8 +180,12 @@ public class PlayerSpawner : MonoBehaviour
         {
             if (gameObject.transform.GetChild(i).tag == "Hider")
             {
-                if (gameObject.transform.GetChild(i).GetChild(0).gameObject.activeSelf &&
+                /*if (gameObject.transform.GetChild(i).GetChild(0).gameObject.activeSelf &&
                     gameObject.transform.GetChild(i).GetChild(1).gameObject.activeSelf)
+                {
+                    numHider++;
+                }*/
+                if (gameObject.transform.GetChild(i).gameObject.GetComponent<GameAgent>().alive)
                 {
                     numHider++;
                 }
@@ -220,7 +224,7 @@ public class PlayerSpawner : MonoBehaviour
     /// Reset the camera to normal from blackout
     /// </summary>
     /// <param name="transform"></param>
-    void ResetCamera(Transform transform)
+    public static void ResetCamera(Transform transform)
     {
         //Turn its camera to black when a hider is caught 
         Camera camera = transform.Find("Eye").Find("Camera").GetComponent<Camera>();

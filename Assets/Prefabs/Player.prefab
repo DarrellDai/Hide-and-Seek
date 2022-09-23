@@ -318,7 +318,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 5000
+  MaxStep: 200
   moveInput:
     m_Name: Move Input
     m_Type: 0

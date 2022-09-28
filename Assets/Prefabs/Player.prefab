@@ -388,8 +388,8 @@ MonoBehaviour:
   isCollided: 0
   isOut: 0
   mapSize: 0
-  moveSpeed: 0.5
-  rotateSpeed: 200
+  moveSpeed: 0.1
+  rotateSpeed: 100
   orderOfPlayer: 0
   trainingMode: 0
   alive: 0

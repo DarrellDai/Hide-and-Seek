@@ -6,7 +6,9 @@ public class PlayerSpawner : MonoBehaviour
 {
     [Tooltip("Player spawner as the parent of all players")]
     public GameObject playerSpawner;
-
+    
+    [Tooltip("If for human play")]
+    public bool humanPlay;
     private TerrainAndRockSetting terrainAndRockSetting;
     private int seed;
     private float itemSpread;
@@ -98,14 +100,25 @@ public class PlayerSpawner : MonoBehaviour
         //Set up players' camera if hasCameras=true
         if (hasCameras)
         {
+            
             //Set camera as field of view
             gameAgent.transform.Find("Eye").Find("Camera").gameObject.SetActive(true);
             cameras[order] = gameAgent.transform.Find("Eye").Find("Camera").GetComponent<Camera>();
             cameras[order].fieldOfView = fieldOfView;
-            float halfNumOfWindows = players.Length > 1 ? Mathf.RoundToInt(players.Length / 2f) : 1;
-            cameras[order].rect = new Rect(0.3f + (1 - 0.3f) / halfNumOfWindows * Mathf.Floor(order % halfNumOfWindows),
-                0.5f * (1 - Mathf.Floor(order / halfNumOfWindows)), (1 - 0.3f) / halfNumOfWindows,
-                0.5f);
+            
+            if (humanPlay)
+            {
+                cameras[order].rect = new Rect((float)order/players.Length,
+                    0, 1f/players.Length, 1);
+            }
+            else
+            {
+                float halfNumOfWindows = players.Length > 1 ? Mathf.RoundToInt(players.Length / 2f) : 1;
+                cameras[order].rect = new Rect(0.3f + (1 - 0.3f) / halfNumOfWindows * Mathf.Floor(order % halfNumOfWindows),
+                    0.5f * (1 - Mathf.Floor(order / halfNumOfWindows)), (1 - 0.3f) / halfNumOfWindows,
+                    0.5f);
+            }
+            
         }
 
         gameAgent.trainingMode = players[order].trainingMode;
@@ -199,7 +212,7 @@ public class PlayerSpawner : MonoBehaviour
         return numHider;
     }
 
-    /// <summary>
+    /*/// <summary>
     /// Destroy all terrain chunk before generate new terrain.
     /// </summary>
     /// <param name="transform"></param>
@@ -219,7 +232,7 @@ public class PlayerSpawner : MonoBehaviour
                 DestroyImmediate(child);
             }
         }
-    }
+    }*/
     /// <summary>
     /// Reset the camera to normal from blackout
     /// </summary>

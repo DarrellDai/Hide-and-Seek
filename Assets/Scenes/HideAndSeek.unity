@@ -9090,7 +9090,7 @@ MonoBehaviour:
   destinationSpawner: {fileID: 697367312}
   fieldOfViewSpawner: {fileID: 110601439}
   players:
-  - playerToSpawn: {fileID: 4849520754401036910, guid: d057d6e12bcd7f24f895eba6cc2db069, type: 3}
+  - playerToSpawn: {fileID: 975044687332221977, guid: 4e247ac091b62f14b98e2d755fd5a3cd, type: 3}
     trainingMode: 0
   - playerToSpawn: {fileID: 6355653838177810250, guid: ea8b4ba20be1dce4b8c8d4b9f3b06c56, type: 3}
     trainingMode: 0

@@ -43,6 +43,8 @@ public class GameAgent : Agent
     
     //If true, meaning the agent is still activated 
     public bool alive;
+    // Step count in an episode
+    private int step;
     /// <summary>
     /// Initialize ML-agent.
     /// </summary>
@@ -66,6 +68,7 @@ public class GameAgent : Agent
         MaxStep = trainingMode ? 5000 : 0;
         
         RelocatePlayer();
+        step = 1;
     }
 
     /// <summary>
@@ -91,6 +94,7 @@ public class GameAgent : Agent
         RelocatePlayer();
         GetComponent<Rigidbody>().velocity=Vector3.zero;
         GetComponent<Rigidbody>().angularVelocity=Vector3.zero;
+        step = 1;
     }
 
     /// <summary>
@@ -103,12 +107,13 @@ public class GameAgent : Agent
         sensor.AddObservation(PlayerSpawner.CountActiveNumHider(transform.parent.gameObject));
         if (gameObject.CompareTag("Seeker"))
         {
-            AddReward(-0.01f);
+            AddReward(-0.01f*step);
         }
         
         //Add reward for surviving each step
         if (gameObject.CompareTag("Hider") && alive)
-            AddReward(0.01f);
+            AddReward(0.01f*step);
+        step++;
     }
     /// <summary>
     /// Update agent's status when action is received.
@@ -149,7 +154,7 @@ public class GameAgent : Agent
         {
             Debug.Log("Player"+orderOfPlayer+" is caught");
             //Add reward when get caught as a hider
-            AddReward(-1); 
+            AddReward(-100); 
             hiderDestroyFlag = true;
             alive = false;
 
@@ -162,7 +167,7 @@ public class GameAgent : Agent
         if (collision.gameObject.CompareTag("Hider") && gameObject.CompareTag("Seeker")) 
         {
             //Add reward when catch a hider
-            AddReward(1);
+            AddReward(100);
         }
 
     }

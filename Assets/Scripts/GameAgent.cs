@@ -49,11 +49,14 @@ public class GameAgent : Agent
     /// Initialize ML-agent.
     /// </summary>
     public override void Initialize()
-    {
+    {   
+        playerSpawner = FindObjectOfType<PlayerSpawner>();
+        orderOfPlayer = playerSpawner.playerIndex;
+        Debug.Log("Player: " +orderOfPlayer+" is created");
         //Enable inputs
         moveInput.Enable();
         dirInput.Enable();
-
+        
         //Get map size
         TerrainAndRockSetting terrainAndRockSetting = FindObjectOfType<TerrainAndRockSetting>();
         mapSize = terrainAndRockSetting.CalculateMapSize() / 2;
@@ -62,12 +65,13 @@ public class GameAgent : Agent
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Seeker"), LayerMask.NameToLayer("Seeker"));
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Hider"), LayerMask.NameToLayer("Hider"));
 
-        playerSpawner = FindObjectOfType<PlayerSpawner>();
+        
         
         //Set the MaxStep as 5000 in training mode, 0 (inf) in inference mode
         MaxStep = trainingMode ? 5000 : 0;
         
-        playerSpawner.RelocatePlayer(transform);
+        /*playerSpawner.RelocatePlayer(transform);
+        Debug.Log("Player: "+orderOfPlayer+" is relocated");*/
         step = 1;
     }
 
@@ -86,12 +90,13 @@ public class GameAgent : Agent
     /// </summary>
     public override void OnEpisodeBegin()
     {
-        Debug.Log("Player"+orderOfPlayer+" begins");
+        Debug.Log("Player: "+orderOfPlayer+" begins");
         alive = true;
         gameObject.transform.GetChild(0).gameObject.SetActive(true); 
         gameObject.transform.GetChild(1).gameObject.SetActive(true);
         PlayerSpawner.ResetCamera(gameObject.transform);
-        playerSpawner.RelocatePlayer(transform);
+        playerSpawner.RelocatePlayer(gameObject.transform);
+        Debug.Log("Player: "+orderOfPlayer+" is relocated");
         GetComponent<Rigidbody>().velocity=Vector3.zero;
         GetComponent<Rigidbody>().angularVelocity=Vector3.zero;
         step = 1;
@@ -127,6 +132,7 @@ public class GameAgent : Agent
         //Destroy hiders when caught
         if (gameObject.CompareTag("Hider") && hiderDestroyFlag)
         {
+            Debug.Log("destory");
             hiderDestroyFlag = false;
             gameObject.transform.GetChild(0).gameObject.SetActive(false);
             gameObject.transform.GetChild(1).gameObject.SetActive(false);
@@ -134,10 +140,8 @@ public class GameAgent : Agent
         //End episode when all hiders are caught
         if (PlayerSpawner.CountActiveNumHider(transform.parent.gameObject) == 0)
         {
-            Debug.Log("Player"+orderOfPlayer+"alive: "+alive);
-            Debug.Log("done");
+            Debug.Log("Player: "+orderOfPlayer+"alive: "+alive);
             EndEpisode();
-            return;
         }
 
     }
@@ -152,7 +156,7 @@ public class GameAgent : Agent
 
         if (collision.gameObject.CompareTag("Seeker") && gameObject.CompareTag("Hider")) 
         {
-            Debug.Log("Player"+orderOfPlayer+" is caught");
+            Debug.Log("Player"+orderOfPlayer+" is caught by Player"+collision.gameObject.GetComponent<GameAgent>().orderOfPlayer);
             //Add reward when get caught as a hider
             AddReward(-100); 
             hiderDestroyFlag = true;

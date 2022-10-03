@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2154032851308160097, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
       propertyPath: m_Speed
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2154032851308160097, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
       propertyPath: m_Acceleration
@@ -17,7 +17,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2154032851308160097, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
       propertyPath: m_AngularSpeed
-      value: 10000
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 2154032851308160097, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
       propertyPath: m_ObstacleAvoidanceType
@@ -49,7 +49,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6401107384440928803, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12.68
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6401107384440928803, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
       propertyPath: m_LocalPosition.z
@@ -85,6 +85,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7277039349646896453, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
       propertyPath: TeamId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7277039349646896453, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
+      propertyPath: m_BehaviorType
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
@@ -132,10 +136,11 @@ MonoBehaviour:
   isCollided: 0
   isOut: 0
   mapSize: 0
-  moveSpeed: 0.5
-  rotateSpeed: 200
+  moveSpeed: 0.1
+  rotateSpeed: 100
   orderOfPlayer: 0
   trainingMode: 0
+  alive: 0
   destinationSpawner: {fileID: 0}
   extraOffset: 0.1
   overlapTestBoxSizeForDestination: {x: 0, y: 0, z: 0}
@@ -156,9 +161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fb239c0c70f1c945a550f53659b8695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 25
-  viewAngle: 100
-  ViewHeight: 1
+  viewRadius: 30
+  viewAngle: 60
+  ViewHeight: 0.6
   angleResolution: 0.97
   heightResolution: 1.42
   targetMask:

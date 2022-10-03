@@ -9084,7 +9084,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpawner: {fileID: 136706334}
+  playerIndex: 0
   humanPlay: 0
+  singlePlayer: 0
   randPosition: {x: 0, y: 0, z: 0}
   overlapTestBoxSize: 2
   destinationSpawner: {fileID: 697367312}
@@ -9093,6 +9095,10 @@ MonoBehaviour:
   - playerToSpawn: {fileID: 975044687332221977, guid: 4e247ac091b62f14b98e2d755fd5a3cd, type: 3}
     trainingMode: 0
   - playerToSpawn: {fileID: 6355653838177810250, guid: ea8b4ba20be1dce4b8c8d4b9f3b06c56, type: 3}
+    trainingMode: 0
+  - playerToSpawn: {fileID: 975044687332221977, guid: 4e247ac091b62f14b98e2d755fd5a3cd, type: 3}
+    trainingMode: 0
+  - playerToSpawn: {fileID: 975044687332221977, guid: 4e247ac091b62f14b98e2d755fd5a3cd, type: 3}
     trainingMode: 0
   hasCameras: 1
   fieldOfView: 100

@@ -1,3 +1,5 @@
+using Unity.Mathematics;
+using Unity.MLAgents.Policies;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
@@ -6,15 +8,19 @@ public class PlayerSpawner : MonoBehaviour
 {
     [Tooltip("Player spawner as the parent of all players")]
     public GameObject playerSpawner;
+
+    [HideInInspector] public int playerIndex;
     
     [Tooltip("If for human play")]
     public bool humanPlay;
+
+    public bool singlePlayer;
     private TerrainAndRockSetting terrainAndRockSetting;
     private int seed;
     private float itemSpread;
 
     [Tooltip("The distance away from bound as the range for spawning")]
-    public static float distanceFromBound = 10;
+    public static float distanceFromBound = 3;
 
     [HideInInspector] public Vector3 randPosition;
 
@@ -67,6 +73,8 @@ public class PlayerSpawner : MonoBehaviour
     {
         for (int i = 0; i < players.Length; i++)
         {
+            
+            playerIndex = i;
             SpawnPlayer(i);
         }
     }
@@ -93,10 +101,10 @@ public class PlayerSpawner : MonoBehaviour
     {
         FindRandPosition();
         GameObject clone = Instantiate(players[order].playerToSpawn, randPosition,
-            players[order].playerToSpawn.transform.rotation);
+            quaternion.identity);
+        clone.transform.position -= clone.GetComponent<Collider>().bounds.center;
         clone.transform.parent = playerSpawner.transform;
         GameAgent gameAgent = clone.GetComponent<GameAgent>();
-        gameAgent.orderOfPlayer = order;
         //Set up players' camera if hasCameras=true
         if (hasCameras)
         {
@@ -108,8 +116,15 @@ public class PlayerSpawner : MonoBehaviour
             
             if (humanPlay)
             {
-                cameras[order].rect = new Rect((float)order/players.Length,
-                    0, 1f/players.Length, 1);
+                if (singlePlayer && players[order].playerToSpawn.GetComponent<BehaviorParameters>().BehaviorType != BehaviorType.HeuristicOnly)
+                {
+                    cameras[order].rect = new Rect(0, 0, 1, 1);
+                }
+                else if (!singlePlayer)
+                {
+                    cameras[order].rect = new Rect((float)order / players.Length,
+                        0, 1f / players.Length, 1);
+                }
             }
             else
             {
@@ -148,13 +163,11 @@ public class PlayerSpawner : MonoBehaviour
         {
             Quaternion spawnRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
 
-            Vector3 overlapTestBoxScale = new Vector3(overlapTestBoxSize, overlapTestBoxSize, overlapTestBoxSize);
+            Vector3 overlapTestBoxScale = new Vector3(overlapTestBoxSize, overlapTestBoxSize, overlapTestBoxSize*2);
             Collider[] collidersInsideOverlapBox = new Collider[1];
             int numberOfCollidersFound =
                 Physics.OverlapBoxNonAlloc(hit.point, overlapTestBoxScale, collidersInsideOverlapBox, spawnRotation,
-                    1 << seekerLayer | 1 << hiderLayer) + Physics.OverlapBoxNonAlloc(hit.point, overlapTestBoxScale,
-                    collidersInsideOverlapBox,
-                    spawnRotation, 1 << rockLayer);
+                    1 << seekerLayer | 1 << hiderLayer | 1 << rockLayer);
             if (numberOfCollidersFound == 0)
             {
                 overlap = false;
@@ -249,7 +262,24 @@ public class PlayerSpawner : MonoBehaviour
         camera.transform.rotation = rotation;
         camera.rect = rect;
     }
-
+    /// <summary>
+    /// Place the player to a random destinationPosition
+    /// </summary>
+    public void RelocatePlayer(Transform agent)
+    {
+        Vector3 offset = agent.GetComponent<SphereCollider>().bounds.center;
+        Debug.Log(offset);
+        agent.rotation=quaternion.identity;
+        
+        FindRandPosition();
+        //Debug.Log("position: "+randPosition);
+        /*Debug.Log(agent.position);
+        Debug.Log(offset);
+        Debug.Log(agent.InverseTransformPoint(agent.GetComponent<Collider>().bounds.center));*/
+        agent.position = randPosition-agent.InverseTransformPoint(agent.GetComponent<Collider>().bounds.center);
+        agent.position = randPosition;
+        agent.GetComponent<PlaceObjectsToSurface>().StartPlacing();
+    }
     [System.Serializable]
     public struct Player
     {

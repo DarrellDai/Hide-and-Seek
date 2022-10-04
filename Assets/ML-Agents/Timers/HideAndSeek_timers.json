@@ -1,1 +1,98 @@
-{"count":1,"self":10.8734144,"total":11.1592063,"children":{"InitializeActuators":{"count":3,"self":0.0010014,"total":0.0010014,"children":null},"InitializeSensors":{"count":3,"self":0.0030007,"total":0.0030007,"children":null},"AgentSendState":{"count":330,"self":0.0039997999999999995,"total":0.0709371,"children":{"CollectObservations":{"count":198,"self":0.0015049,"total":0.0015049,"children":null},"WriteActionMask":{"count":198,"self":0,"total":0,"children":null},"RequestDecision":{"count":198,"self":0.0020001999999999997,"total":0.0654324,"children":{"CameraSensor.GetCompressedObservation":{"count":66,"self":0.0634322,"total":0.0634322,"children":null}}}}},"DecideAction":{"count":330,"self":0.0090476999999999988,"total":0.0090476999999999988,"children":null},"AgentAct":{"count":330,"self":0.2007967,"total":0.2007967,"children":null}},"gauges":{},"metadata":{"timer_format_version":"0.1.0","start_time_seconds":"1664774616","unity_version":"2021.3.8f1","command_line_arguments":"C:\\Program Files\\Unity\\Hub\\Editor\\2021.3.8f1\\Editor\\Unity.exe -projectpath C:\\Unity Projects\\Hide and Seek -useHub -hubIPC -cloudEnvironment production -licensingIpc LicenseClient-daish -hubSessionId 354db490-3dc5-11ed-bddd-3ba2de7c299a -accessToken UYecpGbDw16t1mSz89ylbNRDZyuCFXNARXqOOufljvE002f","communication_protocol_version":"1.5.0","com.unity.ml-agents_version":"2.2.1-exp.1","scene_name":"HideAndSeek","end_time_seconds":"1664774627"}}
+{
+  "count": 1,
+  "self": 14.9113136,
+  "total": 15.462879099999999,
+  "children": {
+    "InitializeActuators": {
+      "count": 4,
+      "self": 0.0009996,
+      "total": 0.0009996,
+      "children": null
+    },
+    "InitializeSensors": {
+      "count": 4,
+      "self": 0.0019996,
+      "total": 0.0019996,
+      "children": null
+    },
+    "AgentSendState": {
+      "count": 559,
+      "self": 0.009023999999999999,
+      "total": 0.18222349999999998,
+      "children": {
+        "CollectObservations": {
+          "count": 448,
+          "self": 0.0060291999999999993,
+          "total": 0.0060291999999999993,
+          "children": null
+        },
+        "WriteActionMask": {
+          "count": 448,
+          "self": 0.0020967,
+          "total": 0.0020967,
+          "children": null
+        },
+        "RequestDecision": {
+          "count": 448,
+          "self": 0.0065283,
+          "total": 0.1650736,
+          "children": {
+            "CameraSensor.GetCompressedObservation": {
+              "count": 112,
+              "self": 0.1585453,
+              "total": 0.1585453,
+              "children": null
+            }
+          }
+        }
+      }
+    },
+    "DecideAction": {
+      "count": 559,
+      "self": 0.0092415999999999991,
+      "total": 0.0092415999999999991,
+      "children": null
+    },
+    "AgentAct": {
+      "count": 559,
+      "self": 0.3561013,
+      "total": 0.35710139999999996,
+      "children": {
+        "CameraSensor.GetCompressedObservation": {
+          "count": 1,
+          "self": 0.0010000999999999999,
+          "total": 0.0010000999999999999,
+          "children": null
+        }
+      }
+    }
+  },
+  "gauges": {
+    "Seeker.CumulativeReward": {
+      "count": 1,
+      "max": 49.5,
+      "min": 49.5,
+      "runningAverage": 49.5,
+      "value": 49.5,
+      "weightedAverage": 49.5
+    },
+    "Hider.CumulativeReward": {
+      "count": 1,
+      "max": -50.5,
+      "min": -50.5,
+      "runningAverage": -50.5,
+      "value": -50.5,
+      "weightedAverage": -50.5
+    }
+  },
+  "metadata": {
+    "timer_format_version": "0.1.0",
+    "start_time_seconds": "1664853988",
+    "unity_version": "2021.3.8f1",
+    "command_line_arguments": "C:\\Program Files\\Unity\\Hub\\Editor\\2021.3.8f1\\Editor\\Unity.exe -projectpath C:\\Unity Projects\\Hide and Seek -useHub -hubIPC -cloudEnvironment production -licensingIpc LicenseClient-daish -hubSessionId 69d14aa0-434d-11ed-85ac-c11a4f830ed1 -accessToken Dr--jB1f-gPGEHmuz4zW7tq7ZEwdDO1buKZQa9yRKnE002f",
+    "communication_protocol_version": "1.5.0",
+    "com.unity.ml-agents_version": "2.2.1-exp.1",
+    "scene_name": "HideAndSeek",
+    "end_time_seconds": "1664854004"
+  }
+}

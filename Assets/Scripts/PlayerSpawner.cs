@@ -1,37 +1,39 @@
+using System;
 using Unity.Mathematics;
 using Unity.MLAgents.Policies;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class PlayerSpawner : MonoBehaviour
 {
+    //Auto update players when variables change
+    public bool autoUpdate;
+
     [Tooltip("Player spawner as the parent of all players")]
     public GameObject playerSpawner;
 
     [HideInInspector] public int playerIndex;
-    
-    [Tooltip("If for human play")]
-    public bool humanPlay;
+
+    [Tooltip("If for human play")] public bool humanPlay;
 
     public bool singlePlayer;
-    private TerrainAndRockSetting terrainAndRockSetting;
-    private int seed;
-    private float itemSpread;
+    [HideInInspector] public TerrainAndRockSetting terrainAndRockSetting;
+    public int seed;
+    [HideInInspector] public float itemSpread;
 
     [Tooltip("The distance away from bound as the range for spawning")]
-    public static float distanceFromBound = 3;
+    public float distanceFromBound = 3;
 
     [HideInInspector] public Vector3 randPosition;
 
     [Tooltip("The box size the destination needs to be away from rocks and other players")]
     public float overlapTestBoxSize = 2;
 
-    private LayerMask hiderLayer;
-    private LayerMask seekerLayer;
-    private LayerMask rockLayer;
-    private LayerMask terrainLayer;
-    private bool overlap;
+    [HideInInspector] public LayerMask hiderLayer;
+    [HideInInspector] public LayerMask seekerLayer;
+    [HideInInspector] public LayerMask rockLayer;
+    [HideInInspector] public LayerMask terrainLayer;
+    [HideInInspector] public bool overlap;
 
     [Tooltip("Player spawner as the parent of all destinations")]
     public GameObject destinationSpawner;
@@ -44,100 +46,90 @@ public class PlayerSpawner : MonoBehaviour
     [Tooltip("Player's camera is active if true")]
     public bool hasCameras;
 
-    private Camera[] cameras;
+    [HideInInspector] public Camera[] cameras;
 
     [Tooltip("field of view of player's camera")]
     public int fieldOfView;
 
     /// <summary>
-    /// Initialized variables.
+    ///     Initialized variables.
     /// </summary>
-    private void Awake()
+    public void Initialize()
     {
         hiderLayer = LayerMask.NameToLayer("Hider");
         seekerLayer = LayerMask.NameToLayer("Seeker");
         rockLayer = LayerMask.NameToLayer("Rock");
         terrainLayer = LayerMask.NameToLayer("Terrain");
         terrainAndRockSetting = FindObjectOfType<TerrainAndRockSetting>();
-        float mapSize = terrainAndRockSetting.CalculateMapSize();
+        var mapSize = terrainAndRockSetting.CalculateMapSize();
         itemSpread = mapSize / 2 - distanceFromBound;
-        seed = terrainAndRockSetting.seed;
         Random.InitState(seed);
         cameras = new Camera[players.Length];
     }
 
     /// <summary>
-    /// Start Spawn hiders and seeker.
+    ///     Start Spawn hiders and seeker.
     /// </summary>
-    void Start()
+    public void StartSpawning()
     {
-        for (int i = 0; i < players.Length; i++)
+        for (var i = 0; i < players.Length; i++)
         {
-            
             playerIndex = i;
             SpawnPlayer(i);
         }
     }
 
-    private void Update()
+    public void RespawnWhenFinished()
     {
         //Respawn all players if all hiders are caught
         if (CountActiveNumHider(playerSpawner) == 0)
-        {
-            for (int i = 0; i < playerSpawner.transform.childCount; i++)
-            {
+            for (var i = 0; i < playerSpawner.transform.childCount; i++)
                 if (playerSpawner.transform.GetChild(i).tag == "Hider")
-                {
                     ResetCamera(playerSpawner.transform.GetChild(i));
-                }
-            }
-        }
     }
+
     /// <summary>
-    /// Spawn players which are not too close to each other.
+    ///     Spawn players which are not too close to each other.
     /// </summary>
     /// <param name="gameObject"></param>
-    void SpawnPlayer(int order)
+    public void SpawnPlayer(int order)
     {
         FindRandPosition();
-        GameObject clone = Instantiate(players[order].playerToSpawn, randPosition,
+        var clone = Instantiate(players[order].playerToSpawn, randPosition,
             quaternion.identity);
-        clone.transform.position -= clone.GetComponent<Collider>().bounds.center;
+        //Don't use InverseTransformPoint, it'll use the future transform.position to infer current collider's local position
+        clone.transform.position = 2 * clone.transform.position - clone.GetComponent<Collider>().bounds.center;
         clone.transform.parent = playerSpawner.transform;
-        GameAgent gameAgent = clone.GetComponent<GameAgent>();
+        var gameAgent = clone.GetComponent<GameAgent>();
         //Set up players' camera if hasCameras=true
         if (hasCameras)
         {
-            
             //Set camera as field of view
             gameAgent.transform.Find("Eye").Find("Camera").gameObject.SetActive(true);
             cameras[order] = gameAgent.transform.Find("Eye").Find("Camera").GetComponent<Camera>();
             cameras[order].fieldOfView = fieldOfView;
-            
+
             if (humanPlay)
             {
-                if (singlePlayer && players[order].playerToSpawn.GetComponent<BehaviorParameters>().BehaviorType != BehaviorType.HeuristicOnly)
-                {
+                if (singlePlayer && players[order].playerToSpawn.GetComponent<BehaviorParameters>().BehaviorType !=
+                    BehaviorType.HeuristicOnly)
                     cameras[order].rect = new Rect(0, 0, 1, 1);
-                }
                 else if (!singlePlayer)
-                {
                     cameras[order].rect = new Rect((float)order / players.Length,
                         0, 1f / players.Length, 1);
-                }
             }
             else
             {
                 float halfNumOfWindows = players.Length > 1 ? Mathf.RoundToInt(players.Length / 2f) : 1;
-                cameras[order].rect = new Rect(0.3f + (1 - 0.3f) / halfNumOfWindows * Mathf.Floor(order % halfNumOfWindows),
+                cameras[order].rect = new Rect(
+                    0.3f + (1 - 0.3f) / halfNumOfWindows * Mathf.Floor(order % halfNumOfWindows),
                     0.5f * (1 - Mathf.Floor(order / halfNumOfWindows)), (1 - 0.3f) / halfNumOfWindows,
                     0.5f);
             }
-            
         }
 
         gameAgent.trainingMode = players[order].trainingMode;
-        PlaceObjectsToSurface placeObjectsToSurface = clone.GetComponent<PlaceObjectsToSurface>();
+        var placeObjectsToSurface = clone.GetComponent<PlaceObjectsToSurface>();
         placeObjectsToSurface.StartPlacing();
     }
 
@@ -146,141 +138,127 @@ public class PlayerSpawner : MonoBehaviour
         overlap = true;
         while (overlap)
         {
+            // Don't need to add TerrainSpawner's position, because when an object is
+            // added to another one as child, the current position will become local position
             randPosition = new Vector3(Random.Range(-itemSpread, itemSpread), 100,
-                Random.Range(-itemSpread, itemSpread)) + terrainAndRockSetting.terrainSpawner.transform.position;
+                Random.Range(-itemSpread, itemSpread));
             CheckOverlap();
         }
     }
 
     /// <summary>
-    /// Check if the spawned player is too close to rocks or other players.
+    ///     Check if the spawned player is too close to rocks or other players.
     /// </summary>
-    void CheckOverlap()
+    public void CheckOverlap()
     {
         RaycastHit hit;
 
         if (Physics.Raycast(randPosition, Vector3.down, out hit, 1000, 1 << terrainLayer))
         {
-            Quaternion spawnRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
+            var spawnRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
 
-            Vector3 overlapTestBoxScale = new Vector3(overlapTestBoxSize, overlapTestBoxSize, overlapTestBoxSize*2);
-            Collider[] collidersInsideOverlapBox = new Collider[1];
-            int numberOfCollidersFound =
+            var overlapTestBoxScale = new Vector3(overlapTestBoxSize, overlapTestBoxSize, overlapTestBoxSize * 2);
+            var collidersInsideOverlapBox = new Collider[1];
+            var numberOfCollidersFound =
                 Physics.OverlapBoxNonAlloc(hit.point, overlapTestBoxScale, collidersInsideOverlapBox, spawnRotation,
-                    1 << seekerLayer | 1 << hiderLayer | 1 << rockLayer);
-            if (numberOfCollidersFound == 0)
-            {
-                overlap = false;
-            }
+                    (1 << seekerLayer) | (1 << hiderLayer) | (1 << rockLayer));
+            if (numberOfCollidersFound == 0) overlap = false;
         }
     }
 
     /// <summary>
-    /// Count the number of hiders left
+    ///     Count the number of hiders left
     /// </summary>
     /// <returns></returns>
     public static int CountNumHider(GameObject gameObject)
     {
         if (gameObject.transform.childCount == 0)
             return 0;
-        int numHider = 0;
-        for (int i = 0; i < gameObject.transform.childCount; i++)
-        {
+        var numHider = 0;
+        for (var i = 0; i < gameObject.transform.childCount; i++)
             if (gameObject.transform.GetChild(i).tag == "Hider")
                 numHider++;
-        }
 
         return numHider;
     }
 
     /// <summary>
-    /// Count the number of hiders left
+    ///     Count the number of hiders left
     /// </summary>
     /// <returns></returns>
     public static int CountActiveNumHider(GameObject gameObject)
     {
         if (gameObject.transform.childCount == 0)
             return 0;
-        int numHider = 0;
-        for (int i = 0; i < gameObject.transform.childCount; i++)
-        {
+        var numHider = 0;
+        for (var i = 0; i < gameObject.transform.childCount; i++)
             if (gameObject.transform.GetChild(i).tag == "Hider")
-            {
                 /*if (gameObject.transform.GetChild(i).GetChild(0).gameObject.activeSelf &&
                     gameObject.transform.GetChild(i).GetChild(1).gameObject.activeSelf)
                 {
                     numHider++;
                 }*/
                 if (gameObject.transform.GetChild(i).gameObject.GetComponent<GameAgent>().alive)
-                {
                     numHider++;
-                }
-                /*if (gameObject.transform.GetChild(i).gameObject.activeSelf)
+        /*if (gameObject.transform.GetChild(i).gameObject.activeSelf)
                 {
                     numHider++;
                 }*/
-            }
-        }
-
         return numHider;
     }
 
-    /*/// <summary>
-    /// Destroy all terrain chunk before generate new terrain.
+    /// <summary>
+    ///     Destroy all players before respawning ew players.
     /// </summary>
     /// <param name="transform"></param>
-    public static void DestoryChildren(Transform transform)
+    public void DestoryChildren()
     {
-        if (transform.childCount > 0)
+        if (playerSpawner.transform.childCount > 0)
         {
-            var tempArray = new GameObject[transform.childCount];
+            var tempArray = new GameObject[playerSpawner.transform.childCount];
 
-            for (int i = 0; i < tempArray.Length; i++)
-            {
-                tempArray[i] = transform.GetChild(i).gameObject;
-            }
+            for (var i = 0; i < tempArray.Length; i++) tempArray[i] = playerSpawner.transform.GetChild(i).gameObject;
 
-            foreach (var child in tempArray)
-            {
-                DestroyImmediate(child);
-            }
+            foreach (var child in tempArray) DestroyImmediate(child);
         }
-    }*/
+    }
+
     /// <summary>
-    /// Reset the camera to normal from blackout
+    ///     Reset the camera to normal from blackout
     /// </summary>
     /// <param name="transform"></param>
     public static void ResetCamera(Transform transform)
     {
         //Turn its camera to black when a hider is caught 
-        Camera camera = transform.Find("Eye").Find("Camera").GetComponent<Camera>();
-        Vector3 position = camera.transform.position;
-        Quaternion rotation = camera.transform.rotation;
-        Rect rect = camera.rect;
+        var camera = transform.Find("Eye").Find("Camera").GetComponent<Camera>();
+        var position = camera.transform.position;
+        var rotation = camera.transform.rotation;
+        var rect = camera.rect;
         camera.Reset();
         camera.transform.position = position;
         camera.transform.rotation = rotation;
         camera.rect = rect;
     }
+
     /// <summary>
-    /// Place the player to a random destinationPosition
+    ///     Place the player to a random destinationPosition
     /// </summary>
     public void RelocatePlayer(Transform agent)
     {
-        Vector3 offset = agent.GetComponent<SphereCollider>().bounds.center;
-        Debug.Log(offset);
-        agent.rotation=quaternion.identity;
-        
+        var offset = agent.GetComponent<SphereCollider>().bounds.center;
+        agent.rotation = quaternion.identity;
+
         FindRandPosition();
         //Debug.Log("position: "+randPosition);
         /*Debug.Log(agent.position);
         Debug.Log(offset);
         Debug.Log(agent.InverseTransformPoint(agent.GetComponent<Collider>().bounds.center));*/
-        agent.position = randPosition-agent.InverseTransformPoint(agent.GetComponent<Collider>().bounds.center);
+        agent.position = randPosition - agent.InverseTransformPoint(agent.GetComponent<Collider>().bounds.center);
         agent.position = randPosition;
         agent.GetComponent<PlaceObjectsToSurface>().StartPlacing();
     }
-    [System.Serializable]
+
+    [Serializable]
     public struct Player
     {
         public GameObject playerToSpawn;

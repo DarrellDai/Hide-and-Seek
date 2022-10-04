@@ -1,6 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
@@ -20,18 +20,6 @@ public class FieldOfView : MonoBehaviour
     //Number of rays of unit height
     public float heightResolution;
 
-    //Total number of angle steps
-    int angleStepCount;
-
-    //Total number of height steps
-    int heightStepCount;
-
-    //Difference bewteen two angle steps
-    float stepAngleSize;
-
-    //Difference bewteen two height steps
-    float stepHeightSize;
-
 
     public LayerMask targetMask;
 
@@ -44,7 +32,7 @@ public class FieldOfView : MonoBehaviour
     [HideInInspector] public bool isDetected;
 
     //If draw field of view
-    public bool drawFieldOfView = false;
+    public bool drawFieldOfView;
 
     //Point on each angle and height for field of view
     [HideInInspector] public List<Vector3> viewPoints;
@@ -53,15 +41,27 @@ public class FieldOfView : MonoBehaviour
 
     //Field of View object to instantiate
     public GameObject FOV;
-    
+
+    //Total number of angle steps
+    private int angleStepCount;
+
     private GameObject fieldOfViewSpawner;
+
+    //Total number of height steps
+    private int heightStepCount;
+
+    //Difference bewteen two angle steps
+    private float stepAngleSize;
+
+    //Difference bewteen two height steps
+    private float stepHeightSize;
 
     public void InitializeMesh()
     {
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
         fieldOfViewSpawner = FindObjectOfType<PlayerSpawner>().fieldOfViewSpawner;
-        GameObject FOVMesh = Instantiate(FOV);
+        var FOVMesh = Instantiate(FOV);
         FOVMesh.transform.parent = fieldOfViewSpawner.transform;
         viewMeshFilter = FOVMesh.GetComponent<MeshFilter>();
         viewMeshFilter.mesh = viewMesh;
@@ -79,24 +79,23 @@ public class FieldOfView : MonoBehaviour
     }
 
     /// <summary>
-    /// Get viewPoints on each angle and height. Set isDetected = true if a hider is detected. Calculate viewPoints on all
-    /// angles and heights if drawFieldOfView = true, or return once a hider is detected.
+    ///     Get viewPoints on each angle and height. Set isDetected = true if a hider is detected. Calculate viewPoints on all
+    ///     angles and heights if drawFieldOfView = true, or return once a hider is detected.
     /// </summary>
     public void CalculateFieldOfView()
     {
         viewPoints = new List<Vector3>();
 
-        for (int j = 0; j <= heightStepCount; j++)
+        for (var j = 0; j <= heightStepCount; j++)
         {
-            float height = -ViewHeight / 2 + stepHeightSize * j;
-            ViewCastInfo oldViewCast = new ViewCastInfo();
-            for (int i = 0; i <= angleStepCount; i++)
+            var height = -ViewHeight / 2 + stepHeightSize * j;
+            var oldViewCast = new ViewCastInfo();
+            for (var i = 0; i <= angleStepCount; i++)
             {
-                float angle = -viewAngle / 2 + stepAngleSize * i;
-                ViewCastInfo newViewCast = ViewCast(angle, height);
+                var angle = -viewAngle / 2 + stepAngleSize * i;
+                var newViewCast = ViewCast(angle, height);
 
                 if (i > 0)
-                {
                     if (oldViewCast.tag == "Hider")
                     {
                         detectPosition = oldViewCast.targetPoint;
@@ -104,7 +103,6 @@ public class FieldOfView : MonoBehaviour
                         if (!drawFieldOfView)
                             return;
                     }
-                }
 
                 viewPoints.Add(newViewCast.point);
                 oldViewCast = newViewCast;
@@ -113,31 +111,29 @@ public class FieldOfView : MonoBehaviour
     }
 
     /// <summary>
-    /// Draw the field of view mesh.
+    ///     Draw the field of view mesh.
     /// </summary>
     public void DrawFieldOfView()
     {
-        int vertexCount = (viewPoints.Count / (heightStepCount + 1) + 1) * (heightStepCount + 1);
-        Vector3[] vertices = new Vector3[vertexCount];
+        var vertexCount = (viewPoints.Count / (heightStepCount + 1) + 1) * (heightStepCount + 1);
+        var vertices = new Vector3[vertexCount];
 
-        int[] triangles = new int[(viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
-                                  (2 * (viewPoints.Count / (heightStepCount + 1) + 1 - 1) - 2) * 3 * heightStepCount +
-                                  2 * heightStepCount * 2 * 3];
+        var triangles = new int[(viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
+                                (2 * (viewPoints.Count / (heightStepCount + 1) + 1 - 1) - 2) * 3 * heightStepCount +
+                                2 * heightStepCount * 2 * 3];
         //Get Vertices
-        for (int j = 0; j <= heightStepCount; j++)
+        for (var j = 0; j <= heightStepCount; j++)
         {
-            float height = -ViewHeight / 2 + stepHeightSize * j;
+            var height = -ViewHeight / 2 + stepHeightSize * j;
             vertices[j * (viewPoints.Count / (heightStepCount + 1) + 1)] = transform.position + transform.up * height;
-            for (int i = 1; i < viewPoints.Count / (heightStepCount + 1) + 1; i++)
-            {
+            for (var i = 1; i < viewPoints.Count / (heightStepCount + 1) + 1; i++)
                 vertices[j * (viewPoints.Count / (heightStepCount + 1) + 1) + i] =
                     viewPoints[j * (viewPoints.Count / (heightStepCount + 1) + 1 - 1) + i - 1];
-            }
         }
         //Get Triangles
-        
+
         //Top and bottom
-        for (int i = 0; i < viewPoints.Count / (heightStepCount + 1) + 1 - 2; i++)
+        for (var i = 0; i < viewPoints.Count / (heightStepCount + 1) + 1 - 2; i++)
         {
             triangles[i * 3] = 0;
             triangles[i * 3 + 1] = i + 1;
@@ -149,45 +145,44 @@ public class FieldOfView : MonoBehaviour
             triangles[(viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 + i * 3 + 2] =
                 (viewPoints.Count / (heightStepCount + 1) + 1) * heightStepCount + i + 2;
         }
-        
+
         //Far end
-        for (int j = 1; j <= heightStepCount; j++)
+        for (var j = 1; j <= heightStepCount; j++)
+        for (var i = 0; i < viewPoints.Count / (heightStepCount + 1) + 1 - 2; i++)
         {
-            for (int i = 0; i < viewPoints.Count / (heightStepCount + 1) + 1 - 2; i++)
-            {
-                triangles[
-                        (viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
-                        (j - 1) * ((viewPoints.Count / (heightStepCount + 1) + 1 - 1) * 2 - 2) * 3 + i * 6] =
-                    (j - 1) * (viewPoints.Count / (heightStepCount + 1) + 1) + i + 1;
-                triangles[
-                        (viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
-                        (j - 1) * ((viewPoints.Count / (heightStepCount + 1) + 1 - 1) * 2 - 2) * 3 + i * 6 +
-                        1] =
-                    j * (viewPoints.Count / (heightStepCount + 1) + 1) + i + 2;
-                triangles[
-                        (viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
-                        (j - 1) * ((viewPoints.Count / (heightStepCount + 1) + 1 - 1) * 2 - 2) * 3 + i * 6 +
-                        2] =
-                    j * (viewPoints.Count / (heightStepCount + 1) + 1) + i + 1;
-                triangles[
-                        (viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
-                        (j - 1) * ((viewPoints.Count / (heightStepCount + 1) + 1 - 1) * 2 - 2) * 3 + i * 6 +
-                        3] =
-                    (j - 1) * (viewPoints.Count / (heightStepCount + 1) + 1) + i + 1;
-                triangles[
-                        (viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
-                        (j - 1) * ((viewPoints.Count / (heightStepCount + 1) + 1 - 1) * 2 - 2) * 3 + i * 6 +
-                        4] =
-                    (j - 1) * (viewPoints.Count / (heightStepCount + 1) + 1) + i + 2;
-                triangles[
-                        (viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
-                        (j - 1) * ((viewPoints.Count / (heightStepCount + 1) + 1 - 1) * 2 - 2) * 3 + i * 6 +
-                        5] =
-                    j * (viewPoints.Count / (heightStepCount + 1) + 1) + i + 2;
-            }
+            triangles[
+                    (viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
+                    (j - 1) * ((viewPoints.Count / (heightStepCount + 1) + 1 - 1) * 2 - 2) * 3 + i * 6] =
+                (j - 1) * (viewPoints.Count / (heightStepCount + 1) + 1) + i + 1;
+            triangles[
+                    (viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
+                    (j - 1) * ((viewPoints.Count / (heightStepCount + 1) + 1 - 1) * 2 - 2) * 3 + i * 6 +
+                    1] =
+                j * (viewPoints.Count / (heightStepCount + 1) + 1) + i + 2;
+            triangles[
+                    (viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
+                    (j - 1) * ((viewPoints.Count / (heightStepCount + 1) + 1 - 1) * 2 - 2) * 3 + i * 6 +
+                    2] =
+                j * (viewPoints.Count / (heightStepCount + 1) + 1) + i + 1;
+            triangles[
+                    (viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
+                    (j - 1) * ((viewPoints.Count / (heightStepCount + 1) + 1 - 1) * 2 - 2) * 3 + i * 6 +
+                    3] =
+                (j - 1) * (viewPoints.Count / (heightStepCount + 1) + 1) + i + 1;
+            triangles[
+                    (viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
+                    (j - 1) * ((viewPoints.Count / (heightStepCount + 1) + 1 - 1) * 2 - 2) * 3 + i * 6 +
+                    4] =
+                (j - 1) * (viewPoints.Count / (heightStepCount + 1) + 1) + i + 2;
+            triangles[
+                    (viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
+                    (j - 1) * ((viewPoints.Count / (heightStepCount + 1) + 1 - 1) * 2 - 2) * 3 + i * 6 +
+                    5] =
+                j * (viewPoints.Count / (heightStepCount + 1) + 1) + i + 2;
         }
+
         //Sides
-        for (int j = 0; j <= heightStepCount - 1; j++)
+        for (var j = 0; j <= heightStepCount - 1; j++)
         {
             triangles[
                     (viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
@@ -220,7 +215,7 @@ public class FieldOfView : MonoBehaviour
             triangles[
                     (viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
                     (2 * (viewPoints.Count / (heightStepCount + 1) + 1 - 1) - 2) * 3 * heightStepCount + j * 12 + 7] =
-                (viewPoints.Count / (heightStepCount + 1) + 1) * j + (viewPoints.Count / (heightStepCount + 1) + 1) - 1;
+                (viewPoints.Count / (heightStepCount + 1) + 1) * j + viewPoints.Count / (heightStepCount + 1) + 1 - 1;
             triangles[
                     (viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
                     (2 * (viewPoints.Count / (heightStepCount + 1) + 1 - 1) - 2) * 3 * heightStepCount + j * 12 + 8] =
@@ -233,12 +228,12 @@ public class FieldOfView : MonoBehaviour
                     (viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
                     (2 * (viewPoints.Count / (heightStepCount + 1) + 1 - 1) - 2) * 3 * heightStepCount + j * 12 + 10] =
                 (viewPoints.Count / (heightStepCount + 1) + 1) * (j + 1) +
-                (viewPoints.Count / (heightStepCount + 1) + 1) -
+                viewPoints.Count / (heightStepCount + 1) + 1 -
                 1;
             triangles[
                     (viewPoints.Count / (heightStepCount + 1) + 1 - 2) * 3 * 2 +
                     (2 * (viewPoints.Count / (heightStepCount + 1) + 1 - 1) - 2) * 3 * heightStepCount + j * 12 + 11] =
-                (viewPoints.Count / (heightStepCount + 1) + 1) * j + (viewPoints.Count / (heightStepCount + 1) + 1) - 1;
+                (viewPoints.Count / (heightStepCount + 1) + 1) * j + viewPoints.Count / (heightStepCount + 1) + 1 - 1;
         }
 
         viewMesh.Clear();
@@ -247,15 +242,16 @@ public class FieldOfView : MonoBehaviour
         viewMesh.triangles = triangles;
         viewMesh.RecalculateNormals();
     }
+
     /// <summary>
-    /// Construct ViewCastInfo from angle and height.
+    ///     Construct ViewCastInfo from angle and height.
     /// </summary>
     /// <param name="angle"></param>
     /// <param name="height"></param>
     /// <returns></returns>
-    ViewCastInfo ViewCast(float angle, float height)
+    private ViewCastInfo ViewCast(float angle, float height)
     {
-        Vector3 dir = DirFromAngle(angle);
+        var dir = DirFromAngle(angle);
         RaycastHit hit;
         RaycastHit hitTarget;
 
@@ -266,28 +262,29 @@ public class FieldOfView : MonoBehaviour
                 return new ViewCastInfo(true, hit.point, hitTarget.point, hit.distance, hitTarget.transform.tag, angle);
             return new ViewCastInfo(true, hit.point, hit.point, hit.distance, null, angle);
         }
-        else
-        {
-            if (Physics.Raycast(transform.position + transform.up * height, dir, out hitTarget, viewRadius, targetMask))
-                return new ViewCastInfo(false, transform.position + transform.up * height + dir * viewRadius,
-                    hitTarget.point, viewRadius, hitTarget.transform.tag, angle);
+
+        if (Physics.Raycast(transform.position + transform.up * height, dir, out hitTarget, viewRadius, targetMask))
             return new ViewCastInfo(false, transform.position + transform.up * height + dir * viewRadius,
-                transform.position + transform.up * height + dir * viewRadius, viewRadius,
-                null, angle);
-        }
+                hitTarget.point, viewRadius, hitTarget.transform.tag, angle);
+        return new ViewCastInfo(false, transform.position + transform.up * height + dir * viewRadius,
+            transform.position + transform.up * height + dir * viewRadius, viewRadius,
+            null, angle);
     }
+
     /// <summary>
-    /// Convert from angle to direction
+    ///     Convert from angle to direction
     /// </summary>
     /// <param name="angleInDegrees"></param>
     /// <returns></returns>
     public Vector3 DirFromAngle(float angleInDegrees)
     {
-        Vector3 direction = Quaternion.AngleAxis(angleInDegrees, transform.up) * transform.forward;
+        var direction = Quaternion.AngleAxis(angleInDegrees, transform.up) * transform.forward;
         return direction;
     }
+
     /// <summary>
-    /// Containing if a raycast hits an obstacle, the hitPoint of an obstacle, the hitPoint of a target and its tag, and its distance and angle. 
+    ///     Containing if a raycast hits an obstacle, the hitPoint of an obstacle, the hitPoint of a target and its tag, and
+    ///     its distance and angle.
     /// </summary>
     public struct ViewCastInfo
     {
@@ -308,5 +305,4 @@ public class FieldOfView : MonoBehaviour
             tag = _tag;
         }
     }
-    
 }

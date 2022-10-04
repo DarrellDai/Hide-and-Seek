@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class TerrainAndRockSettingForEditor : ScriptableObject
@@ -6,21 +5,13 @@ public class TerrainAndRockSettingForEditor : ScriptableObject
     //Terrain setting
     //Spawner object for terrain
     public GameObject terrainSpawner;
-    
-    //Obtain information from TerrainAndRockSetting outside Edit folder
-    private TerrainAndRockSetting terrainAndRockSetting;
+
     //Number of vertices on edges for each mesh
     public int meshNumVertices;
 
     //Size of the complete map, however, it's not the exact size
     public int mapSize;
-
-    //Number of veritices as width for each mesh
-    private int mapWidth;
-
-    //Number of veritices as height for each mesh
-    private int mapHeight;
-    [HideInInspector] public int detailLevel = 0;
+    [HideInInspector] public int detailLevel;
 
     //Level of difference of generated noise
     public float noiseScale;
@@ -30,8 +21,6 @@ public class TerrainAndRockSettingForEditor : ScriptableObject
 
     //Types of region
     public TerrainType[] regions;
-    private Texture2D texture;
-    private MeshData meshData;
 
     //Multiplier for the height of mesh
     public float meshHeightMultiplier;
@@ -60,11 +49,7 @@ public class TerrainAndRockSettingForEditor : ScriptableObject
     public GameObject itemToSpawn;
 
     public int numberOfItemsToSpawn;
-
-    //Range of spread on each axis
-    float itemXSpread;
     public float itemYSpread;
-    float itemZSpread;
 
     //Range of rotation
     public Vector3 randomRotationRange;
@@ -89,9 +74,24 @@ public class TerrainAndRockSettingForEditor : ScriptableObject
 
     //maximum of scale on z-axis
     public float zScaleMax;
-    
+
+    //Range of spread on each axis
+    private float itemXSpread;
+    private float itemZSpread;
+
+    //Number of veritices as height for each mesh
+    private int mapHeight;
+
+    //Number of veritices as width for each mesh
+    private int mapWidth;
+    private MeshData meshData;
+
+    //Obtain information from TerrainAndRockSetting outside Edit folder
+    private TerrainAndRockSetting terrainAndRockSetting;
+    private Texture2D texture;
+
     //Get values from TerrainAndRockSetting
-    public void GetValue()
+    public void OnEnable()
     {
         terrainAndRockSetting = FindObjectOfType<TerrainAndRockSetting>();
         terrainSpawner = terrainAndRockSetting.terrainSpawner;
@@ -101,7 +101,7 @@ public class TerrainAndRockSettingForEditor : ScriptableObject
         noiseScale = terrainAndRockSetting.noiseScale;
         autoUpdate = terrainAndRockSetting.autoUpdate;
         regions = new TerrainType[terrainAndRockSetting.regions.Length];
-        for (int i = 0; i < terrainAndRockSetting.regions.Length; i++)
+        for (var i = 0; i < terrainAndRockSetting.regions.Length; i++)
         {
             regions[i].name = terrainAndRockSetting.regions[i].name;
             regions[i].height = terrainAndRockSetting.regions[i].height;
@@ -129,7 +129,7 @@ public class TerrainAndRockSettingForEditor : ScriptableObject
     }
 
     /// <summary>
-    /// Calculate the exact map size.
+    ///     Calculate the exact map size.
     /// </summary>
     /// <returns></returns>
     public float CalculateMapSize()
@@ -138,7 +138,7 @@ public class TerrainAndRockSettingForEditor : ScriptableObject
     }
 
     /// <summary>
-    /// Destroy all terrain chunk before generate new terrain.
+    ///     Destroy all terrain chunk before generate new terrain.
     /// </summary>
     /// <param name="transform"></param>
     public static void DestoryChildren(Transform transform)
@@ -147,47 +147,39 @@ public class TerrainAndRockSettingForEditor : ScriptableObject
     }
 
     /// <summary>
-    /// Draw complete map in editor.
+    ///     Draw complete map in editor.
     /// </summary>
     public void DrawMapInEditor()
     {
         DestoryChildren(terrainSpawner.transform);
-        EndlessTerrain endlessTerrain = CreateInstance<EndlessTerrain>();
+        var endlessTerrain = CreateInstance<EndlessTerrain>();
         endlessTerrain.terrainAndRockSettingForEditor = this;
         endlessTerrain.UpdateChunks();
-        ItemAreaSpawner itemAreaSpawner = CreateInstance<ItemAreaSpawner>();
+        var itemAreaSpawner = CreateInstance<ItemAreaSpawner>();
         itemAreaSpawner.terrainAndRockSettingForEditor = this;
         itemAreaSpawner.StartSpawn();
     }
 
     /// <summary>
-    /// Generate noise map and color map.
+    ///     Generate noise map and color map.
     /// </summary>
     /// <returns></returns>
     public MapData GenerateMap()
     {
         mapWidth = meshNumVertices;
         mapHeight = meshNumVertices;
-        float[,] noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, noiseScale, octave, persistence, lacunarity,
+        var noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, noiseScale, octave, persistence, lacunarity,
             seed, presetOffset);
-        Color[] colorMap = new Color[mapWidth * mapHeight];
-        for (int y = 0; y < mapHeight; y++)
-        {
-            for (int x = 0; x < mapWidth; x++)
+        var colorMap = new Color[mapWidth * mapHeight];
+        for (var y = 0; y < mapHeight; y++)
+        for (var x = 0; x < mapWidth; x++)
+        for (var i = 0; i < regions.Length; i++)
+            if (noiseMap[x, y] < regions[i].height)
             {
-                for (int i = 0; i < regions.Length; i++)
-                {
-                    if (noiseMap[x, y] < regions[i].height)
-                    {
-                        colorMap[y * mapWidth + x] = regions[i].color;
-                        break;
-                    }
-                }
+                colorMap[y * mapWidth + x] = regions[i].color;
+                break;
             }
-        }
 
         return new MapData(noiseMap, colorMap);
     }
 }
-
-

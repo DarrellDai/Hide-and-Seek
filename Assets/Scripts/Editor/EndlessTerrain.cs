@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-public class EndlessTerrain : MonoBehaviour
+public class EndlessTerrain : ScriptableObject
 {   //[-maxViewDst/chunkSize, maxViewDst/chunkSize] is the range of index for chunks
     private int maxViewDst;
     //The destinationPosition of viewer (center of map)

@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class ItemAreaSpawner : MonoBehaviour
+public class ItemAreaSpawner : ScriptableObject
 {
     //The item to spawn
     GameObject itemToSpawn;
@@ -95,7 +95,6 @@ public class ItemAreaSpawner : MonoBehaviour
     {
         //Set the clone object to Ignore Raycast layer so that it will not affect the raycast
         int layerIgnoreRaycast = LayerMask.NameToLayer("Ignore Raycast");
-        int originalLayer=0;
         gameObject.layer = layerIgnoreRaycast;
         Ray ray = new Ray(gameObject.transform.position, Vector3.down);
         RaycastHit hitInfoTerrainAndRock;

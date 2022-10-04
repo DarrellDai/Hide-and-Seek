@@ -1,12 +1,14 @@
 using System;
 using UnityEngine;
 
-public class TerrainAndRockSettingForEditor : MonoBehaviour
+public class TerrainAndRockSettingForEditor : ScriptableObject
 {
     //Terrain setting
     //Spawner object for terrain
     public GameObject terrainSpawner;
-
+    
+    //Obtain information from TerrainAndRockSetting outside Edit folder
+    private TerrainAndRockSetting terrainAndRockSetting;
     //Number of vertices on edges for each mesh
     public int meshNumVertices;
 
@@ -91,7 +93,7 @@ public class TerrainAndRockSettingForEditor : MonoBehaviour
     //Get values from TerrainAndRockSetting
     public void GetValue()
     {
-        TerrainAndRockSetting terrainAndRockSetting = FindObjectOfType<TerrainAndRockSetting>();
+        terrainAndRockSetting = FindObjectOfType<TerrainAndRockSetting>();
         terrainSpawner = terrainAndRockSetting.terrainSpawner;
         meshNumVertices = terrainAndRockSetting.meshNumVertices;
         mapSize = terrainAndRockSetting.mapSize;
@@ -132,14 +134,7 @@ public class TerrainAndRockSettingForEditor : MonoBehaviour
     /// <returns></returns>
     public float CalculateMapSize()
     {
-        Collider[] m_Collider = terrainSpawner.GetComponentsInChildren<Collider>();
-        float volume = 0f;
-        for (int i = 0; i < m_Collider.Length; i++)
-        {
-            volume += m_Collider[i].bounds.size.x * m_Collider[i].bounds.size.z;
-        }
-
-        return Mathf.Sqrt(volume);
+        return terrainAndRockSetting.CalculateMapSize();
     }
 
     /// <summary>
@@ -148,20 +143,7 @@ public class TerrainAndRockSettingForEditor : MonoBehaviour
     /// <param name="transform"></param>
     public static void DestoryChildren(Transform transform)
     {
-        if (transform.childCount > 0)
-        {
-            var tempArray = new GameObject[transform.childCount];
-
-            for (int i = 0; i < tempArray.Length; i++)
-            {
-                tempArray[i] = transform.GetChild(i).gameObject;
-            }
-
-            foreach (var child in tempArray)
-            {
-                DestroyImmediate(child);
-            }
-        }
+        TerrainAndRockSetting.DestoryChildren(transform);
     }
 
     /// <summary>
@@ -170,10 +152,10 @@ public class TerrainAndRockSettingForEditor : MonoBehaviour
     public void DrawMapInEditor()
     {
         DestoryChildren(terrainSpawner.transform);
-        EndlessTerrain endlessTerrain = new EndlessTerrain();
+        EndlessTerrain endlessTerrain = CreateInstance<EndlessTerrain>();
         endlessTerrain.terrainAndRockSettingForEditor = this;
         endlessTerrain.UpdateChunks();
-        ItemAreaSpawner itemAreaSpawner = new ItemAreaSpawner();
+        ItemAreaSpawner itemAreaSpawner = CreateInstance<ItemAreaSpawner>();
         itemAreaSpawner.terrainAndRockSettingForEditor = this;
         itemAreaSpawner.StartSpawn();
     }
@@ -206,38 +188,6 @@ public class TerrainAndRockSettingForEditor : MonoBehaviour
 
         return new MapData(noiseMap, colorMap);
     }
-
-    /// <summary>
-    /// Avoid invalid value
-    /// </summary>
-    private void OnValidate()
-    {
-        if (octave < 1)
-            octave = 1;
-        if (lacunarity < 1)
-            lacunarity = 1;
-    }
 }
 
-/// <summary>
-/// Terrains types for terrain map.
-/// </summary>
-[Serializable]
-public struct TerrainType
-{
-    public string name;
-    public float height;
-    public Color color;
-}
 
-public struct MapData
-{
-    public float[,] heightMap;
-    public Color[] colorMap;
-
-    public MapData(float[,] heightMap, Color[] colorMap)
-    {
-        this.heightMap = heightMap;
-        this.colorMap = colorMap;
-    }
-}

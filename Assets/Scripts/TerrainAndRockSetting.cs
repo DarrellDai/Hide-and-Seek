@@ -138,7 +138,7 @@ public class TerrainAndRockSetting : MonoBehaviour
     /// <summary>
     /// Avoid invalid value
     /// </summary>
-    private void OnValidate()
+    public void OnValidate()
     {
         if (octave < 1)
             octave = 1;

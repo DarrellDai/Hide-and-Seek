@@ -11,8 +11,8 @@ public class TerrainAndRockSettingEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        TerrainAndRockSetting terrainAndRockSetting = (TerrainAndRockSetting)target;
-        TerrainAndRockSettingForEditor terrainAndRockSettingForEditor = new TerrainAndRockSettingForEditor();
+        TerrainAndRockSettingForEditor terrainAndRockSettingForEditor =
+            CreateInstance<TerrainAndRockSettingForEditor>();
         
         //Update map once anything changes in the editor if autoUpdate = true
         if (DrawDefaultInspector())
@@ -20,7 +20,7 @@ public class TerrainAndRockSettingEditor : Editor
             terrainAndRockSettingForEditor.GetValue();
             if (terrainAndRockSettingForEditor.autoUpdate)
             {
-                terrainAndRockSettingForEditor.DrawMapInEditor();
+                terrainAndRockSettingForEditor.DrawMapInEditor(); 
             }
         }
         //Update map once "Generate" button is pressed in the editor 

@@ -1,4 +1,5 @@
-﻿using Editor;
+﻿using System;
+using Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,15 +9,21 @@ using UnityEngine;
 [CustomEditor(typeof(PlayerSpawner))]
 public class PlayerSpawnerEditor : UnityEditor.Editor
 {
+    private PlayerSpawnerForEditor playerSpawnerForEditor;
+    private void OnEnable()
+    {
+        playerSpawnerForEditor = CreateInstance<PlayerSpawnerForEditor>(); 
+    }
+
     public override void OnInspectorGUI()
     {
-        var playerSpawnerForEditor =
-            CreateInstance<PlayerSpawnerForEditor>();
+        
 
         //Update map once anything changes in the editor if autoUpdate = true
         if (DrawDefaultInspector())
             if (playerSpawnerForEditor.autoUpdate)
             {
+                playerSpawnerForEditor.Initialize();
                 playerSpawnerForEditor.DestoryChildren();
                 playerSpawnerForEditor.StartSpawning();
             }
@@ -24,6 +31,7 @@ public class PlayerSpawnerEditor : UnityEditor.Editor
         //Update map once "Generate" button is pressed in the editor 
         if (GUILayout.Button("Generate"))
         {
+            playerSpawnerForEditor.Initialize();
             playerSpawnerForEditor.DestoryChildren();
             playerSpawnerForEditor.StartSpawning();
         }

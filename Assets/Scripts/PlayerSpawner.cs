@@ -2,6 +2,7 @@ using System;
 using Unity.Mathematics;
 using Unity.MLAgents.Policies;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class PlayerSpawner : MonoBehaviour
@@ -26,8 +27,8 @@ public class PlayerSpawner : MonoBehaviour
 
     [HideInInspector] public Vector3 randPosition;
 
-    [Tooltip("The box size the destination needs to be away from rocks and other players")]
-    public float overlapTestBoxSize = 2;
+    [FormerlySerializedAs("overlapTestBoxSize")] [Tooltip("The box size the destination needs to be away from rocks and other players")]
+    public float radius = 2;
 
     [HideInInspector] public LayerMask hiderLayer;
     [HideInInspector] public LayerMask seekerLayer;
@@ -51,6 +52,7 @@ public class PlayerSpawner : MonoBehaviour
     [Tooltip("field of view of player's camera")]
     public int fieldOfView;
 
+    private RaycastHit hit;
     /// <summary>
     ///     Initialized variables.
     /// </summary>
@@ -65,6 +67,7 @@ public class PlayerSpawner : MonoBehaviour
         itemSpread = mapSize / 2 - distanceFromBound;
         Random.InitState(seed);
         cameras = new Camera[players.Length];
+
     }
 
     /// <summary>
@@ -94,14 +97,16 @@ public class PlayerSpawner : MonoBehaviour
     /// <param name="gameObject"></param>
     public void SpawnPlayer(int order)
     {
-        FindRandPosition();
-        var clone = Instantiate(players[order].playerToSpawn, randPosition,
+        FindRandPosition(order);
+        GameObject clone = Instantiate(players[order].playerToSpawn, randPosition,
             quaternion.identity);
+        Debug.Log(clone.transform.position);
+
         //Don't use InverseTransformPoint, it'll use the future transform.position to infer current collider's local position
         clone.transform.position = 2 * clone.transform.position - clone.GetComponent<Collider>().bounds.center;
+        Debug.Log(clone.transform.position);
         clone.transform.parent = playerSpawner.transform;
         var gameAgent = clone.GetComponent<GameAgent>();
-        //Set up players' camera if hasCameras=true
         if (hasCameras)
         {
             //Set camera as field of view
@@ -131,9 +136,10 @@ public class PlayerSpawner : MonoBehaviour
         gameAgent.trainingMode = players[order].trainingMode;
         var placeObjectsToSurface = clone.GetComponent<PlaceObjectsToSurface>();
         placeObjectsToSurface.StartPlacing();
+        Debug.Log(clone.GetComponent<Collider>().bounds.center);
     }
 
-    public void FindRandPosition()
+    public void FindRandPosition(int order)
     {
         overlap = true;
         while (overlap)
@@ -142,27 +148,28 @@ public class PlayerSpawner : MonoBehaviour
             // added to another one as child, the current position will become local position
             randPosition = new Vector3(Random.Range(-itemSpread, itemSpread), 100,
                 Random.Range(-itemSpread, itemSpread));
-            CheckOverlap();
+            CheckOverlap(order);
         }
     }
 
     /// <summary>
     ///     Check if the spawned player is too close to rocks or other players.
     /// </summary>
-    public void CheckOverlap()
+    public void CheckOverlap(int order)
     {
-        RaycastHit hit;
 
-        if (Physics.Raycast(randPosition, Vector3.down, out hit, 1000, 1 << terrainLayer))
+        if (!Physics.SphereCast(randPosition, radius,Vector3.down, out hit, 1000, 1 << seekerLayer | 1 << hiderLayer | 1 << rockLayer))
         {
-            var spawnRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
+            overlap = false;
+            //var spawnRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
 
-            var overlapTestBoxScale = new Vector3(overlapTestBoxSize, overlapTestBoxSize, overlapTestBoxSize * 2);
-            var collidersInsideOverlapBox = new Collider[1];
+            //var overlapTestBoxScale = new Vector3(overlapTestBoxSize, overlapTestBoxSize*2, overlapTestBoxSize);
+            /*var collidersInsideOverlapBox = new Collider[1];
             var numberOfCollidersFound =
-                Physics.OverlapBoxNonAlloc(hit.point, overlapTestBoxScale, collidersInsideOverlapBox, spawnRotation,
-                    (1 << seekerLayer) | (1 << hiderLayer) | (1 << rockLayer));
-            if (numberOfCollidersFound == 0) overlap = false;
+                Physics.OverlapSphereNonAlloc(hit.point+0.55f*hit.normal, overlapTestBoxSize, collidersInsideOverlapBox,
+                    1 << seekerLayer | 1 << hiderLayer | 1 << rockLayer);
+            Debug.Log(numberOfCollidersFound);
+            if (numberOfCollidersFound == 0) overlap = false;*/
         }
     }
 
@@ -240,7 +247,7 @@ public class PlayerSpawner : MonoBehaviour
         camera.rect = rect;
     }
 
-    /// <summary>
+    /*/// <summary>
     ///     Place the player to a random destinationPosition
     /// </summary>
     public void RelocatePlayer(Transform agent)
@@ -252,11 +259,27 @@ public class PlayerSpawner : MonoBehaviour
         //Debug.Log("position: "+randPosition);
         /*Debug.Log(agent.position);
         Debug.Log(offset);
-        Debug.Log(agent.InverseTransformPoint(agent.GetComponent<Collider>().bounds.center));*/
+        Debug.Log(agent.InverseTransformPoint(agent.GetComponent<Collider>().bounds.center));#1#
         agent.position = randPosition - agent.InverseTransformPoint(agent.GetComponent<Collider>().bounds.center);
         agent.position = randPosition;
         agent.GetComponent<PlaceObjectsToSurface>().StartPlacing();
-    }
+    }*/
+    /*private void OnDrawGizmos() 
+    {
+        
+        for (var i = 0; i < players.Length; i++)
+        {
+            Transform go=playerSpawner.transform.GetChild(i);
+            Gizmos.color = Color.green;
+            Vector3 sphereCastMidpoint = hit.point + radius * hit.normal;
+            Gizmos.DrawWireSphere(sphereCastMidpoint, radius);
+            Gizmos.DrawSphere(hit.point, 0.1f);
+            Debug.DrawLine(randPosition, sphereCastMidpoint, Color.white,15);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(go.transform.position, radius);
+        }
+
+    }*/
 
     [Serializable]
     public struct Player

@@ -32,9 +32,10 @@ public class PlaceObjectsToSurface : MonoBehaviour
         {
             objectToPlaceCollider = GetComponent<Collider>();
             //Calculate the distance from bottom to center in the object
-            offset = Vector3.Distance(objectToPlaceCollider.ClosestPoint(hitInfo.point),
-                transform.position);
-            //Save old forward direction
+            /*offset = Vector3.Distance(objectToPlaceCollider.ClosestPoint(hitInfo.point),
+                transform.position);*/
+            offset = objectToPlaceCollider.bounds.extents.magnitude/2;
+                //Save old forward direction
             var forwardVector = transform.forward;
             //Change the destinationPosition so the bottom of the object touches the surface
             transform.position = hitInfo.point + offset * hitInfo.normal;
@@ -44,7 +45,7 @@ public class PlaceObjectsToSurface : MonoBehaviour
             var newForwardVector = Vector3.Dot(transform.right, forwardVector) * transform.right +
                                    Vector3.Dot(transform.forward, forwardVector) * transform.forward;
             //Rotate the object to new forward direction
-            transform.rotation = Quaternion.LookRotation(newForwardVector, hitInfo.normal);
+            transform.rotation = Quaternion.LookRotation(newForwardVector, hitInfo.normal); 
         }
     }
 }

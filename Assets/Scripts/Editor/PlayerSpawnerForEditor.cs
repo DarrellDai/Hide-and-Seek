@@ -10,7 +10,7 @@ namespace Editor
         //Obtain information from PlayerSpawner outside Edit folder
         private PlayerSpawner playerSpawnerScript;
 
-        public void OnEnable()
+        public void Initialize()
         {
             playerSpawnerScript = FindObjectOfType<PlayerSpawner>();
             autoUpdate = playerSpawnerScript.autoUpdate;
@@ -21,50 +21,11 @@ namespace Editor
         {
             playerSpawnerScript.StartSpawning();
         }
-
-        public void RespawnWhenFinished()
-        {
-            playerSpawnerScript.RespawnWhenFinished();
-        }
-
-        public void SpawnPlayer(int order)
-        {
-            playerSpawnerScript.SpawnPlayer(order);
-        }
-
-        public void FindRandPosition()
-        {
-            playerSpawnerScript.FindRandPosition();
-        }
-
-        public void CheckOverlap()
-        {
-            playerSpawnerScript.CheckOverlap();
-        }
-
-        public static int CountNumHider(GameObject gameObject)
-        {
-            return PlayerSpawner.CountNumHider(gameObject);
-        }
-
-        public static int CountActiveNumHider(GameObject gameObject)
-        {
-            return PlayerSpawner.CountActiveNumHider(gameObject);
-        }
-
+        
         public void DestoryChildren()
         {
             playerSpawnerScript.DestoryChildren();
         }
-
-        public static void ResetCamera(Transform transform)
-        {
-            PlayerSpawner.ResetCamera(transform);
-        }
-
-        public void RelocatePlayer(Transform agent)
-        {
-            playerSpawnerScript.RelocatePlayer(agent);
-        }
+        
     }
 }

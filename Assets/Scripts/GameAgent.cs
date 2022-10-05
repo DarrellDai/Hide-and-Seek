@@ -112,7 +112,7 @@ public class GameAgent : Agent
         //Set the MaxStep as 5000 in training mode, 0 (inf) in inference mode
         MaxStep = trainingMode ? 5000 : 0;
 
-        playerSpawner.RelocatePlayer(transform);
+        //playerSpawner.RelocatePlayer(transform);
         Debug.Log("Player: " + orderOfPlayer + " is relocated");
         step = 1;
     }
@@ -138,7 +138,7 @@ public class GameAgent : Agent
         gameObject.transform.GetChild(0).gameObject.SetActive(true);
         gameObject.transform.GetChild(1).gameObject.SetActive(true);
         PlayerSpawner.ResetCamera(gameObject.transform);
-        playerSpawner.RelocatePlayer(gameObject.transform);
+        //playerSpawner.RelocatePlayer(gameObject.transform);
         Debug.Log("Player: " + orderOfPlayer + " is relocated");
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         GetComponent<Rigidbody>().angularVelocity = Vector3.zero;

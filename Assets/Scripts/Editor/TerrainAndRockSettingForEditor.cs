@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class TerrainAndRockSettingForEditor : ScriptableObject
 {
@@ -89,13 +91,14 @@ public class TerrainAndRockSettingForEditor : ScriptableObject
     //Obtain information from TerrainAndRockSetting outside Edit folder
     private TerrainAndRockSetting terrainAndRockSetting;
     private Texture2D texture;
+    
 
     //Get values from TerrainAndRockSetting
-    public void OnEnable()
+    public void Initialize()
     {
         terrainAndRockSetting = FindObjectOfType<TerrainAndRockSetting>();
         terrainSpawner = terrainAndRockSetting.terrainSpawner;
-        meshNumVertices = terrainAndRockSetting.meshNumVertices;
+        meshNumVertices = terrainAndRockSetting.meshNumVertices; 
         mapSize = terrainAndRockSetting.mapSize;
         detailLevel = terrainAndRockSetting.detailLevel;
         noiseScale = terrainAndRockSetting.noiseScale;
@@ -126,6 +129,7 @@ public class TerrainAndRockSettingForEditor : ScriptableObject
         yScaleMax = terrainAndRockSetting.yScaleMax;
         zScaleMin = terrainAndRockSetting.zScaleMin;
         zScaleMax = terrainAndRockSetting.zScaleMax;
+        Random.InitState(seed);
     }
 
     /// <summary>

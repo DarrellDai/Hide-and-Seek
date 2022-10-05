@@ -23,6 +23,7 @@ public class PlaceObjectsToSurface : MonoBehaviour
     {
         //Lift the object along its normal direction so that it's above the surface 
         transform.position += transform.up * multiplier;
+        Physics.SyncTransforms();
         //Cast downward ray along its normal direction
         ray = new Ray(transform.position, -transform.up);
         isHit = Physics.Raycast(ray, out hitInfo, 1000,
@@ -32,9 +33,9 @@ public class PlaceObjectsToSurface : MonoBehaviour
         {
             objectToPlaceCollider = GetComponent<Collider>();
             //Calculate the distance from bottom to center in the object
-            /*offset = Vector3.Distance(objectToPlaceCollider.ClosestPoint(hitInfo.point),
-                transform.position);*/
-            offset = objectToPlaceCollider.bounds.extents.magnitude/2;
+            offset = Vector3.Distance(objectToPlaceCollider.ClosestPoint(hitInfo.point),
+                transform.position);
+            //offset = objectToPlaceCollider.bounds.extents.magnitude/2;
                 //Save old forward direction
             var forwardVector = transform.forward;
             //Change the destinationPosition so the bottom of the object touches the surface

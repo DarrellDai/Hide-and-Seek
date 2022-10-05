@@ -97,14 +97,11 @@ public class PlayerSpawner : MonoBehaviour
     /// <param name="gameObject"></param>
     public void SpawnPlayer(int order)
     {
-        FindRandPosition(order);
+        FindRandPosition();
         GameObject clone = Instantiate(players[order].playerToSpawn, randPosition,
             quaternion.identity);
-        Debug.Log(clone.transform.position);
-
         //Don't use InverseTransformPoint, it'll use the future transform.position to infer current collider's local position
         clone.transform.position = 2 * clone.transform.position - clone.GetComponent<Collider>().bounds.center;
-        Debug.Log(clone.transform.position);
         clone.transform.parent = playerSpawner.transform;
         var gameAgent = clone.GetComponent<GameAgent>();
         if (hasCameras)
@@ -136,10 +133,10 @@ public class PlayerSpawner : MonoBehaviour
         gameAgent.trainingMode = players[order].trainingMode;
         var placeObjectsToSurface = clone.GetComponent<PlaceObjectsToSurface>();
         placeObjectsToSurface.StartPlacing();
-        Debug.Log(clone.GetComponent<Collider>().bounds.center);
+        Physics.SyncTransforms();
     }
 
-    public void FindRandPosition(int order)
+    public void FindRandPosition()
     {
         overlap = true;
         while (overlap)
@@ -148,14 +145,14 @@ public class PlayerSpawner : MonoBehaviour
             // added to another one as child, the current position will become local position
             randPosition = new Vector3(Random.Range(-itemSpread, itemSpread), 100,
                 Random.Range(-itemSpread, itemSpread));
-            CheckOverlap(order);
+            CheckOverlap();
         }
     }
 
     /// <summary>
     ///     Check if the spawned player is too close to rocks or other players.
     /// </summary>
-    public void CheckOverlap(int order)
+    public void CheckOverlap()
     {
 
         if (!Physics.SphereCast(randPosition, radius,Vector3.down, out hit, 1000, 1 << seekerLayer | 1 << hiderLayer | 1 << rockLayer))
@@ -247,23 +244,17 @@ public class PlayerSpawner : MonoBehaviour
         camera.rect = rect;
     }
 
-    /*/// <summary>
+    /// <summary>
     ///     Place the player to a random destinationPosition
     /// </summary>
     public void RelocatePlayer(Transform agent)
     {
-        var offset = agent.GetComponent<SphereCollider>().bounds.center;
         agent.rotation = quaternion.identity;
-
         FindRandPosition();
-        //Debug.Log("position: "+randPosition);
-        /*Debug.Log(agent.position);
-        Debug.Log(offset);
-        Debug.Log(agent.InverseTransformPoint(agent.GetComponent<Collider>().bounds.center));#1#
-        agent.position = randPosition - agent.InverseTransformPoint(agent.GetComponent<Collider>().bounds.center);
-        agent.position = randPosition;
+        agent.position = randPosition + agent.position - agent.GetComponent<Collider>().bounds.center;
+        Physics.SyncTransforms();
         agent.GetComponent<PlaceObjectsToSurface>().StartPlacing();
-    }*/
+    }
     /*private void OnDrawGizmos() 
     {
         

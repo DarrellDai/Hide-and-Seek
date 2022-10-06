@@ -217,11 +217,42 @@ public class GameAgent : Agent
         }
 
         dirToGo = transform.forward * act[0];
-        rotateDir = Vector3.up * act[1];
+        rotateDir = transform.up * act[1];
         transform.Rotate(rotateDir, Time.deltaTime * rotateSpeed);
         transform.position += dirToGo * moveSpeed;
         if (act[0] != 0) GetComponent<PlaceObjectsToSurface>().StartPlacing();
     }
+    /*public virtual void MoveAgent(ActionSegment<int> act)
+    {
+        var dirToGo = Vector3.zero;
+        var rotateDir = Vector3.zero;
+        var flag = false;
+        CheckIfOut();
+        //If isOut or isCollided = true, set flag = true, so agent can go back to previous status on the next step.
+        if (isOut | isCollided)
+        {
+            transform.position = lastPosition;
+            transform.rotation = lastRotation;
+            flag = true;
+        }
+        else
+        {
+            lastPosition = transform.position;
+            lastRotation = transform.rotation;
+        }
+
+        if (flag)
+        {
+            act[0] = 0;
+            act[1] = 0;
+        }
+
+        dirToGo = transform.forward * act[0];
+        rotateDir = Vector3.up * act[1];
+        transform.Rotate(rotateDir, Time.deltaTime * rotateSpeed);
+        GetComponent<Rigidbody>().AddForce(dirToGo,ForceMode.Acceleration);
+
+    }*/
 
     /// <summary>
     ///     Check if agent is out of bound.

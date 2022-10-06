@@ -1,3 +1,4 @@
+using System;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
@@ -112,7 +113,7 @@ public class GameAgent : Agent
         //Set the MaxStep as 5000 in training mode, 0 (inf) in inference mode
         MaxStep = trainingMode ? 5000 : 0;
 
-        playerSpawner.RelocatePlayer(transform);
+        //playerSpawner.RelocatePlayer(transform);
         Debug.Log("Player: " + orderOfPlayer + " is relocated");
         step = 1;
     }
@@ -220,7 +221,17 @@ public class GameAgent : Agent
         rotateDir = transform.up * act[1];
         transform.Rotate(rotateDir, Time.deltaTime * rotateSpeed);
         transform.position += dirToGo * moveSpeed;
-        if (act[0] != 0) GetComponent<PlaceObjectsToSurface>().StartPlacing();
+        /*GetComponent<PlaceObjectsToSurface>().StartPlacing();*/
+        if (act[0] != 0)
+        {
+            GetComponent<PlaceObjectsToSurface>().StartPlacing();
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.black;
+        Gizmos.DrawSphere(transform.position, 0.1f);
     }
     /*public virtual void MoveAgent(ActionSegment<int> act)
     {
@@ -250,14 +261,14 @@ public class GameAgent : Agent
         dirToGo = transform.forward * act[0];
         rotateDir = Vector3.up * act[1];
         transform.Rotate(rotateDir, Time.deltaTime * rotateSpeed);
-        GetComponent<Rigidbody>().AddForce(dirToGo,ForceMode.Acceleration);
+        //GetComponent<Rigidbody>().AddForce(dirToGo,ForceMode.Acceleration);
 
     }*/
 
     /// <summary>
     ///     Check if agent is out of bound.
     /// </summary>
-    public void CheckIfOut()
+    public void CheckIfOut() 
     {
         Vector2 playerSize = GetComponent<Collider>().bounds.extents;
         if ((transform.position.x - playerSize.x < -mapSize) | (transform.position.x + playerSize.x > mapSize) |

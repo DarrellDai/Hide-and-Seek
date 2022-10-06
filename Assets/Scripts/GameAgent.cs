@@ -192,12 +192,13 @@ public class GameAgent : Agent
     ///     Move agent by control.
     /// </summary>
     /// <param name="act"></param>
+
     public virtual void MoveAgent(ActionSegment<int> act)
     {
         var dirToGo = Vector3.zero;
         var rotateDir = Vector3.zero;
         var flag = false;
-        CheckIfOut();
+        /*CheckIfOut();
         //If isOut or isCollided = true, set flag = true, so agent can go back to previous status on the next step.
         if (isOut | isCollided)
         {
@@ -215,55 +216,20 @@ public class GameAgent : Agent
         {
             act[0] = 0;
             act[1] = 0;
-        }
-
-        dirToGo = transform.forward * act[0];
-        rotateDir = transform.up * act[1];
-        transform.Rotate(rotateDir, Time.deltaTime * rotateSpeed);
-        transform.position += dirToGo * moveSpeed;
-        /*GetComponent<PlaceObjectsToSurface>().StartPlacing();*/
-        if (act[0] != 0)
-        {
-            GetComponent<PlaceObjectsToSurface>().StartPlacing();
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.black;
-        Gizmos.DrawSphere(transform.position, 0.1f);
-    }
-    /*public virtual void MoveAgent(ActionSegment<int> act)
-    {
-        var dirToGo = Vector3.zero;
-        var rotateDir = Vector3.zero;
-        var flag = false;
-        CheckIfOut();
-        //If isOut or isCollided = true, set flag = true, so agent can go back to previous status on the next step.
-        if (isOut | isCollided)
-        {
-            transform.position = lastPosition;
-            transform.rotation = lastRotation;
-            flag = true;
-        }
-        else
-        {
-            lastPosition = transform.position;
-            lastRotation = transform.rotation;
-        }
-
-        if (flag)
-        {
-            act[0] = 0;
-            act[1] = 0;
-        }
-
+        }*/
+        
         dirToGo = transform.forward * act[0];
         rotateDir = Vector3.up * act[1];
+        if (act[0] != 0)
+        {
+            GetComponent<PlaceObjectsToSurface>().StartCorrecting(moveSpeed, dirToGo);
+        }
         transform.Rotate(rotateDir, Time.deltaTime * rotateSpeed);
-        //GetComponent<Rigidbody>().AddForce(dirToGo,ForceMode.Acceleration);
+        //transform.Translate(Time.deltaTime*moveSpeed*dirToGo);
+        GetComponent<Rigidbody>().velocity = dirToGo*moveSpeed;
 
-    }*/
+
+    }
 
     /// <summary>
     ///     Check if agent is out of bound.

@@ -11,13 +11,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hider Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 913739721491648561, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
     - target: {fileID: 3296868389167821990, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
       propertyPath: m_Speed
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6021187044804546245, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
       propertyPath: moveSpeed
-      value: 0.15
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6113990096716791170, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize

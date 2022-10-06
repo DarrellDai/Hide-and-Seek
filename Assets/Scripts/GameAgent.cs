@@ -198,36 +198,15 @@ public class GameAgent : Agent
         var dirToGo = Vector3.zero;
         var rotateDir = Vector3.zero;
         var flag = false;
-        /*CheckIfOut();
-        //If isOut or isCollided = true, set flag = true, so agent can go back to previous status on the next step.
-        if (isOut | isCollided)
-        {
-            transform.position = lastPosition;
-            transform.rotation = lastRotation;
-            flag = true;
-        }
-        else
-        {
-            lastPosition = transform.position;
-            lastRotation = transform.rotation;
-        }
-
-        if (flag)
-        {
-            act[0] = 0;
-            act[1] = 0;
-        }*/
-        
         dirToGo = transform.forward * act[0];
         rotateDir = Vector3.up * act[1];
+        transform.Rotate(rotateDir, Time.deltaTime * rotateSpeed);
+        //transform.Translate(Time.deltaTime*moveSpeed*dirToGo);
+        GetComponent<Rigidbody>().velocity = dirToGo*moveSpeed;
         if (act[0] != 0)
         {
             GetComponent<PlaceObjectsToSurface>().StartCorrecting(moveSpeed, dirToGo);
         }
-        transform.Rotate(rotateDir, Time.deltaTime * rotateSpeed);
-        //transform.Translate(Time.deltaTime*moveSpeed*dirToGo);
-        GetComponent<Rigidbody>().velocity = dirToGo*moveSpeed;
-
 
     }
 

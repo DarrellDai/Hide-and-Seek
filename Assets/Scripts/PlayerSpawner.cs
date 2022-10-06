@@ -67,6 +67,9 @@ public class PlayerSpawner : MonoBehaviour
         itemSpread = mapSize / 2 - distanceFromBound;
         Random.InitState(seed);
         cameras = new Camera[players.Length];
+        playerSpawner.transform.position=Vector3.zero;
+        playerSpawner.transform.rotation=quaternion.identity;
+        playerSpawner.transform.localScale=Vector3.one;
 
     }
 

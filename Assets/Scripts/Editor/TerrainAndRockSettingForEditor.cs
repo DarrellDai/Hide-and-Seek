@@ -1,4 +1,5 @@
 using System;
+using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -130,6 +131,13 @@ public class TerrainAndRockSettingForEditor : ScriptableObject
         zScaleMin = terrainAndRockSetting.zScaleMin;
         zScaleMax = terrainAndRockSetting.zScaleMax;
         Random.InitState(seed);
+        rockSpawner.transform.position=Vector3.zero;
+        rockSpawner.transform.rotation=quaternion.identity;
+        rockSpawner.transform.localScale=Vector3.one;
+        terrainSpawner.transform.position=Vector3.zero;
+        terrainSpawner.transform.rotation=quaternion.identity;
+        terrainSpawner.transform.localScale=Vector3.one;
+        
     }
 
     /// <summary>

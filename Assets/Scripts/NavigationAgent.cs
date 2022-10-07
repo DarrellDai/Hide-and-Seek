@@ -74,11 +74,7 @@ public class NavigationAgent : GameAgent
     public override void MoveAgent(ActionSegment<int> act)
     {
         transform.position = navMeshAgent.nextPosition;
-        var lastPostion = transform.position;
         GetComponent<PlaceObjectsToSurface>().StartPlacing();
-        CheckIfOut();
-        if (isOut)
-            transform.position = lastPostion;
     }
 
     /// <summary>

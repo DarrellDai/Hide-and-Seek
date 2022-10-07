@@ -13,7 +13,9 @@ public class PlayerSpawner : MonoBehaviour
     [Tooltip("Player spawner as the parent of all players")]
     public GameObject playerSpawner;
 
-    [HideInInspector] public int playerIndex;
+    [HideInInspector] public int numHiders;
+    [HideInInspector] public int numSeekers;
+    
 
     [Tooltip("If for human play")] public bool humanPlay;
 
@@ -70,9 +72,22 @@ public class PlayerSpawner : MonoBehaviour
         playerSpawner.transform.position=Vector3.zero;
         playerSpawner.transform.rotation=quaternion.identity;
         playerSpawner.transform.localScale=Vector3.one;
+        CountNumHidersAndSeekers();
 
     }
 
+    public void CountNumHidersAndSeekers()
+    {
+        numHiders = 0;
+        numSeekers = 0;
+        for (var i = 0; i < players.Length; i++)
+        {
+            if (players[i].playerToSpawn.CompareTag("Seeker"))
+                numSeekers++;
+            else if (players[i].playerToSpawn.CompareTag("Hider"))
+                numHiders++;
+        }
+    }
     /// <summary>
     ///     Start Spawn hiders and seeker.
     /// </summary>
@@ -80,7 +95,6 @@ public class PlayerSpawner : MonoBehaviour
     {
         for (var i = 0; i < players.Length; i++)
         {
-            playerIndex = i;
             SpawnPlayer(i);
         }
     }

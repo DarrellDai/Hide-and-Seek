@@ -106,15 +106,15 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.56
-    agentHeight: 1.12
+    agentRadius: 0.61
+    agentHeight: 1.13
     agentSlope: 60
-    agentClimb: 1.12
+    agentClimb: 1
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.18666667
+    cellSize: 0.20333333
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -10934,7 +10934,11 @@ MonoBehaviour:
     trainingMode: 0
   - playerToSpawn: {fileID: 6355653838177810250, guid: ea8b4ba20be1dce4b8c8d4b9f3b06c56, type: 3}
     trainingMode: 0
-  numStepToFreeze: 100
+  - playerToSpawn: {fileID: 975044687332221977, guid: 4e247ac091b62f14b98e2d755fd5a3cd, type: 3}
+    trainingMode: 0
+  - playerToSpawn: {fileID: 975044687332221977, guid: 4e247ac091b62f14b98e2d755fd5a3cd, type: 3}
+    trainingMode: 0
+  numStepToFreeze: 200
   hasCameras: 1
   cameras:
   - {fileID: 168844630}

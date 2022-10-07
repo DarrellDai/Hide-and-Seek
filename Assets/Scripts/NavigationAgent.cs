@@ -72,8 +72,10 @@ public class NavigationAgent : GameAgent
             selectNextRandomDestination();
             MakeNewDestination();
         }
+
+        GetComponent<PlaceObjectsToSurface>().StartCorrecting(GetComponent<NavMeshAgent>().speed,
+            navMeshAgent.nextPosition - transform.position);
         transform.position = navMeshAgent.nextPosition;
-        GetComponent<PlaceObjectsToSurface>().StartPlacing();
     }
 
     /// <summary>

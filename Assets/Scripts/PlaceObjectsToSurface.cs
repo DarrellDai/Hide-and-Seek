@@ -34,7 +34,7 @@ public class PlaceObjectsToSurface : MonoBehaviour
         //Cast downward ray along its normal direction
         ray = new Ray(transform.position + dirToGo * Time.deltaTime * MoveSpeed, -transform.up);
         isHit = Physics.Raycast(ray, out hitInfo, 1000,
-            1 << LayerMask.NameToLayer("Terrain"));
+            1 << LayerMask.NameToLayer("Terrain")| 1<<LayerMask.NameToLayer("Rock"));
         if (isHit)
         {
             objectToPlaceCollider = GetComponent<Collider>();

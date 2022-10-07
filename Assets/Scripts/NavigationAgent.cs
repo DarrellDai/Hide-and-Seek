@@ -56,12 +56,6 @@ public class NavigationAgent : GameAgent
     /// <param name="actionBuffers">Buffers storing actions in real time</param>
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-        if (toChooseNextDestination)
-        {
-            selectNextRandomDestination();
-            MakeNewDestination();
-        }
-
         base.OnActionReceived(actionBuffers);
         //DrawPath();
         CheckIfArrived();
@@ -73,6 +67,11 @@ public class NavigationAgent : GameAgent
     /// </summary>
     public override void MoveAgent(ActionSegment<int> act)
     {
+        if (toChooseNextDestination)
+        {
+            selectNextRandomDestination();
+            MakeNewDestination();
+        }
         transform.position = navMeshAgent.nextPosition;
         GetComponent<PlaceObjectsToSurface>().StartPlacing();
     }

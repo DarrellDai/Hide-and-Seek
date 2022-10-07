@@ -39,7 +39,9 @@ public class GameAgent : Agent
 
     // Step count in an episode
     private int step;
-
+    
+    //Steps to freeze seekers, so hiders have preparation time
+    private int stepLeftToFreeze;
     /// <summary>
     ///     Disable inputs when agent is destroyed.
     /// </summary>
@@ -121,6 +123,7 @@ public class GameAgent : Agent
     /// </summary>
     public override void OnEpisodeBegin()
     {
+        stepLeftToFreeze = playerSpawner.numStepToFreeze;
         alive = true;
         gameObject.transform.GetChild(0).gameObject.SetActive(true);
         gameObject.transform.GetChild(1).gameObject.SetActive(true);
@@ -155,6 +158,12 @@ public class GameAgent : Agent
     /// <param name="actionBuffers"></param>
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
+        if (gameObject.CompareTag("Seeker") && stepLeftToFreeze > 0)
+        {
+            Debug.Log(stepLeftToFreeze);
+            stepLeftToFreeze--;
+            return;
+        }
         if (alive)
             MoveAgent(actionBuffers.DiscreteActions);
 

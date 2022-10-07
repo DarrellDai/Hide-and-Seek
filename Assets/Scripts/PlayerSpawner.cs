@@ -45,7 +45,9 @@ public class PlayerSpawner : MonoBehaviour
     public GameObject fieldOfViewSpawner;
 
     [Tooltip("Players to spawn")] public Player[] players;
-
+    
+    [Tooltip("Number of steps to freeze seekers to give hiders Preparation time")] public int numStepToFreeze;
+    
     [Tooltip("Player's camera is active if true")]
     public bool hasCameras;
 

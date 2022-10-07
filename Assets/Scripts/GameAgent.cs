@@ -160,7 +160,6 @@ public class GameAgent : Agent
     {
         if (gameObject.CompareTag("Seeker") && stepLeftToFreeze > 0)
         {
-            Debug.Log(stepLeftToFreeze);
             stepLeftToFreeze--;
             return;
         }
@@ -195,7 +194,7 @@ public class GameAgent : Agent
         GetComponent<Rigidbody>().velocity = dirToGo * moveSpeed;
         if (act[0] != 0)
         {
-            GetComponent<PlaceObjectsToSurface>().StartCorrecting(moveSpeed, dirToGo);
+            GetComponent<PlaceObjectsToSurface>().StartPlacing(moveSpeed, dirToGo,true);
         }
     }
 }

@@ -151,7 +151,7 @@ public class PlayerSpawner : MonoBehaviour
 
         gameAgent.trainingMode = players[order].trainingMode;
         var placeObjectsToSurface = clone.GetComponent<PlaceObjectsToSurface>();
-        placeObjectsToSurface.StartPlacing();
+        placeObjectsToSurface.StartPlacing(0,Vector3.zero, false);
         Physics.SyncTransforms();
     }
 
@@ -272,7 +272,7 @@ public class PlayerSpawner : MonoBehaviour
         FindRandPosition();
         agent.position = randPosition + agent.position - agent.GetComponent<Collider>().bounds.center;
         Physics.SyncTransforms();
-        agent.GetComponent<PlaceObjectsToSurface>().StartPlacing();
+        agent.GetComponent<PlaceObjectsToSurface>().StartPlacing(0,Vector3.zero,false);
     }
     /*private void OnDrawGizmos() 
     {

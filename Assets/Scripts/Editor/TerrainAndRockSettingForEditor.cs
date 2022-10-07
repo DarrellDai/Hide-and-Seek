@@ -170,6 +170,35 @@ public class TerrainAndRockSettingForEditor : ScriptableObject
         var itemAreaSpawner = CreateInstance<ItemAreaSpawner>();
         itemAreaSpawner.terrainAndRockSettingForEditor = this;
         itemAreaSpawner.StartSpawn();
+        CreateBoundary();
+    }
+
+    public void CreateBoundary()
+    {
+        float boundarySize = CalculateMapSize();
+        GameObject boundary  = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        boundary.transform.localScale = new Vector3(boundarySize, boundarySize, 1);
+        boundary.transform.position = new Vector3(0, 0, boundarySize / 2);
+        boundary.transform.parent=terrainSpawner.transform;
+        boundary.GetComponent<MeshRenderer>().enabled = false;
+        boundary  = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        boundary.transform.localScale = new Vector3(boundarySize, boundarySize, 1);
+        boundary.transform.position = new Vector3(0, 0, -boundarySize / 2);
+        boundary.transform.parent=terrainSpawner.transform;
+        boundary.GetComponent<MeshRenderer>().enabled = false;
+        boundary  = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        boundary.transform.localScale = new Vector3(boundarySize, boundarySize, 1);
+        boundary.transform.rotation=Quaternion.Euler(0,90,0);
+        boundary.transform.position = new Vector3(boundarySize / 2, 0, 0);
+        boundary.transform.parent=terrainSpawner.transform;
+        boundary.GetComponent<MeshRenderer>().enabled = false;
+        boundary  = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        boundary.transform.localScale = new Vector3(boundarySize, boundarySize, 1);
+        boundary.transform.rotation=Quaternion.Euler(0,90,0);
+        boundary.transform.position = new Vector3(-boundarySize / 2, 0, 0);
+        boundary.transform.parent=terrainSpawner.transform;
+        boundary.GetComponent<MeshRenderer>().enabled = false;
+
     }
 
     /// <summary>

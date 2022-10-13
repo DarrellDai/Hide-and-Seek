@@ -1065,10 +1065,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.3
     y: 0
-    width: 1
-    height: 1
+    width: 0.35
+    height: 0.5
   near clip plane: 0.18
   far clip plane: 1000
   field of view: 100
@@ -6061,10 +6061,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.65
     y: 0
-    width: 1
-    height: 1
+    width: 0.35
+    height: 0.5
   near clip plane: 0.18
   far clip plane: 1000
   field of view: 100
@@ -9304,10 +9304,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+    x: 0.3
+    y: 0.5
+    width: 0.35
+    height: 0.5
   near clip plane: 0.18
   far clip plane: 1000
   field of view: 100
@@ -12606,8 +12606,8 @@ MonoBehaviour:
   playerSpawner: {fileID: 136706334}
   numHiders: 1
   numSeekers: 3
-  humanPlay: 1
-  singlePlayer: 1
+  humanPlay: 0
+  singlePlayer: 0
   terrainAndRockSetting: {fileID: 2043555393}
   seed: 405
   itemSpread: 12.018722
@@ -12878,10 +12878,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+    x: 0.65
+    y: 0.5
+    width: 0.35
+    height: 0.5
   near clip plane: 0.18
   far clip plane: 1000
   field of view: 100

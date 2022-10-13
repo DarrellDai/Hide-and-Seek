@@ -270,6 +270,7 @@ public class PlayerSpawner : MonoBehaviour
     {
         agent.rotation = quaternion.identity;
         FindRandPosition();
+        Physics.SyncTransforms();
         agent.position = randPosition + agent.position - agent.GetComponent<Collider>().bounds.center;
         Physics.SyncTransforms();
         agent.GetComponent<PlaceObjectsToSurface>().StartPlacing(0,Vector3.zero,false);

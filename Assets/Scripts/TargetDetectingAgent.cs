@@ -54,20 +54,11 @@ public class TargetDetectingAgent : NavigationAgent
             // Prevent NavMeshAgent is not active on NavMesh issue
 
             renderer = Hiders[0].transform.Find("Body").GetComponent<Renderer>();
-            if (CameraDetection.IsVisibleFrom(renderer, camera) && navMeshAgent.isActiveAndEnabled)
+            if (CameraDetection.IsVisibleFrom(renderer, camera) && fieldOfView.isDetected && navMeshAgent.isActiveAndEnabled)
             {
                 destinationPosition = renderer.transform.position;
-                Debug.Log("see");
-                MakeNewDestination();
-            }
-            if (CameraDetection.IsVisibleFrom(renderer, camera) && fieldOfView.isDetected)
-            {
-                Debug.Log("see");
                 fieldOfView.isDetected = false; 
-            }
-            else
-            {
-                Debug.Log("not see");
+                MakeNewDestination();
             }
 
             destinationUpdateStepCount = 0;

@@ -14,6 +14,10 @@ public class TargetDetectingAgent : NavigationAgent
     private int destinationUpdateStepCount;
     private FieldOfView fieldOfView;
     
+    Camera camera;
+    GameObject[] Hiders;
+    private Renderer renderer;
+    
     private RaycastHit hitInfo;
 
     //Mesh of fieldOfView
@@ -30,7 +34,10 @@ public class TargetDetectingAgent : NavigationAgent
         fieldOfView = FindObjectOfType<FieldOfView>();
         fieldOfView.InitializeParameters();
         fieldOfView.InitializeMesh();
-
+        
+        camera = transform.Find("Eye").Find("Camera").GetComponent<Camera>();
+        Hiders=GameObject.FindGameObjectsWithTag("Hider");
+        
         path = new NavMeshPath(); 
     }
 
@@ -45,9 +52,8 @@ public class TargetDetectingAgent : NavigationAgent
         {
             MakeDetection();
             // Prevent NavMeshAgent is not active on NavMesh issue
-            Camera camera = transform.Find("Eye").Find("Camera").GetComponent<Camera>();
-            GameObject[] Hiders=GameObject.FindGameObjectsWithTag("Hider");
-            Renderer renderer = Hiders[0].transform.Find("Body").GetComponent<Renderer>();
+
+            renderer = Hiders[0].transform.Find("Body").GetComponent<Renderer>();
             if (CameraDetection.IsVisibleFrom(renderer, camera) && navMeshAgent.isActiveAndEnabled)
             {
                 destinationPosition = renderer.transform.position;
@@ -57,7 +63,7 @@ public class TargetDetectingAgent : NavigationAgent
             if (CameraDetection.IsVisibleFrom(renderer, camera) && fieldOfView.isDetected)
             {
                 Debug.Log("see");
-                fieldOfView.isDetected = false;
+                fieldOfView.isDetected = false; 
             }
             else
             {

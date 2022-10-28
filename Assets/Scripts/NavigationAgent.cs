@@ -64,7 +64,7 @@ public class NavigationAgent : GameAgent
     /// <param name="actionBuffers">Buffers storing actions in real time</param>
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-        base.OnActionReceived(actionBuffers);
+        //base.OnActionReceived(actionBuffers);
         //DrawPath();
         CheckIfArrived();
     }

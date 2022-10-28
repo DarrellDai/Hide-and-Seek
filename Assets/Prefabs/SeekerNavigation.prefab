@@ -12,6 +12,14 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2154032851308160097, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
+      propertyPath: m_Height
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2154032851308160097, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
+      propertyPath: m_Radius
+      value: 0.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 2154032851308160097, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
       propertyPath: m_BaseOffset
       value: 0
       objectReference: {fileID: 0}

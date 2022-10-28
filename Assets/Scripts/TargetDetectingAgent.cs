@@ -45,7 +45,8 @@ public class TargetDetectingAgent : NavigationAgent
         //Set the destinationPosition of destination to a detected hider if any
         if (destinationUpdateStepCount == minDestinationUpdateStep)
         {
-            if (fieldOfView.isDetected)
+            // Prevent NavMeshAgent is not active on NavMesh issue
+            if (fieldOfView.isDetected && navMeshAgent.isActiveAndEnabled)
             {
                 destinationPosition = fieldOfView.detectPosition;
                 MakeNewDestination();

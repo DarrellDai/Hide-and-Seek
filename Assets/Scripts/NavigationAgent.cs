@@ -35,6 +35,14 @@ public class NavigationAgent : GameAgent
         navMeshAgent = GetComponent<NavMeshAgent>();
         //Turn off auto-pilot in NavMeshAgent so the agent can move manually
         navMeshAgent.updatePosition = false;
+        navMeshAgent.enabled = false; 
+    }
+
+    public override void OnEpisodeBegin()
+    {
+        base.OnEpisodeBegin();
+        // Disable navMeshAgent so it's nextPosition won't move to cause teleport
+        navMeshAgent.enabled = false; 
     }
 
     /// <summary>
@@ -67,7 +75,10 @@ public class NavigationAgent : GameAgent
     /// </summary>
     public override void MoveAgent(ActionSegment<int> act)
     {
-        if (toChooseNextDestination)
+        // Enable navMeshAgent when it's able to move
+        navMeshAgent.enabled = true;
+        // Prevent NavMeshAgent is not active on NavMesh issue
+        if (toChooseNextDestination && navMeshAgent.isActiveAndEnabled)
         {
             selectNextRandomDestination();
             MakeNewDestination();
@@ -148,8 +159,8 @@ public class NavigationAgent : GameAgent
     public void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.destinationPosition,2f);
+        Gizmos.DrawWireSphere(transform.position,2f);
         if (destination!=null)
-            Gizmos.DrawWireCube(destination.transform.destinationPosition, Vector3.one*2f); 
+            Gizmos.DrawWireCube(destination.transform.position, Vector3.one*2f); 
     }*/
 }

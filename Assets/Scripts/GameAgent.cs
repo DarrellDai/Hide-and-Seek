@@ -3,6 +3,7 @@ using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 /// <summary>
@@ -57,8 +58,6 @@ public class GameAgent : Agent
         if (collision.gameObject.CompareTag("Seeker") && gameObject.CompareTag("Hider"))
         {
             //Add reward when get caught as a hider
-            AddReward(-100);
-            print(-100);
             hiderDestroyFlag = true;
             /*alive = false;*/
 
@@ -67,13 +66,13 @@ public class GameAgent : Agent
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.backgroundColor = Color.black;
             camera.cullingMask = 0;
+            AddReward(-100);
         }
 
         if (collision.gameObject.CompareTag("Hider") && gameObject.CompareTag("Seeker"))
         {
             //Add reward when catch a hider
             AddReward(100);
-            print(100);
             //print("Caught");
         }
         
@@ -134,6 +133,7 @@ public class GameAgent : Agent
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         step = 1;
+
     }
 
     /// <summary>
@@ -163,6 +163,7 @@ public class GameAgent : Agent
             stepLeftToFreeze--;
             return;
         }
+        
         if (alive)
             MoveAgent(actionBuffers.DiscreteActions);
 

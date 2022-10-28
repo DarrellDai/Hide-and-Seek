@@ -13,7 +13,7 @@ public class TargetDetectingAgent : NavigationAgent
     //Current number of steps since last destination update
     private int destinationUpdateStepCount;
     private FieldOfView fieldOfView;
-
+    
     private RaycastHit hitInfo;
 
     //Mesh of fieldOfView
@@ -26,13 +26,12 @@ public class TargetDetectingAgent : NavigationAgent
     public override void Initialize()
     {
         base.Initialize();
-
         //Initialize field of view
         fieldOfView = FindObjectOfType<FieldOfView>();
         fieldOfView.InitializeParameters();
         fieldOfView.InitializeMesh();
 
-        path = new NavMeshPath();
+        path = new NavMeshPath(); 
     }
 
     /// <summary>
@@ -41,16 +40,28 @@ public class TargetDetectingAgent : NavigationAgent
     /// <param name="actionBuffers">Buffers storing actions in real time</param>
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-        MakeDetection();
         //Set the destinationPosition of destination to a detected hider if any
         if (destinationUpdateStepCount == minDestinationUpdateStep)
         {
+            MakeDetection();
             // Prevent NavMeshAgent is not active on NavMesh issue
-            if (fieldOfView.isDetected && navMeshAgent.isActiveAndEnabled)
+            Camera camera = transform.Find("Eye").Find("Camera").GetComponent<Camera>();
+            GameObject[] Hiders=GameObject.FindGameObjectsWithTag("Hider");
+            Renderer renderer = Hiders[0].transform.Find("Body").GetComponent<Renderer>();
+            if (CameraDetection.IsVisibleFrom(renderer, camera) && navMeshAgent.isActiveAndEnabled)
             {
-                destinationPosition = fieldOfView.detectPosition;
+                destinationPosition = renderer.transform.position;
+                Debug.Log("see");
                 MakeNewDestination();
+            }
+            if (CameraDetection.IsVisibleFrom(renderer, camera) && fieldOfView.isDetected)
+            {
+                Debug.Log("see");
                 fieldOfView.isDetected = false;
+            }
+            else
+            {
+                Debug.Log("not see");
             }
 
             destinationUpdateStepCount = 0;
@@ -59,7 +70,6 @@ public class TargetDetectingAgent : NavigationAgent
         base.OnActionReceived(actionBuffers);
         destinationUpdateStepCount++;
     }
-
     /// <summary>
     ///     Perform detection within field of view.
     /// </summary>

@@ -84,8 +84,8 @@ public class NavigationAgent : GameAgent
             MakeNewDestination();
         }
         transform.position = navMeshAgent.nextPosition;
-        GetComponent<PlaceObjectsToSurface>().StartPlacing(GetComponent<NavMeshAgent>().speed,
-            navMeshAgent.nextPosition-transform.position,false);
+        GetComponent<PlaceObjectsToSurface>().StartPlacing(
+            navMeshAgent.velocity,false, true); 
         
 
     }

@@ -9,7 +9,7 @@ public class PlaceObjectsToSurface : MonoBehaviour
     private bool isHit;
     private bool isHitDown;
     private bool isHitNormal;
-    private readonly float multiplier = 10;
+    private readonly float multiplier = 0.6f;
     private Collider objectToPlaceCollider;
     private Vector3 offset;
     private Ray ray;
@@ -24,15 +24,16 @@ public class PlaceObjectsToSurface : MonoBehaviour
     ///     Use raycast to place game object to a surface, so that it's normal to the surface and forward direction is adjusted
     ///     with minimal change.
     /// </summary>
-    public void StartPlacing(float MoveSpeed, Vector3 dirToGo, bool smooth)
+    public void StartPlacing(Vector3 velocity, bool smooth, bool navmesh)
     {
         Vector3 originalPosition = transform.position;
         Quaternion originalRotation = transform.rotation;
         //Lift the object along its normal direction so that it's above the surface 
-        transform.position += transform.up * multiplier;
+        if (navmesh)
+            transform.position += Vector3.up * GetComponent<Collider>().bounds.extents.y;
         Physics.SyncTransforms();
         //Cast downward ray along its normal direction
-        ray = new Ray(transform.position + dirToGo * Time.deltaTime * MoveSpeed, -transform.up);
+        ray = new Ray(transform.position + Time.deltaTime * velocity, Vector3.down);
         isHit = Physics.Raycast(ray, out hitInfo, 1000,
             1 << LayerMask.NameToLayer("Terrain")| 1<<LayerMask.NameToLayer("Rock"));
         if (isHit)
@@ -61,7 +62,7 @@ public class PlaceObjectsToSurface : MonoBehaviour
                 // Prevent sudden change to make the rotation smooth
                 transform.rotation =
                     Quaternion.Slerp(originalRotation, transform.rotation, smoothSpeed * Time.deltaTime);
-                transform.position = Vector3.Lerp(originalPosition, transform.position, MoveSpeed * Time.deltaTime);
+                transform.position = Vector3.Lerp(originalPosition, transform.position, velocity.magnitude * Time.deltaTime);
             }
         }
     }

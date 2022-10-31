@@ -66,13 +66,13 @@ public class GameAgent : Agent
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.backgroundColor = Color.black;
             camera.cullingMask = 0;
-            AddReward(-100);
+            AddReward(-2);
         }
 
         if (collision.gameObject.CompareTag("Hider") && gameObject.CompareTag("Seeker"))
         {
             //Add reward when catch a hider
-            AddReward(100);
+            AddReward(2); 
             //print("Caught");
         }
         
@@ -144,11 +144,11 @@ public class GameAgent : Agent
     {
         sensor.AddObservation(alive);
         sensor.AddObservation(PlayerSpawner.CountActiveNumHider(transform.parent.gameObject));
-        if (gameObject.CompareTag("Seeker")) AddReward(-0.01f * step);
+        if (gameObject.CompareTag("Seeker")) AddReward(-0.01f); 
 
         //Add reward for surviving each step
         if (gameObject.CompareTag("Hider") && alive)
-            AddReward(0.01f * step);
+            AddReward(0.01f);
         step++;
     }
 
@@ -195,7 +195,7 @@ public class GameAgent : Agent
         GetComponent<Rigidbody>().velocity = dirToGo * moveSpeed;
         if (act[0] != 0)
         {
-            GetComponent<PlaceObjectsToSurface>().StartPlacing(moveSpeed, dirToGo,true);
+            GetComponent<PlaceObjectsToSurface>().StartPlacing(moveSpeed * dirToGo,true, false);
         }
     }
 }

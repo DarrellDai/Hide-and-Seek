@@ -60,14 +60,13 @@ public class GameAgent : Agent
         {
             //Add reward when get caught as a hider
             hiderDestroyFlag = true;
-            /*alive = false;*/
 
             //Turn its camera to black when a hider is caught 
             var camera = transform.Find("Eye").Find("Camera").GetComponent<Camera>();
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.backgroundColor = Color.black;
             camera.cullingMask = 0;
-            AddReward(-2);
+            
         }
 
         if (collision.gameObject.CompareTag("Hider") && gameObject.CompareTag("Seeker"))
@@ -171,6 +170,7 @@ public class GameAgent : Agent
         //Destroy hiders when caught
         if (gameObject.CompareTag("Hider") && hiderDestroyFlag)
         {
+            AddReward(-2);
             hiderDestroyFlag = false;
             alive = false;
             gameObject.transform.GetChild(0).gameObject.SetActive(false);

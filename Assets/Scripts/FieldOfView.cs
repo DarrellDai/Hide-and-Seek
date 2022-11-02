@@ -30,6 +30,7 @@ public class FieldOfView : MonoBehaviour
 
     //If any hider detected 
     [HideInInspector] public bool isDetected;
+    [HideInInspector] public List<Renderer> detectedRenderers;
 
     //If draw field of view
     public bool drawFieldOfView;
@@ -85,6 +86,7 @@ public class FieldOfView : MonoBehaviour
     public void CalculateFieldOfView()
     {
         viewPoints = new List<Vector3>();
+        detectedRenderers.Clear();
 
         for (var j = 0; j <= heightStepCount; j++)
         {
@@ -100,8 +102,7 @@ public class FieldOfView : MonoBehaviour
                     {
                         detectPosition = oldViewCast.targetPoint;
                         isDetected = true;
-                        if (!drawFieldOfView)
-                            return;
+                        detectedRenderers.Add(oldViewCast.detectedRenderer);
                     }
 
                 viewPoints.Add(newViewCast.point);
@@ -259,16 +260,16 @@ public class FieldOfView : MonoBehaviour
         {
             if (Physics.Raycast(transform.position + transform.up * height, dir, out hitTarget, hit.distance,
                     targetMask))
-                return new ViewCastInfo(true, hit.point, hitTarget.point, hit.distance, hitTarget.transform.tag, angle);
-            return new ViewCastInfo(true, hit.point, hit.point, hit.distance, null, angle);
+                return new ViewCastInfo(true, hit.point, hitTarget.point, hit.distance, hitTarget.transform.tag, angle, hitTarget.transform.Find("Body").GetComponent<Renderer>());
+            return new ViewCastInfo(true, hit.point, hit.point, hit.distance, null, angle, null);
         }
 
         if (Physics.Raycast(transform.position + transform.up * height, dir, out hitTarget, viewRadius, targetMask))
             return new ViewCastInfo(false, transform.position + transform.up * height + dir * viewRadius,
-                hitTarget.point, viewRadius, hitTarget.transform.tag, angle);
+                hitTarget.point, viewRadius, hitTarget.transform.tag, angle,hitTarget.transform.Find("Body").GetComponent<Renderer>());
         return new ViewCastInfo(false, transform.position + transform.up * height + dir * viewRadius,
             transform.position + transform.up * height + dir * viewRadius, viewRadius,
-            null, angle);
+            null, angle, null);
     }
 
     /// <summary>
@@ -294,8 +295,9 @@ public class FieldOfView : MonoBehaviour
         public float dst;
         public float angle;
         public string tag;
+        public Renderer detectedRenderer;
 
-        public ViewCastInfo(bool _hit, Vector3 _point, Vector3 _targetPoint, float _dst, string _tag, float _angle)
+        public ViewCastInfo(bool _hit, Vector3 _point, Vector3 _targetPoint, float _dst, string _tag, float _angle, Renderer _detectedRenderer)
         {
             hit = _hit;
             point = _point;
@@ -303,6 +305,7 @@ public class FieldOfView : MonoBehaviour
             dst = _dst;
             angle = _angle;
             tag = _tag;
+            detectedRenderer = _detectedRenderer;
         }
     }
 }

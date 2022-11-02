@@ -157,7 +157,6 @@ MonoBehaviour:
   toChooseNextDestination: 1
   destination: {fileID: 0}
   navMeshAgent: {fileID: 2984011008881368928}
-  minDestinationUpdateStep: 5
 --- !u!114 &6282149939794066017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,16 +172,17 @@ MonoBehaviour:
   viewRadius: 30
   viewAngle: 120
   ViewHeight: 8
-  angleResolution: 0.97
+  angleResolution: 1.5
   heightResolution: 1.42
   targetMask:
     serializedVersion: 2
     m_Bits: 1024
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 1920
+    m_Bits: 896
   detectPosition: {x: 0, y: 0, z: 0}
   isDetected: 0
+  detectedRenderers: []
   drawFieldOfView: 0
   viewPoints: []
   viewMeshFilter: {fileID: 0}

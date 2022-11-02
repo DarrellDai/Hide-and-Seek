@@ -12,8 +12,20 @@ PrefabInstance:
       value: HiderNavigation
       objectReference: {fileID: 0}
     - target: {fileID: 3296868389167821990, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
+      propertyPath: m_Speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3296868389167821990, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
+      propertyPath: m_Height
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3296868389167821990, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
+      propertyPath: m_Radius
+      value: 0.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 3296868389167821990, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
       propertyPath: m_AngularSpeed
-      value: 10000
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 7561878447963400932, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
       propertyPath: m_RootOrder
@@ -101,13 +113,11 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
-  isCollided: 0
-  isOut: 0
   mapSize: 0
-  moveSpeed: 6
-  rotateSpeed: 200
-  orderOfPlayer: 0
+  moveSpeed: 0.1
+  rotateSpeed: 100
   trainingMode: 0
+  alive: 0
   destinationSpawner: {fileID: 0}
   extraOffset: 0.1
   overlapTestBoxSizeForDestination: {x: 0, y: 0, z: 0}

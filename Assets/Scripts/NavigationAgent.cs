@@ -51,11 +51,16 @@ public class NavigationAgent : GameAgent
     public void CheckIfArrived()
     {
         if (!navMeshAgent.isActiveAndEnabled)
+        {
             toChooseNextDestination = true;
+        }
         else if (!navMeshAgent.pathPending)
             if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
+            {
                 if (!navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f)
                     toChooseNextDestination = true;
+            }
+                
     }
 
     /// <summary>
@@ -64,9 +69,10 @@ public class NavigationAgent : GameAgent
     /// <param name="actionBuffers">Buffers storing actions in real time</param>
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
+        CheckIfArrived();
         base.OnActionReceived(actionBuffers);
         //DrawPath();
-        CheckIfArrived();
+        
     }
 
     /// <summary>
@@ -84,6 +90,7 @@ public class NavigationAgent : GameAgent
             MakeNewDestination();
         }
         transform.position = navMeshAgent.nextPosition;
+        
         GetComponent<PlaceObjectsToSurface>().StartPlacing(
             navMeshAgent.velocity,false, true); 
         
@@ -114,7 +121,8 @@ public class NavigationAgent : GameAgent
         destination.transform.position = destinationPosition;
         destination.transform.parent = destinationSpawner.transform;
         toChooseNextDestination = false;
-        navMeshAgent.Warp(transform.position);
+        //navMeshAgent.ResetPath();
+        //navMeshAgent.Warp(transform.position);
         navMeshAgent.destination = destination.transform.position;
     }
 

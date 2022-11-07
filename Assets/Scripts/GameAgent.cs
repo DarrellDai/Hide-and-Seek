@@ -41,6 +41,9 @@ public class GameAgent : Agent
 
     // Step count in an episode
     private int step;
+
+    public List<bool> detected;
+    //private Color originalColor;
     
     //Steps to freeze seekers, so hiders have preparation time
     private int stepLeftToFreeze;
@@ -66,7 +69,6 @@ public class GameAgent : Agent
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.backgroundColor = Color.black;
             camera.cullingMask = 0;
-            
         }
 
         if (collision.gameObject.CompareTag("Hider") && gameObject.CompareTag("Seeker"))
@@ -103,7 +105,8 @@ public class GameAgent : Agent
         MaxStep = trainingMode ? 5000 : 0;
         
         step = 1;
-
+        
+        //originalColor=transform.Find("Body").GetComponent<Renderer>().material.color;
     }
 
     /// <summary>
@@ -158,6 +161,12 @@ public class GameAgent : Agent
     /// <param name="actionBuffers"></param>
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
+        //transform.Find("Body").GetComponent<Renderer>().material.color = originalColor;
+        if (detected.Count > 0)
+        {
+            //transform.Find("Body").GetComponent<Renderer>().material.color = Color.yellow;
+            detected.Clear();
+        }
         if (gameObject.CompareTag("Seeker") && stepLeftToFreeze > 0)
         {
             stepLeftToFreeze--;

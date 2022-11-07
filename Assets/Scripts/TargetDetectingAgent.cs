@@ -22,7 +22,7 @@ public class TargetDetectingAgent : NavigationAgent
     private Mesh mesh;
     private List<Ray> rays;
     
-    private Color originalColor;
+    
     /// <summary>
     ///     Initialize ML-agent.
     /// </summary>
@@ -31,8 +31,7 @@ public class TargetDetectingAgent : NavigationAgent
         base.Initialize();
         //Initialize field of view
         fieldOfView = FindObjectOfType<FieldOfView>();
-        fieldOfView.InitializeParameters();
-        fieldOfView.InitializeMesh();
+        fieldOfView.isDetected = false;
 
         camera = transform.Find("Eye").Find("Camera").GetComponent<Camera>();
         hiders = GameObject.FindGameObjectsWithTag("Hider");
@@ -42,8 +41,6 @@ public class TargetDetectingAgent : NavigationAgent
         {
             renderers[i] = hiders[i].transform.Find("Body").GetComponent<Renderer>();
         }
-
-        originalColor = renderers[0].material.color;
         path = new NavMeshPath();
     }
 
@@ -57,16 +54,16 @@ public class TargetDetectingAgent : NavigationAgent
         /*foreach (Renderer renderer in renderers)
             renderer.material.color = originalColor;*/
         //Set the destinationPosition of destination to a detected hider if any
-        MakeDetectionByRaycast();
         // Prevent NavMeshAgent is not active on NavMesh issue
         var detectedRenderersByCamera=MakeDetectionByCamera();
         List<Renderer> detectedRenderers=new List<Renderer>();
         foreach (Renderer renderer in detectedRenderersByCamera)
         {
-            if (fieldOfView.detectedRenderers.Contains(renderer))
+            MakeDetectionByRaycast(renderer.transform);
+            if (fieldOfView.isDetected)
             {
                 detectedRenderers.Add(renderer);
-                /*renderer.material.color = Color.yellow;*/
+                renderer.transform.parent.gameObject.GetComponent<GameAgent>().detected.Add(true);
             }
 
         }
@@ -117,11 +114,9 @@ public class TargetDetectingAgent : NavigationAgent
     /// <summary>
     ///     Perform detection within field of view.
     /// </summary>
-    public void MakeDetectionByRaycast()
+    public void MakeDetectionByRaycast(Transform transform)
     {
-        fieldOfView.CalculateFieldOfView();
-        if (fieldOfView.drawFieldOfView)
-            fieldOfView.DrawFieldOfView();
+        fieldOfView.CalculateFieldOfView(transform);
     }
 
     /*/// <summary>

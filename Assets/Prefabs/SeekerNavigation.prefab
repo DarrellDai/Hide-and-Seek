@@ -150,6 +150,7 @@ MonoBehaviour:
   rotateSpeed: 100
   trainingMode: 0
   alive: 0
+  detected: 
   destinationSpawner: {fileID: 0}
   extraOffset: 0.1
   overlapTestBoxSizeForDestination: {x: 0, y: 0, z: 0}
@@ -172,8 +173,8 @@ MonoBehaviour:
   viewRadius: 30
   viewAngle: 120
   ViewHeight: 8
-  angleResolution: 1.5
-  heightResolution: 1.42
+  angleResolution: 1.4
+  heightResolution: 1
   targetMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -183,7 +184,7 @@ MonoBehaviour:
   detectPosition: {x: 0, y: 0, z: 0}
   isDetected: 0
   detectedRenderers: []
-  drawFieldOfView: 0
+  drawFieldOfView: 1
   viewPoints: []
   viewMeshFilter: {fileID: 0}
   viewMesh: {fileID: 0}

@@ -30,7 +30,7 @@ public class TargetDetectingAgent : NavigationAgent
     {
         base.Initialize();
         //Initialize field of view
-        fieldOfView = FindObjectOfType<FieldOfView>();
+        fieldOfView = GetComponent<FieldOfView>();
         fieldOfView.isDetected = false;
 
         camera = transform.Find("Eye").Find("Camera").GetComponent<Camera>();

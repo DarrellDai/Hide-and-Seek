@@ -161,7 +161,7 @@ public class GameAgent : Agent
     /// <param name="actionBuffers"></param>
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-        //transform.Find("Body").GetComponent<Renderer>().material.color = originalColor;
+        //transform.Find("Body").GetComponent<Renderer>().material.color = originalColor; 
         if (detected.Count > 0)
         {
             //transform.Find("Body").GetComponent<Renderer>().material.color = Color.yellow;
@@ -169,7 +169,7 @@ public class GameAgent : Agent
         }
         if (gameObject.CompareTag("Seeker") && stepLeftToFreeze > 0)
         {
-            stepLeftToFreeze--;
+            stepLeftToFreeze--; 
             return;
         }
         

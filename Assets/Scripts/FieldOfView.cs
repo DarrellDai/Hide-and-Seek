@@ -69,6 +69,7 @@ public class FieldOfView : MonoBehaviour
                     if (oldViewCast.tag == "Hider")
                     {
                         isDetected = true;
+                        //Debug.DrawLine(rayOrigin, oldViewCast.targetPoint, Color.blue);
                     }
 
                 viewPoints.Add(newViewCast.point);
@@ -100,7 +101,7 @@ public class FieldOfView : MonoBehaviour
         }
 
         if (Physics.Raycast(rayOrigin, dir, out hitTarget, viewRadius, targetMask))
-            return new ViewCastInfo(false, rayOrigin + dir * viewRadius,
+            return new ViewCastInfo(true, rayOrigin + dir * viewRadius,
                 hitTarget.point, viewRadius, hitTarget.transform.tag,
                 hitTarget.transform.Find("Body").GetComponent<Renderer>());
         return new ViewCastInfo(false, rayOrigin + dir * viewRadius,

@@ -171,24 +171,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewRadius: 30
-  viewAngle: 120
-  ViewHeight: 8
-  angleResolution: 1.4
-  heightResolution: 1
   targetMask:
     serializedVersion: 2
     m_Bits: 1024
   obstacleMask:
     serializedVersion: 2
     m_Bits: 896
-  detectPosition: {x: 0, y: 0, z: 0}
   isDetected: 0
-  detectedRenderers: []
-  drawFieldOfView: 1
   viewPoints: []
-  viewMeshFilter: {fileID: 0}
-  viewMesh: {fileID: 0}
-  FOV: {fileID: 5241264080826316216, guid: 572f0f5d3527da9418eab989b1075e93, type: 3}
+  xDirectionResolution: 30
+  yDirectionResolution: 30
 --- !u!195 &2984011008881368928 stripped
 NavMeshAgent:
   m_CorrespondingSourceObject: {fileID: 2154032851308160097, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}

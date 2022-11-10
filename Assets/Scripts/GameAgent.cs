@@ -74,7 +74,7 @@ public class GameAgent : Agent
         if (collision.gameObject.CompareTag("Hider") && gameObject.CompareTag("Seeker"))
         {
             //Add reward when catch a hider
-            AddReward(2); 
+            AddReward(1); 
             //print("Caught");
         }
         
@@ -147,11 +147,11 @@ public class GameAgent : Agent
     {
         sensor.AddObservation(alive);
         sensor.AddObservation(PlayerSpawner.CountActiveNumHider(transform.parent.gameObject));
-        if (gameObject.CompareTag("Seeker")) AddReward(-0.01f); 
+        if (gameObject.CompareTag("Seeker")) AddReward(-0.1f); 
 
         //Add reward for surviving each step
         if (gameObject.CompareTag("Hider") && alive)
-            AddReward(0.01f);
+            AddReward(0.1f); 
         step++;
     }
 

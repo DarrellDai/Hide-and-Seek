@@ -14,6 +14,7 @@ public class TerrainAndRockSettingEditor : UnityEditor.Editor
     {
         terrainAndRockSettingForEditor =
             CreateInstance<TerrainAndRockSettingForEditor>();
+        terrainAndRockSettingForEditor.Initialize();
         
     }
 

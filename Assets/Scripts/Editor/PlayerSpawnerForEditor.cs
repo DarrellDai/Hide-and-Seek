@@ -13,8 +13,9 @@ namespace Editor
         public void Initialize()
         {
             playerSpawnerScript = FindObjectOfType<PlayerSpawner>();
-            autoUpdate = playerSpawnerScript.autoUpdate;
             playerSpawnerScript.Initialize();
+            autoUpdate = playerSpawnerScript.autoUpdate;
+            
         }
 
         public void StartSpawning()

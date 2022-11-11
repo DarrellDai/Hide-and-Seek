@@ -13,12 +13,11 @@ public class PlayerSpawnerEditor : UnityEditor.Editor
     private void OnEnable()
     {
         playerSpawnerForEditor = CreateInstance<PlayerSpawnerForEditor>(); 
+        playerSpawnerForEditor.Initialize();
     }
 
     public override void OnInspectorGUI()
     {
-        
-
         //Update map once anything changes in the editor if autoUpdate = true
         if (DrawDefaultInspector())
             if (playerSpawnerForEditor.autoUpdate)

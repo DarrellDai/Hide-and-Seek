@@ -62,6 +62,7 @@ public class PlayerSpawner : MonoBehaviour
     /// </summary>
     public void Initialize()
     {
+        //Debug.Log(autoUpdate); 
         hiderLayer = LayerMask.NameToLayer("Hider");
         seekerLayer = LayerMask.NameToLayer("Seeker");
         rockLayer = LayerMask.NameToLayer("Rock");
@@ -75,7 +76,7 @@ public class PlayerSpawner : MonoBehaviour
         playerSpawner.transform.rotation=quaternion.identity;
         playerSpawner.transform.localScale=Vector3.one;
         CountNumHidersAndSeekers();
-
+        
     }
 
     public void CountNumHidersAndSeekers()

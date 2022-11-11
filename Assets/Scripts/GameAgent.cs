@@ -179,7 +179,7 @@ public class GameAgent : Agent
         //Destroy hiders when caught
         if (gameObject.CompareTag("Hider") && hiderDestroyFlag)
         {
-            AddReward(-2);
+            AddReward(-1); 
             hiderDestroyFlag = false;
             alive = false;
             gameObject.transform.GetChild(0).gameObject.SetActive(false);

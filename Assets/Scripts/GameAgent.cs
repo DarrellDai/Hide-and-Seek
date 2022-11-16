@@ -15,7 +15,7 @@ public class GameAgent : Agent
     //Set input for players
     public InputAction moveInput;
     public InputAction dirInput;
-    
+
     [HideInInspector] public float mapSize;
 
     //Player's parameter
@@ -31,22 +31,26 @@ public class GameAgent : Agent
     //If true, destroy the hider on the next step 
     private bool hiderDestroyFlag;
 
+    public bool skipReward;
+
+    public Vector3 startPosition;
     //Player's destinationPosition and rotation on the last step
     private Vector3 lastPosition;
     private Quaternion lastRotation;
 
     //Player spawner as the parent of all players
     private PlayerSpawner playerSpawner;
-    
+
 
     // Step count in an episode
     private int step;
 
     public List<bool> detected;
     //private Color originalColor;
-    
+
     //Steps to freeze seekers, so hiders have preparation time
     private int stepLeftToFreeze;
+
     /// <summary>
     ///     Disable inputs when agent is destroyed.
     /// </summary>
@@ -103,9 +107,9 @@ public class GameAgent : Agent
 
         //Set the MaxStep as 5000 in training mode, 0 (inf) in inference mode
         MaxStep = trainingMode ? 5000 : 0;
-        
+
+        startPosition = transform.position;
         step = 1;
-        
         //originalColor=transform.Find("Body").GetComponent<Renderer>().material.color;
     }
 
@@ -132,15 +136,14 @@ public class GameAgent : Agent
         gameObject.layer = LayerMask.NameToLayer(gameObject.tag);
         gameObject.GetComponent<Collider>().enabled = true;
         PlayerSpawner.ResetCamera(gameObject.transform);
-        playerSpawner.RelocatePlayer(gameObject.transform);
+        playerSpawner.RelocatePlayer(gameObject.transform, false);
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         step = 1;
-
     }
 
     /// <summary>
-    ///     Collect obsevrations
+    ///     Collect observations
     /// </summary>
     /// <param name="sensor"></param>
     public override void CollectObservations(VectorSensor sensor)
@@ -188,23 +191,21 @@ public class GameAgent : Agent
             //transform.Find("Body").GetComponent<Renderer>().material.color = Color.yellow;
             detected.Clear();
         }
+
         if (gameObject.CompareTag("Seeker") && stepLeftToFreeze > 0)
         {
             stepLeftToFreeze--; 
             return;
         }
-        
+
         if (alive)
             MoveAgent(actionBuffers.DiscreteActions);
-
-
     }
 
     /// <summary>
     ///     Move agent by control.
     /// </summary>
     /// <param name="act"></param>
-
     public virtual void MoveAgent(ActionSegment<int> act)
     {
         var dirToGo = Vector3.zero;
@@ -217,6 +218,14 @@ public class GameAgent : Agent
         if (act[0] != 0)
         {
             GetComponent<PlaceObjectsToSurface>().StartPlacing(moveSpeed * dirToGo,true, false);
+        }
+    }
+
+    private IEnumerator WaitAndPrint()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.1f);
         }
     }
 }

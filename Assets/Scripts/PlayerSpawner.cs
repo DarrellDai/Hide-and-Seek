@@ -267,13 +267,21 @@ public class PlayerSpawner : MonoBehaviour
     /// <summary>
     ///     Place the player to a random destinationPosition
     /// </summary>
-    public void RelocatePlayer(Transform agent)
+    public void RelocatePlayer(Transform agent, bool isRandom)
     {
         agent.rotation = quaternion.identity;
-        FindRandPosition();
-        Physics.SyncTransforms();
-        agent.position = randPosition + agent.position - agent.GetComponent<Collider>().bounds.center;
-        Physics.SyncTransforms();
+        if (isRandom)
+        {
+            FindRandPosition();
+            Physics.SyncTransforms();
+            agent.position = randPosition + agent.position - agent.GetComponent<Collider>().bounds.center;
+            Physics.SyncTransforms();
+        }
+        else
+        {
+            agent.position = agent.GetComponent<GameAgent>().startPosition;
+        }
+        
         agent.GetComponent<PlaceObjectsToSurface>().StartPlacing(Vector3.zero,false, false);
         Physics.SyncTransforms();
     }

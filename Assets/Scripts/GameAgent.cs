@@ -157,7 +157,17 @@ public class GameAgent : Agent
             gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         }
         sensor.AddObservation(alive);
-        sensor.AddObservation(PlayerSpawner.CountActiveNumHider(transform.parent.gameObject));
+        //sensor.AddObservation(PlayerSpawner.CountActiveNumHider(transform.parent.gameObject));
+        sensor.AddObservation(transform.position);
+        sensor.AddObservation(transform.rotation);
+        Debug.Log(gameObject.transform.parent.childCount);
+        for (var i = 0; i < gameObject.transform.parent.childCount; i++)
+            if (gameObject.transform.parent.GetChild(i).tag == "Seeker")
+            {
+                sensor.AddObservation(gameObject.transform.parent.GetChild(i).transform.position);
+                sensor.AddObservation(gameObject.transform.parent.GetChild(i).transform.rotation);
+            }
+        
         if (gameObject.CompareTag("Seeker")) AddReward(-0.1f); 
 
         //Add reward for surviving each step

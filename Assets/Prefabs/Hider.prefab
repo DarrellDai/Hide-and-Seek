@@ -23,6 +23,10 @@ PrefabInstance:
       propertyPath: m_BehaviorType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1873819494543363414, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
+      propertyPath: m_BrainParameters.VectorObservationSize
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 2114414503041482257, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
       propertyPath: dirInput.m_SingletonActionBindings.Array.data[1].m_Path
       value: <Keyboard>/leftArrow

@@ -21,11 +21,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6021187044804546245, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
       propertyPath: moveSpeed
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6113990096716791170, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 2
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7561878447963400932, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
       propertyPath: m_RootOrder
@@ -115,6 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb680c00e3f5f2441b7081469c8a1558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ifEndEpisode: 0
 --- !u!20 &8172263446718457157 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 2340720271785942480, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}

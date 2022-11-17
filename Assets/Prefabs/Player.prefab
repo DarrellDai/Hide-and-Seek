@@ -233,7 +233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 2
+    VectorObservationSize: 9
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -385,14 +385,12 @@ MonoBehaviour:
       m_Action: Dir Input
       m_Flags: 8
     m_Flags: 0
-  isCollided: 0
-  isOut: 0
   mapSize: 0
   moveSpeed: 0.1
   rotateSpeed: 300
-  orderOfPlayer: 0
   trainingMode: 0
   alive: 0
+  detected: 
 --- !u!135 &201169660805486102
 SphereCollider:
   m_ObjectHideFlags: 0

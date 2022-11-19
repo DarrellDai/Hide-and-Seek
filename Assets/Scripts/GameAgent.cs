@@ -6,6 +6,7 @@ using Unity.MLAgents.Sensors;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 /// <summary>
 ///     Base class for game agents
@@ -34,6 +35,7 @@ public class GameAgent : Agent
     public bool skipReward;
 
     public Vector3 startPosition;
+    public Quaternion startRotation;
     //Player's destinationPosition and rotation on the last step
     private Vector3 lastPosition;
     private Quaternion lastRotation;
@@ -109,6 +111,7 @@ public class GameAgent : Agent
         MaxStep = trainingMode ? 5000 : 0;
 
         startPosition = transform.position;
+        startRotation = transform.rotation;
         step = 1;
         //originalColor=transform.Find("Body").GetComponent<Renderer>().material.color;
     }
@@ -129,6 +132,7 @@ public class GameAgent : Agent
     /// </summary>
     public override void OnEpisodeBegin()
     {
+        Random.InitState(0);
         stepLeftToFreeze = playerSpawner.numStepToFreeze;
         alive = true;
         gameObject.transform.GetChild(0).gameObject.SetActive(true);
@@ -137,6 +141,7 @@ public class GameAgent : Agent
         gameObject.GetComponent<Collider>().enabled = true;
         PlayerSpawner.ResetCamera(gameObject.transform);
         playerSpawner.RelocatePlayer(gameObject.transform, false);
+        transform.rotation = startRotation;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         step = 1;
@@ -163,7 +168,6 @@ public class GameAgent : Agent
         //sensor.AddObservation(PlayerSpawner.CountActiveNumHider(transform.parent.gameObject));
         sensor.AddObservation(transform.position);
         sensor.AddObservation(transform.rotation);
-        Debug.Log(gameObject.transform.parent.childCount);
         for (var i = 0; i < gameObject.transform.parent.childCount; i++)
             if (gameObject.transform.parent.GetChild(i).tag == "Seeker")
             {
@@ -218,14 +222,6 @@ public class GameAgent : Agent
         if (act[0] != 0)
         {
             GetComponent<PlaceObjectsToSurface>().StartPlacing(moveSpeed * dirToGo,true, false);
-        }
-    }
-
-    private IEnumerator WaitAndPrint()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(0.1f);
         }
     }
 }

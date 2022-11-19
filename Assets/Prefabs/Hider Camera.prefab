@@ -103,19 +103,6 @@ MonoBehaviour:
   m_ObservationType: 0
   m_ObservationStacks: 1
   m_Compression: 1
---- !u!114 &2056352871790142694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6355653838177810250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb680c00e3f5f2441b7081469c8a1558, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ifEndEpisode: 0
 --- !u!20 &8172263446718457157 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 2340720271785942480, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}

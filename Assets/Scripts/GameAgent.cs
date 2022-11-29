@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
@@ -35,7 +36,9 @@ public class GameAgent : Agent
     public bool skipReward;
 
     public Vector3 startPosition;
+
     public Quaternion startRotation;
+
     //Player's destinationPosition and rotation on the last step
     private Vector3 lastPosition;
     private Quaternion lastRotation;
@@ -76,14 +79,15 @@ public class GameAgent : Agent
             camera.backgroundColor = Color.black;
             camera.cullingMask = 0;
         }
+
         //Todo: Add the reward at the same time as hider getting caught
         if (collision.gameObject.CompareTag("Hider") && gameObject.CompareTag("Seeker"))
         {
             //Add reward when catch a hider
-            AddReward(1); 
+            AddReward(1);
             //print("Caught");
         }
-        
+
     }
 
     /// <summary>
@@ -91,13 +95,13 @@ public class GameAgent : Agent
     /// </summary>
     public override void Initialize()
     {
-        
+
         //Enable inputs
         moveInput.Enable();
         dirInput.Enable();
-        
+
         playerSpawner = FindObjectOfType<PlayerSpawner>();
-        
+
         //Get map size
         var terrainAndRockSetting = FindObjectOfType<TerrainAndRockSetting>();
         mapSize = terrainAndRockSetting.CalculateMapSize() / 2;
@@ -114,6 +118,7 @@ public class GameAgent : Agent
         startRotation = transform.rotation;
         step = 1;
         //originalColor=transform.Find("Body").GetComponent<Renderer>().material.color;
+        Random.InitState(0);
     }
 
     /// <summary>
@@ -132,7 +137,6 @@ public class GameAgent : Agent
     /// </summary>
     public override void OnEpisodeBegin()
     {
-        Random.InitState(0);
         stepLeftToFreeze = playerSpawner.numStepToFreeze;
         alive = true;
         gameObject.transform.GetChild(0).gameObject.SetActive(true);
@@ -140,8 +144,8 @@ public class GameAgent : Agent
         gameObject.layer = LayerMask.NameToLayer(gameObject.tag);
         gameObject.GetComponent<Collider>().enabled = true;
         PlayerSpawner.ResetCamera(gameObject.transform);
-        playerSpawner.RelocatePlayer(gameObject.transform, false);
-        transform.rotation = startRotation;
+        playerSpawner.RelocatePlayer(gameObject.transform, true);
+        //transform.rotation = startRotation;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         step = 1;
@@ -156,7 +160,7 @@ public class GameAgent : Agent
         //Destroy hiders when caught
         if (gameObject.CompareTag("Hider") && hiderDestroyFlag)
         {
-            AddReward(-1); 
+            AddReward(-1);
             hiderDestroyFlag = false;
             alive = false;
             gameObject.transform.GetChild(0).gameObject.SetActive(false);
@@ -164,6 +168,7 @@ public class GameAgent : Agent
             gameObject.GetComponent<Collider>().enabled = false;
             gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         }
+
         sensor.AddObservation(alive);
         //sensor.AddObservation(PlayerSpawner.CountActiveNumHider(transform.parent.gameObject));
         sensor.AddObservation(transform.position);
@@ -174,12 +179,12 @@ public class GameAgent : Agent
                 sensor.AddObservation(gameObject.transform.parent.GetChild(i).transform.position);
                 sensor.AddObservation(gameObject.transform.parent.GetChild(i).transform.rotation);
             }
-        
-        if (gameObject.CompareTag("Seeker")) AddReward(-0.1f); 
+
+        if (gameObject.CompareTag("Seeker")) AddReward(-0.1f);
 
         //Add reward for surviving each step
         if (gameObject.CompareTag("Hider") && alive)
-            AddReward(0.1f); 
+            AddReward(0.1f);
         step++;
     }
 
@@ -198,7 +203,7 @@ public class GameAgent : Agent
 
         if (gameObject.CompareTag("Seeker") && stepLeftToFreeze > 0)
         {
-            stepLeftToFreeze--; 
+            stepLeftToFreeze--;
             return;
         }
 
@@ -221,7 +226,13 @@ public class GameAgent : Agent
         GetComponent<Rigidbody>().velocity = dirToGo * moveSpeed;
         if (act[0] != 0)
         {
-            GetComponent<PlaceObjectsToSurface>().StartPlacing(moveSpeed * dirToGo,true, false);
+            GetComponent<PlaceObjectsToSurface>().StartPlacing(moveSpeed * dirToGo, true, false);
         }
+    }
+
+    IEnumerator PreparationBeforeGame()
+    {
+        yield return new WaitForSecondsRealtime(100);
+        
     }
 }

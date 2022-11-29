@@ -21,7 +21,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6021187044804546245, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
       propertyPath: moveSpeed
-      value: 6
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6021187044804546245, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
+      propertyPath: rotateSpeed
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6113990096716791170, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize

@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2154032851308160097, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
       propertyPath: m_Speed
-      value: 5
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 2154032851308160097, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
       propertyPath: m_Height
@@ -29,7 +29,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2154032851308160097, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
       propertyPath: m_AngularSpeed
-      value: 500
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 2154032851308160097, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
       propertyPath: m_ObstacleAvoidanceType
@@ -154,6 +154,9 @@ MonoBehaviour:
   rotateSpeed: 100
   trainingMode: 0
   alive: 0
+  skipReward: 0
+  startPosition: {x: 0, y: 0, z: 0}
+  startRotation: {x: 0, y: 0, z: 0, w: 0}
   detected: 
   destinationSpawner: {fileID: 0}
   extraOffset: 0.1

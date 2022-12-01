@@ -74,7 +74,7 @@ public class ItemAreaSpawner : ScriptableObject
     /// </summary>
     private void SpawnItem()
     {
-        var randPosition = new Vector3(Random.Range(-itemXSpread, itemXSpread), Random.Range(3, itemYSpread),
+        var randPosition = new Vector3(Random.Range(-itemXSpread, itemXSpread), Random.Range(0, itemYSpread),
             Random.Range(-itemZSpread, itemZSpread));
         var clone = Instantiate(itemToSpawn, randPosition, itemToSpawn.transform.rotation);
         clone.transform.parent = spawner.transform;

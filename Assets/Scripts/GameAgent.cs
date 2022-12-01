@@ -137,7 +137,8 @@ public class GameAgent : Agent
     /// </summary>
     public override void OnEpisodeBegin()
     {
-        stepLeftToFreeze = playerSpawner.numStepToFreeze;
+        
+        stepLeftToFreeze = playerSpawner.humanPlay? playerSpawner.numStepToFreeze:0;
         alive = true;
         gameObject.transform.GetChild(0).gameObject.SetActive(true);
         gameObject.transform.GetChild(1).gameObject.SetActive(true);
@@ -170,6 +171,7 @@ public class GameAgent : Agent
         }
 
         sensor.AddObservation(alive);
+        sensor.AddObservation(stepLeftToFreeze);
         //sensor.AddObservation(PlayerSpawner.CountActiveNumHider(transform.parent.gameObject));
         sensor.AddObservation(transform.position);
         sensor.AddObservation(transform.rotation);
@@ -201,7 +203,7 @@ public class GameAgent : Agent
             detected.Clear();
         }
 
-        if (gameObject.CompareTag("Seeker") && stepLeftToFreeze > 0)
+        if (stepLeftToFreeze > 0)
         {
             stepLeftToFreeze--;
             return;

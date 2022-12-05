@@ -102,7 +102,11 @@ public class TerrainAndRockSetting : MonoBehaviour
     {
         var m_Collider = terrainSpawner.GetComponentsInChildren<Collider>();
         var volume = 0f;
-        for (var i = 0; i < m_Collider.Length; i++) volume += m_Collider[i].bounds.size.x * m_Collider[i].bounds.size.z;
+        for (var i = 0; i < m_Collider.Length; i++)
+        {
+            if (m_Collider[i].CompareTag("Terrain"))
+                volume += m_Collider[i].bounds.size.x * m_Collider[i].bounds.size.z;
+        }
         return Mathf.Sqrt(volume);
     }
 

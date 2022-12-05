@@ -92,14 +92,14 @@ public class TerrainAndRockSettingForEditor : ScriptableObject
     //Obtain information from TerrainAndRockSetting outside Edit folder
     private TerrainAndRockSetting terrainAndRockSetting;
     private Texture2D texture;
-    
+
 
     //Get values from TerrainAndRockSetting
     public void Initialize()
     {
         terrainAndRockSetting = FindObjectOfType<TerrainAndRockSetting>();
         terrainSpawner = terrainAndRockSetting.terrainSpawner;
-        meshNumVertices = terrainAndRockSetting.meshNumVertices; 
+        meshNumVertices = terrainAndRockSetting.meshNumVertices;
         mapSize = terrainAndRockSetting.mapSize;
         detailLevel = terrainAndRockSetting.detailLevel;
         noiseScale = terrainAndRockSetting.noiseScale;
@@ -131,13 +131,12 @@ public class TerrainAndRockSettingForEditor : ScriptableObject
         zScaleMin = terrainAndRockSetting.zScaleMin;
         zScaleMax = terrainAndRockSetting.zScaleMax;
         Random.InitState(seed);
-        rockSpawner.transform.position=Vector3.zero;
-        rockSpawner.transform.rotation=quaternion.identity;
-        rockSpawner.transform.localScale=Vector3.one;
-        terrainSpawner.transform.position=Vector3.zero;
-        terrainSpawner.transform.rotation=quaternion.identity;
-        terrainSpawner.transform.localScale=Vector3.one;
-        
+        rockSpawner.transform.position = Vector3.zero;
+        rockSpawner.transform.rotation = quaternion.identity;
+        rockSpawner.transform.localScale = Vector3.one;
+        terrainSpawner.transform.position = Vector3.zero;
+        terrainSpawner.transform.rotation = quaternion.identity;
+        terrainSpawner.transform.localScale = Vector3.one;
     }
 
     /// <summary>
@@ -176,29 +175,29 @@ public class TerrainAndRockSettingForEditor : ScriptableObject
     public void CreateBoundary()
     {
         float boundarySize = CalculateMapSize();
-        GameObject boundary  = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        GameObject boundary = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        float cubeSize = boundary.GetComponent<Collider>().bounds.extents.z;
         boundary.transform.localScale = new Vector3(boundarySize, boundarySize, 1);
-        boundary.transform.position = new Vector3(0, 0, boundarySize / 2);
-        boundary.transform.parent=terrainSpawner.transform;
+        boundary.transform.position = new Vector3(0, 0, boundarySize / 2 + cubeSize);
+        boundary.transform.parent = terrainSpawner.transform;
         boundary.GetComponent<MeshRenderer>().enabled = false;
-        boundary  = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        boundary = GameObject.CreatePrimitive(PrimitiveType.Cube);
         boundary.transform.localScale = new Vector3(boundarySize, boundarySize, 1);
-        boundary.transform.position = new Vector3(0, 0, -boundarySize / 2);
-        boundary.transform.parent=terrainSpawner.transform;
+        boundary.transform.position = new Vector3(0, 0, -(boundarySize / 2 + cubeSize));
+        boundary.transform.parent = terrainSpawner.transform;
         boundary.GetComponent<MeshRenderer>().enabled = false;
-        boundary  = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        boundary = GameObject.CreatePrimitive(PrimitiveType.Cube);
         boundary.transform.localScale = new Vector3(boundarySize, boundarySize, 1);
-        boundary.transform.rotation=Quaternion.Euler(0,90,0);
-        boundary.transform.position = new Vector3(boundarySize / 2, 0, 0);
-        boundary.transform.parent=terrainSpawner.transform;
+        boundary.transform.rotation = Quaternion.Euler(0, 90, 0);
+        boundary.transform.position = new Vector3(boundarySize / 2 + cubeSize, 0, 0);
+        boundary.transform.parent = terrainSpawner.transform;
         boundary.GetComponent<MeshRenderer>().enabled = false;
-        boundary  = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        boundary = GameObject.CreatePrimitive(PrimitiveType.Cube);
         boundary.transform.localScale = new Vector3(boundarySize, boundarySize, 1);
-        boundary.transform.rotation=Quaternion.Euler(0,90,0);
-        boundary.transform.position = new Vector3(-boundarySize / 2, 0, 0);
-        boundary.transform.parent=terrainSpawner.transform;
+        boundary.transform.rotation = Quaternion.Euler(0, 90, 0);
+        boundary.transform.position = new Vector3(-(boundarySize / 2 + cubeSize), 0, 0);
+        boundary.transform.parent = terrainSpawner.transform;
         boundary.GetComponent<MeshRenderer>().enabled = false;
-
     }
 
     /// <summary>

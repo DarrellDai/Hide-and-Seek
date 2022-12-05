@@ -5,7 +5,7 @@ using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class TargetDetectingAgent : NavigationAgent
+public class TargetDetectingAgent : RandomNavigationAgent
 {
     private int count;
 

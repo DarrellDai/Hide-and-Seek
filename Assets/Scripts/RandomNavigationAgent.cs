@@ -2,7 +2,7 @@ using Unity.MLAgents.Actuators;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NavigationAgent : GameAgent
+public class RandomNavigationAgent : GameAgent
 {
     //Destination spawner as the parent of all destinations
     [HideInInspector] public GameObject destinationSpawner;
@@ -14,13 +14,19 @@ public class NavigationAgent : GameAgent
     [HideInInspector] public Vector3 overlapTestBoxSizeForDestination;
     [HideInInspector] public Vector3 destinationPosition;
     [HideInInspector] public bool toChooseNextDestination = true;
+    private bool arrived;
+    private bool turned;
     [HideInInspector] public GameObject destination;
     [HideInInspector] public NavMeshAgent navMeshAgent;
 
+    private Color originalColor;
     private bool overlap;
 
     //Path planned by NavMesh
     public NavMeshPath path;
+
+    private Vector2 last2dDestination;
+    private float rotation;
 
     /// <summary>
     ///     Initialize Navigation agent.
@@ -36,6 +42,7 @@ public class NavigationAgent : GameAgent
         //Turn off auto-pilot in NavMeshAgent so the agent can move manually
         navMeshAgent.updatePosition = false;
         navMeshAgent.enabled = false; 
+        originalColor=transform.Find("Body").GetComponent<Renderer>().material.color;
     }
 
     public override void OnEpisodeBegin()
@@ -58,7 +65,18 @@ public class NavigationAgent : GameAgent
             if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
             {
                 if (!navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f)
-                    toChooseNextDestination = true;
+                {
+                    //toChooseNextDestination = true;
+                    arrived = true;
+                    if (!turned)
+                    {
+                        transform.Rotate(transform.up, 270f);
+                        turned = true;
+                        if (CompareTag("Hider"))
+                            Debug.Log("Turned");
+                    }
+                    transform.Find("Body").GetComponent<Renderer>().material.color = Color.yellow;
+                }
             }
                 
     }
@@ -69,6 +87,7 @@ public class NavigationAgent : GameAgent
     /// <param name="actionBuffers">Buffers storing actions in real time</param>
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
+        transform.Find("Body").GetComponent<Renderer>().material.color = originalColor;
         CheckIfArrived();
         base.OnActionReceived(actionBuffers);
         //DrawPath();
@@ -89,10 +108,15 @@ public class NavigationAgent : GameAgent
             selectNextRandomDestination();
             MakeNewDestination();
         }
-        transform.position = navMeshAgent.nextPosition;
+        if (!arrived & navMeshAgent.isActiveAndEnabled)
+        {
+            transform.position = navMeshAgent.nextPosition;
+        }
+        CheckIfArrived();
         
-        GetComponent<PlaceObjectsToSurface>().StartPlacing(
-            navMeshAgent.velocity,false, true); 
+        if (!arrived)
+            GetComponent<PlaceObjectsToSurface>().StartPlacing(
+                navMeshAgent.velocity, false, true);
         
 
     }
@@ -109,6 +133,7 @@ public class NavigationAgent : GameAgent
                 Random.Range(-mapSize, mapSize));
             destinationPosition = GetNoneOverlappedPosition(randPosition);
         }
+        
     }
 
     /// <summary>
@@ -124,6 +149,9 @@ public class NavigationAgent : GameAgent
         //navMeshAgent.ResetPath();
         //navMeshAgent.Warp(transform.position);
         navMeshAgent.destination = destination.transform.position;
+        turned = false;
+        if (CompareTag("Hider"))
+            Debug.Log("new destination");
     }
 
     /// <summary>

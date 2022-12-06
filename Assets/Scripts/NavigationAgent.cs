@@ -55,7 +55,6 @@ public class NavigationAgent : GameAgent
         destinationVisited = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         egocentricMask = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         gridSize = mapSize / halfNumDivisionEachSide;
-        camera = transform.Find("Camera").GetComponent<Camera>();
         camera.transform.localPosition = new Vector3(0,
             rangeAsNumGrids * gridSize / Mathf.Tan(camera.fieldOfView / 2 * Mathf.PI / 180) -
             GetComponent<Collider>().bounds.extents.y, 0);

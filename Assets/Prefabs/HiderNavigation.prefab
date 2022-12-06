@@ -57,3 +57,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
+--- !u!20 &5956577362477071981 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 6402398037526491101, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
+  m_PrefabInstance: {fileID: 753192494446449072}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8930748831854472290 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8179526670904147410, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
+  m_PrefabInstance: {fileID: 753192494446449072}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7688890966111810038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8930748831854472290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 282f342c2ab144bf38be65d4d0c4e07d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Camera: {fileID: 5956577362477071981}
+  m_SensorName: CameraSensor
+  m_Width: 84
+  m_Height: 84
+  m_Grayscale: 0
+  m_ObservationType: 0
+  m_ObservationStacks: 1
+  m_Compression: 1

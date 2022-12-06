@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Assertions.Must;
+using UnityEngine.Serialization;
 using UnityEngine.TextCore.Text;
 using Random = UnityEngine.Random;
 
@@ -24,7 +25,7 @@ public class NavigationAgent : GameAgent
     [HideInInspector] public bool toChooseNextDestination = true;
     [HideInInspector] public bool arrived;
     public int halfNumDivisionEachSide = 4;
-    private int rangeAsNumGrids = 2;
+    public int halfRangeAsNumGrids = 3;
     private float gridSize;
     private Vector2[,] destinationSpace;
     private bool[,] destinationVisited;
@@ -57,7 +58,7 @@ public class NavigationAgent : GameAgent
         egocentricMask = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         gridSize = mapSize / halfNumDivisionEachSide;
         camera.transform.localPosition = new Vector3(0,
-            rangeAsNumGrids * gridSize / Mathf.Tan(camera.fieldOfView / 2 * Mathf.PI / 180) -
+            halfRangeAsNumGrids * gridSize / Mathf.Tan(camera.fieldOfView / 2 * Mathf.PI / 180) -
             GetComponent<Collider>().bounds.extents.y, 0);
         camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
         for (int i = 0; i < 2 * halfNumDivisionEachSide; i++)
@@ -256,9 +257,9 @@ public class NavigationAgent : GameAgent
 
         currentGrid = new Vector2(Mathf.Floor((transform.position.x + mapSize) / gridSize),
             Mathf.Floor((transform.position.z + mapSize) / gridSize));
-        for (int i = -rangeAsNumGrids; i < rangeAsNumGrids; i++)
+        for (int i = -halfRangeAsNumGrids; i < halfRangeAsNumGrids; i++)
         {
-            for (int j = -rangeAsNumGrids; j < rangeAsNumGrids; j++)
+            for (int j = -halfRangeAsNumGrids; j < halfRangeAsNumGrids; j++)
             {
                 if (currentGrid.x + i >= 0 && currentGrid.y + j >= 0 &&
                     currentGrid.x + i < 2 * halfNumDivisionEachSide && currentGrid.y + j < 2 * halfNumDivisionEachSide)

@@ -141,16 +141,11 @@ public class PlayerSpawner : MonoBehaviour
                         0, 1f / players.Length, 1);
             }
             else
-            {
-                /*float halfNumOfWindows = players.Length > 1 ? Mathf.RoundToInt(players.Length / 2f) : 1;
+            { ;
                 cameras[order].rect = new Rect(
-                    0.3f + (1 - 0.3f) / halfNumOfWindows * Mathf.Floor(order % halfNumOfWindows),
-                    0.5f * (1 - Mathf.Floor(order / halfNumOfWindows)), (1 - 0.3f) / halfNumOfWindows,
-                    0.5f);*/
-                cameras[order].rect = new Rect(
-                    0,
-                    0, 1,
-                    1);
+                    0.3f + (1 - 0.3f) / players.Length * Mathf.Floor(order % players.Length),
+                    0, (1 - 0.3f) / players.Length,
+                    1f);
             }
         }
 

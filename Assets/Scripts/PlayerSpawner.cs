@@ -15,7 +15,7 @@ public class PlayerSpawner : MonoBehaviour
 
     [HideInInspector] public int numHiders;
     [HideInInspector] public int numSeekers;
-    
+
 
     [Tooltip("If for human play")] public bool humanPlay;
 
@@ -29,7 +29,8 @@ public class PlayerSpawner : MonoBehaviour
 
     [HideInInspector] public Vector3 randPosition;
 
-    [FormerlySerializedAs("overlapTestBoxSize")] [Tooltip("The box size the destination needs to be away from rocks and other players")]
+    [FormerlySerializedAs("overlapTestBoxSize")]
+    [Tooltip("The box size the destination needs to be away from rocks and other players")]
     public float radius = 2;
 
     [HideInInspector] public LayerMask hiderLayer;
@@ -45,9 +46,10 @@ public class PlayerSpawner : MonoBehaviour
     public GameObject fieldOfViewSpawner;
 
     [Tooltip("Players to spawn")] public Player[] players;
-    
-    [Tooltip("Number of steps to freeze seekers to give hiders Preparation time")] public int numStepToFreeze;
-    
+
+    [Tooltip("Number of steps to freeze seekers to give hiders Preparation time")]
+    public int numStepToFreeze;
+
     [Tooltip("Player's camera is active if true")]
     public bool hasCameras;
 
@@ -57,6 +59,7 @@ public class PlayerSpawner : MonoBehaviour
     public int fieldOfView;
 
     private RaycastHit hit;
+
     /// <summary>
     ///     Initialized variables.
     /// </summary>
@@ -72,11 +75,10 @@ public class PlayerSpawner : MonoBehaviour
         itemSpread = mapSize / 2 - distanceFromBound;
         Random.InitState(seed);
         cameras = new Camera[players.Length];
-        playerSpawner.transform.position=Vector3.zero;
-        playerSpawner.transform.rotation=quaternion.identity;
-        playerSpawner.transform.localScale=Vector3.one;
+        playerSpawner.transform.position = Vector3.zero;
+        playerSpawner.transform.rotation = quaternion.identity;
+        playerSpawner.transform.localScale = Vector3.one;
         CountNumHidersAndSeekers();
-        
     }
 
     public void CountNumHidersAndSeekers()
@@ -91,6 +93,7 @@ public class PlayerSpawner : MonoBehaviour
                 numHiders++;
         }
     }
+
     /// <summary>
     ///     Start Spawn hiders and seeker.
     /// </summary>
@@ -141,17 +144,18 @@ public class PlayerSpawner : MonoBehaviour
                         0, 1f / players.Length, 1);
             }
             else
-            { ;
+            {
+                ;
                 cameras[order].rect = new Rect(
-                    0.3f + (1 - 0.3f) / players.Length * Mathf.Floor(order % players.Length),
-                    0, (1 - 0.3f) / players.Length,
+                    1f / (players.Length + 1) * Mathf.Floor((order + 1) % (players.Length + 1)),
+                    0, 1f / (players.Length + 1),
                     1f);
             }
         }
 
         gameAgent.trainingMode = players[order].trainingMode;
         var placeObjectsToSurface = clone.GetComponent<PlaceObjectsToSurface>();
-        placeObjectsToSurface.StartPlacing(Vector3.zero, false,false);
+        placeObjectsToSurface.StartPlacing(Vector3.zero, false, false);
         Physics.SyncTransforms();
     }
 
@@ -173,8 +177,8 @@ public class PlayerSpawner : MonoBehaviour
     /// </summary>
     public void CheckOverlap()
     {
-
-        if (!Physics.SphereCast(randPosition, radius,Vector3.down, out hit, 1000, 1 << seekerLayer | 1 << hiderLayer | 1 << rockLayer))
+        if (!Physics.SphereCast(randPosition, radius, Vector3.down, out hit, 1000,
+                1 << seekerLayer | 1 << hiderLayer | 1 << rockLayer))
         {
             overlap = false;
             //var spawnRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
@@ -280,8 +284,8 @@ public class PlayerSpawner : MonoBehaviour
         {
             agent.position = agent.GetComponent<GameAgent>().startPosition;
         }
-        
-        agent.GetComponent<PlaceObjectsToSurface>().StartPlacing(Vector3.zero,false, false);
+
+        agent.GetComponent<PlaceObjectsToSurface>().StartPlacing(Vector3.zero, false, false);
         Physics.SyncTransforms();
     }
     /*private void OnDrawGizmos() 

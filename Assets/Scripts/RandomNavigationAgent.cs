@@ -29,6 +29,7 @@ public class RandomNavigationAgent : GameAgent
     private bool[,] destinationMask;
     private bool[,] egocentricMask;
     private Vector2 currentGrid;
+    private Vector2 sampledGrid;
     private Vector2 nextGrid;
     private GameObject[,] gridsVisulization;
 
@@ -66,7 +67,7 @@ public class RandomNavigationAgent : GameAgent
                     gridsVisulization[i, j] = GameObject.CreatePrimitive(PrimitiveType.Plane);
                     gridsVisulization[i, j].transform.SetParent(GameObject.Find("PlaneSpawner").transform);
                     gridsVisulization[i, j].transform.position =
-                        new Vector3(destinationSpace[i, j].x, 0.0001f, destinationSpace[i, j].y);
+                        new Vector3(destinationSpace[i, j].x, 0.01f, destinationSpace[i, j].y);
                     gridsVisulization[i, j].transform.localScale = Vector3.one * gridSize / 10f;
                     gridsVisulization[i, j].GetComponent<Renderer>().material.color = Color.clear;
                 }
@@ -137,7 +138,7 @@ public class RandomNavigationAgent : GameAgent
             UpdateDestinationAndEgocentricMask();
             var color = Color.yellow;
             color.a = 0.1f;
-            gridsVisulization[(int)nextGrid.x, (int)nextGrid.y].GetComponent<Renderer>().material.color = color;
+            gridsVisulization[(int)sampledGrid.x, (int)sampledGrid.y].GetComponent<Renderer>().material.color = color;
         }
         //DrawPath();
     }
@@ -149,6 +150,7 @@ public class RandomNavigationAgent : GameAgent
             for (var j = 0; j < destinationMask.GetLength(1); j++)
             {
                 egocentricMask[i, j] = false;
+                gridsVisulization[i, j].GetComponent<Renderer>().material.color = Color.clear;
             }
         }
 
@@ -217,19 +219,13 @@ public class RandomNavigationAgent : GameAgent
     /// </summary>
     public void selectNextRandomDestination()
     {
-        /*overlap = true;
-        while (overlap)
-        {
-            var randPosition = new Vector3(Random.Range(-mapSize, mapSize), 30,
-                Random.Range(-mapSize, mapSize));
-            destinationPosition = GetNoneOverlappedPosition(randPosition);
-        }*/
-        nextGrid = new Vector2(Random.Range(0, halfNumDivisionEachSide * 2),
+        sampledGrid = new Vector2(Random.Range(0, halfNumDivisionEachSide * 2),
             Random.Range(0, halfNumDivisionEachSide * 2));
         NavMeshHit hit;
-        NavMesh.SamplePosition(GetNoneOverlappedPosition(new Vector3(nextGrid.x, 30,
-            nextGrid.y)), out hit, Mathf.Infinity, NavMesh.AllAreas);
+        NavMesh.SamplePosition(GetPositionFromGrid(sampledGrid), out hit, Mathf.Infinity, NavMesh.AllAreas);
         destinationPosition = hit.position;
+        nextGrid = new Vector2(Mathf.Floor((destinationPosition.x + mapSize) / gridSize),
+            Mathf.Floor((destinationPosition.z + mapSize) / gridSize));
     }
 
     /// <summary>
@@ -258,39 +254,41 @@ public class RandomNavigationAgent : GameAgent
         for (var i = 0; i < path.corners.Length - 1; i++)
             Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.magenta);
     }
+    
 
-    /// <summary>
-    ///     Ensure the destination destinationPosition is not close to rocks.
-    /// </summary>
-    /// <param name="position">Destination destinationPosition</param>
-    /// <returns></returns>
-    private Vector3 GetNoneOverlappedPosition(Vector3 position)
+    private Vector3 GetPositionFromGrid(Vector2 gridIndex)
     {
         var center = new Vector3();
+        var position = new Vector3(destinationSpace[(int)gridIndex.x, (int)gridIndex.y].x, 30,
+            destinationSpace[(int)gridIndex.x, (int)gridIndex.y].y);
         RaycastHit hit;
-
+        
         if (Physics.Raycast(position, Vector3.down, out hit))
         {
-            var spawnRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
-
-            var collidersInsideOverlapBox = new Collider[1];
             center = hit.point + new Vector3(0, overlapTestBoxSizeForDestination.y, 0);
-            var numberOfCollidersFound = Physics.OverlapBoxNonAlloc(center, overlapTestBoxSizeForDestination,
-                collidersInsideOverlapBox, spawnRotation, 1 << LayerMask.NameToLayer("Rock"));
-            if (numberOfCollidersFound == 0) overlap = false;
         }
 
         return center;
     }
 
-    /*/// <summary>
+    /// <summary>
     /// Highlight the hider in sphere and destination in box with green color 
     /// </summary>
     public void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position,2f);
+        /*Gizmos.DrawWireSphere(transform.position,2f);
         if (destination!=null)
-            Gizmos.DrawWireCube(destination.transform.position, Vector3.one*2f); 
-    }*/
+            Gizmos.DrawWireCube(destination.transform.position, Vector3.one*2f); */
+        if (nextGrid!=null && gridsVisulization!=null)
+        {
+            if (gridsVisulization[(int)nextGrid.x, (int)nextGrid.y]!=null)
+            {
+                Gizmos.DrawWireCube(gridsVisulization[(int)nextGrid.x, (int)nextGrid.y].transform.position,
+                    Vector3.one * 2f);
+            }
+
+            
+        }
+    }
 }

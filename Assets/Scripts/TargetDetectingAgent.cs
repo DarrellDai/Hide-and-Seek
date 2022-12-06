@@ -11,8 +11,7 @@ public class TargetDetectingAgent : RandomNavigationAgent
 
     //Current number of steps since last destination update
     private FieldOfView fieldOfView;
-
-    Camera camera;
+    
     GameObject[] hiders;
     private Renderer[] renderers;
 
@@ -32,8 +31,6 @@ public class TargetDetectingAgent : RandomNavigationAgent
         //Initialize field of view
         fieldOfView = GetComponent<FieldOfView>();
         fieldOfView.isDetected = false;
-
-        camera = transform.Find("Camera").GetComponent<Camera>();
         hiders = GameObject.FindGameObjectsWithTag("Hider");
         renderers = new Renderer[hiders.Length];
         
@@ -41,7 +38,8 @@ public class TargetDetectingAgent : RandomNavigationAgent
         {
             renderers[i] = hiders[i].transform.Find("Body").GetComponent<Renderer>();
         }
-        path = new NavMeshPath();
+        camera.transform.localPosition = Vector3.zero;
+        camera.transform.localRotation = Quaternion.identity; 
     }
 
     /// <summary>
@@ -65,7 +63,6 @@ public class TargetDetectingAgent : RandomNavigationAgent
                 detectedRenderers.Add(renderer);
                 renderer.transform.parent.gameObject.GetComponent<GameAgent>().detected.Add(true);
             }
-
         }
         // Find the closest detected renderer
         Renderer detectedRenderer = null;
@@ -93,7 +90,12 @@ public class TargetDetectingAgent : RandomNavigationAgent
         
         base.OnActionReceived(actionBuffers);
     }
-    
+    public override void GoToNextPosition()
+    {
+        transform.position = navMeshAgent.nextPosition;
+        GetComponent<PlaceObjectsToSurface>().StartPlacing(
+            navMeshAgent.velocity, false, true);
+    }
     /// <summary>
     /// Detect hider's from camera view, but can't take into account occlusion 
     /// </summary>

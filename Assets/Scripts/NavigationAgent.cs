@@ -1,6 +1,7 @@
 using System;
 using Unity.Mathematics;
 using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Sensors;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -36,7 +37,7 @@ public class NavigationAgent : GameAgent
     [HideInInspector] public GameObject destination;
     [HideInInspector] public NavMeshAgent navMeshAgent;
     public Camera camera;
-    
+
     private bool overlap;
 
     //Path planned by NavMesh
@@ -88,6 +89,22 @@ public class NavigationAgent : GameAgent
     }
 
     /// <summary>
+    ///     Collect observations
+    /// </summary>
+    /// <param name="sensor"></param>
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        base.CollectObservations(sensor);
+        for (var i = 0; i < destinationVisited.GetLength(0); i++)
+        {
+            for (var j = 0; j < destinationVisited.GetLength(1); j++)
+            {
+                sensor.AddObservation(destinationVisited[i, j]);
+            }
+        }
+    }
+
+    /// <summary>
     ///     Check if the agent already reached the destination, and set toChooseNextDestination = true if so.
     /// </summary>
     public void CheckIfArrived()
@@ -130,12 +147,13 @@ public class NavigationAgent : GameAgent
         // Enable navMeshAgent when it's able to move
         navMeshAgent.enabled = true;
         // Prevent NavMeshAgent is not active on NavMesh issue
-        sampledGrid = new Vector2((float)act[0],(float)act[1]);
+        sampledGrid = new Vector2((float)act[0], (float)act[1]);
         if (navMeshAgent.isActiveAndEnabled)
         {
             selectNextDestination();
             MakeNewDestination();
         }
+
         if (!arrived & navMeshAgent.isActiveAndEnabled)
         {
             GoToNextPosition();
@@ -179,6 +197,7 @@ public class NavigationAgent : GameAgent
         }
         else
             chosenGrid = sampledGrid;
+
         NavMeshHit hit;
         NavMesh.SamplePosition(GetPositionFromGrid(chosenGrid), out hit, Mathf.Infinity, NavMesh.AllAreas);
         destinationPosition = hit.position;
@@ -249,7 +268,6 @@ public class NavigationAgent : GameAgent
                 }
             }
         }
-        
     }
 
     /*/// <summary>

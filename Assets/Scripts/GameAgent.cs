@@ -171,16 +171,6 @@ public class GameAgent : Agent
         }
 
         sensor.AddObservation(alive);
-        sensor.AddObservation(stepLeftToFreeze);
-        //sensor.AddObservation(PlayerSpawner.CountActiveNumHider(transform.parent.gameObject));
-        sensor.AddObservation(transform.position);
-        sensor.AddObservation(transform.rotation);
-        for (var i = 0; i < gameObject.transform.parent.childCount; i++)
-            if (gameObject.transform.parent.GetChild(i).tag == "Seeker")
-            {
-                sensor.AddObservation(gameObject.transform.parent.GetChild(i).transform.position);
-                sensor.AddObservation(gameObject.transform.parent.GetChild(i).transform.rotation);
-            }
 
         if (gameObject.CompareTag("Seeker")) AddReward(-0.1f);
 

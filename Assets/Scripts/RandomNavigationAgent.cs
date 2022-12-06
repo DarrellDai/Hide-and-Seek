@@ -33,17 +33,12 @@ public class RandomNavigationAgent : GameAgent
     private Vector2 sampledGrid;
     private Vector2 chosenGrid;
     private Vector2 nextGrid;
-    private GameObject[,] gridsVisulization;
 
     [HideInInspector] public GameObject destination;
     [HideInInspector] public NavMeshAgent navMeshAgent;
     private Camera camera;
-
-    private Color originalColor;
+    
     private bool overlap;
-
-    //Path planned by NavMesh
-    public NavMeshPath path;
 
     private Vector2 last2dDestination;
     private float rotation;
@@ -57,7 +52,6 @@ public class RandomNavigationAgent : GameAgent
 
         destinationSpace = new Vector2[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         destinationVisited = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
-        gridsVisulization = new GameObject[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         egocentricMask = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         gridSize = mapSize / halfNumDivisionEachSide;
         camera = transform.Find("Camera").GetComponent<Camera>();
@@ -70,17 +64,6 @@ public class RandomNavigationAgent : GameAgent
             {
                 destinationSpace[i, j] = new Vector2(gridSize * (i - halfNumDivisionEachSide + 1 / 2f),
                     gridSize * (j - halfNumDivisionEachSide + 1 / 2f));
-                if (CompareTag("Hider"))
-                {
-                    gridsVisulization[i, j] = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                    gridsVisulization[i, j].transform.SetParent(GameObject.Find("PlaneSpawner").transform);
-                    gridsVisulization[i, j].transform.position =
-                        new Vector3(destinationSpace[i, j].x, 0.01f, destinationSpace[i, j].y);
-                    gridsVisulization[i, j].transform.localScale = Vector3.one * gridSize / 10f;
-                    gridsVisulization[i, j].GetComponent<Renderer>().material.SetFloat("_Mode", 3);
-                    gridsVisulization[i, j].GetComponent<Renderer>().material.color = Color.clear;
-                }
-
                 destinationVisited[i, j] = false;
                 egocentricMask[i, j] = false;
             }
@@ -94,7 +77,6 @@ public class RandomNavigationAgent : GameAgent
         //Turn off auto-pilot in NavMeshAgent so the agent can move manually
         navMeshAgent.updatePosition = false;
         navMeshAgent.enabled = false;
-        originalColor = transform.Find("Body").GetComponent<Renderer>().material.color;
     }
 
     public override void OnEpisodeBegin()
@@ -120,15 +102,6 @@ public class RandomNavigationAgent : GameAgent
                 {
                     toChooseNextDestination = true;
                     transform.Rotate(transform.up, 90f);
-                    /*arrived = true;
-                    if (!turned)
-                    {
-                        transform.Rotate(transform.up, 270f);
-                        turned = true;
-                        if (CompareTag("Hider"))
-                            Debug.Log("Turned");
-                    }*/
-                    transform.Find("Body").GetComponent<Renderer>().material.color = Color.yellow;
                 }
             }
     }
@@ -139,16 +112,9 @@ public class RandomNavigationAgent : GameAgent
     /// <param name="actionBuffers">Buffers storing actions in real time</param>
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-        transform.Find("Body").GetComponent<Renderer>().material.color = originalColor;
         CheckIfArrived();
         base.OnActionReceived(actionBuffers);
         UpdateDestinationAndEgocentricMask();
-        if (CompareTag("Hider"))
-        {
-            var color = Color.yellow;
-            color.a = 0.1f;
-            gridsVisulization[(int)sampledGrid.x, (int)sampledGrid.y].GetComponent<Renderer>().material.color = color;
-        }
         //DrawPath();
     }
 
@@ -230,7 +196,7 @@ public class RandomNavigationAgent : GameAgent
         turned = false;
     }
 
-    /// <summary>
+    /*/// <summary>
     ///     Draw the planned path.
     /// </summary>
     public void DrawPath()
@@ -239,7 +205,7 @@ public class RandomNavigationAgent : GameAgent
         NavMesh.CalculatePath(transform.position, destination.transform.position, NavMesh.AllAreas, path);
         for (var i = 0; i < path.corners.Length - 1; i++)
             Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.magenta);
-    }
+    }*/
 
 
     private Vector3 GetPositionFromGrid(Vector2 gridIndex)
@@ -264,7 +230,6 @@ public class RandomNavigationAgent : GameAgent
             for (var j = 0; j < destinationVisited.GetLength(1); j++)
             {
                 egocentricMask[i, j] = false;
-                //gridsVisulization[i, j].GetComponent<Renderer>().material.color = Color.clear;
             }
         }
 
@@ -282,49 +247,17 @@ public class RandomNavigationAgent : GameAgent
                 }
             }
         }
-
-        for (var i = 0; i < destinationVisited.GetLength(0); i++)
-        {
-            for (var j = 0; j < destinationVisited.GetLength(1); j++)
-            {
-                if (destinationVisited[i, j])
-                {
-                    var color = Color.blue;
-                    color.a = 0.1f;
-                    //gridsVisulization[i, j].GetComponent<Renderer>().material.color = color;
-                }
-
-                if (egocentricMask[i, j])
-                {
-                    var color = Color.red;
-                    color.a = 0.1f;
-                    //gridsVisulization[i, j].GetComponent<Renderer>().material.color = color;
-                }
-            }
-        }
+        
     }
 
-    /// <summary>
+    /*/// <summary>
     /// Highlight the hider in sphere and destination in box with green color 
     /// </summary>
     public void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        /*Gizmos.DrawWireSphere(transform.position,2f);
+        Gizmos.DrawWireSphere(transform.position,2f);
         if (destination!=null)
-            Gizmos.DrawWireCube(destination.transform.position, Vector3.one*2f); */
-        if (nextGrid != null && chosenGrid != null && gridsVisulization != null)
-        {
-            if (gridsVisulization[(int)nextGrid.x, (int)nextGrid.y] != null)
-            {
-                Gizmos.DrawWireCube(gridsVisulization[(int)nextGrid.x, (int)nextGrid.y].transform.position,
-                    Vector3.one * 2f);
-            }
-            if (gridsVisulization[(int)chosenGrid.x, (int)chosenGrid.y] != null)
-            {
-                Gizmos.DrawWireSphere(gridsVisulization[(int)chosenGrid.x, (int)chosenGrid.y].transform.position,
-                    2f);
-            }
-        }
-    }
+            Gizmos.DrawWireCube(destination.transform.position, Vector3.one*2f); 
+    }*/
 }

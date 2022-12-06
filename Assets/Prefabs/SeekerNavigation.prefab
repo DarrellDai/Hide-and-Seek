@@ -163,8 +163,12 @@ MonoBehaviour:
   overlapTestBoxSizeForDestination: {x: 0, y: 0, z: 0}
   destinationPosition: {x: 0, y: 0, z: 0}
   toChooseNextDestination: 1
+  arrived: 0
+  halfNumDivisionEachSide: 4
+  sampledGrid: {x: 0, y: 0}
   destination: {fileID: 0}
   navMeshAgent: {fileID: 2984011008881368928}
+  camera: {fileID: 2653300545081456150}
 --- !u!114 &6282149939794066017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +192,11 @@ MonoBehaviour:
   viewPoints: []
   xDirectionResolution: 30
   yDirectionResolution: 30
+--- !u!20 &2653300545081456150 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 1179826061583191319, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
+  m_PrefabInstance: {fileID: 3786963533078739713}
+  m_PrefabAsset: {fileID: 0}
 --- !u!195 &2984011008881368928 stripped
 NavMeshAgent:
   m_CorrespondingSourceObject: {fileID: 2154032851308160097, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}

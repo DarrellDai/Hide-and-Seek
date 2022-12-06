@@ -74,6 +74,11 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6021187044804546245, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
+--- !u!20 &6402398037526491101 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 2340720271785942480, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
+  m_PrefabInstance: {fileID: 8692523113519772173}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8179526670904147410 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 657964924729085919, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
@@ -118,10 +123,18 @@ MonoBehaviour:
   rotateSpeed: 100
   trainingMode: 0
   alive: 0
+  skipReward: 0
+  startPosition: {x: 0, y: 0, z: 0}
+  startRotation: {x: 0, y: 0, z: 0, w: 0}
+  detected: 
   destinationSpawner: {fileID: 0}
   extraOffset: 0.1
   overlapTestBoxSizeForDestination: {x: 0, y: 0, z: 0}
   destinationPosition: {x: 0, y: 0, z: 0}
   toChooseNextDestination: 1
+  arrived: 0
+  halfNumDivisionEachSide: 4
+  sampledGrid: {x: 0, y: 0}
   destination: {fileID: 0}
   navMeshAgent: {fileID: 0}
+  camera: {fileID: 6402398037526491101}

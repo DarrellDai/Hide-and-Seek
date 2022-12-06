@@ -74,7 +74,7 @@ public class GameAgent : Agent
             hiderDestroyFlag = true;
 
             //Turn its camera to black when a hider is caught 
-            var camera = transform.Find("Eye").Find("Camera").GetComponent<Camera>();
+            var camera = transform.Find("Camera").GetComponent<Camera>();
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.backgroundColor = Color.black;
             camera.cullingMask = 0;

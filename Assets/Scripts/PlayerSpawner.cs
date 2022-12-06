@@ -127,8 +127,8 @@ public class PlayerSpawner : MonoBehaviour
         if (hasCameras)
         {
             //Set camera as field of view
-            gameAgent.transform.Find("Eye").Find("Camera").gameObject.SetActive(true);
-            cameras[order] = gameAgent.transform.Find("Eye").Find("Camera").GetComponent<Camera>();
+            gameAgent.transform.Find("Camera").gameObject.SetActive(true);
+            cameras[order] = gameAgent.transform.Find("Camera").GetComponent<Camera>();
             cameras[order].fieldOfView = fieldOfView;
 
             if (humanPlay)
@@ -142,11 +142,15 @@ public class PlayerSpawner : MonoBehaviour
             }
             else
             {
-                float halfNumOfWindows = players.Length > 1 ? Mathf.RoundToInt(players.Length / 2f) : 1;
+                /*float halfNumOfWindows = players.Length > 1 ? Mathf.RoundToInt(players.Length / 2f) : 1;
                 cameras[order].rect = new Rect(
                     0.3f + (1 - 0.3f) / halfNumOfWindows * Mathf.Floor(order % halfNumOfWindows),
                     0.5f * (1 - Mathf.Floor(order / halfNumOfWindows)), (1 - 0.3f) / halfNumOfWindows,
-                    0.5f);
+                    0.5f);*/
+                cameras[order].rect = new Rect(
+                    0,
+                    0, 1,
+                    1);
             }
         }
 
@@ -254,7 +258,7 @@ public class PlayerSpawner : MonoBehaviour
     public static void ResetCamera(Transform transform)
     {
         //Turn its camera to black when a hider is caught 
-        var camera = transform.Find("Eye").Find("Camera").GetComponent<Camera>();
+        var camera = transform.Find("Camera").GetComponent<Camera>();
         var position = camera.transform.position;
         var rotation = camera.transform.rotation;
         var rect = camera.rect;

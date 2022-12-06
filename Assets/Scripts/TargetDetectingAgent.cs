@@ -33,7 +33,7 @@ public class TargetDetectingAgent : RandomNavigationAgent
         fieldOfView = GetComponent<FieldOfView>();
         fieldOfView.isDetected = false;
 
-        camera = transform.Find("Eye").Find("Camera").GetComponent<Camera>();
+        camera = transform.Find("Camera").GetComponent<Camera>();
         hiders = GameObject.FindGameObjectsWithTag("Hider");
         renderers = new Renderer[hiders.Length];
         

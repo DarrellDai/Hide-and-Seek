@@ -50,7 +50,7 @@ public class GameAgent : Agent
     // Step count in an episode
     private int step;
 
-    public List<bool> detected;
+    [HideInInspector] public List<bool> detected;
     //private Color originalColor;
 
     //Steps to freeze seekers, so hiders have preparation time

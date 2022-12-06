@@ -35,12 +35,11 @@ public class NavigationAgent : GameAgent
 
     [HideInInspector] public GameObject destination;
     [HideInInspector] public NavMeshAgent navMeshAgent;
-    private Camera camera;
+    public Camera camera;
     
     private bool overlap;
 
     //Path planned by NavMesh
-    public NavMeshPath path;
 
     private Vector2 last2dDestination;
     private float rotation;
@@ -57,9 +56,10 @@ public class NavigationAgent : GameAgent
         egocentricMask = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         gridSize = mapSize / halfNumDivisionEachSide;
         camera = transform.Find("Camera").GetComponent<Camera>();
-        transform.Find("Camera").GetComponent<Camera>().transform.localPosition = new Vector3(0,
+        camera.transform.localPosition = new Vector3(0,
             rangeAsNumGrids * gridSize / Mathf.Tan(camera.fieldOfView / 2 * Mathf.PI / 180) -
             GetComponent<Collider>().bounds.extents.y, 0);
+        camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
         for (int i = 0; i < 2 * halfNumDivisionEachSide; i++)
         {
             for (int j = 0; j < 2 * halfNumDivisionEachSide; j++)
@@ -145,7 +145,7 @@ public class NavigationAgent : GameAgent
             transform.Rotate(transform.up, act[2]);
     }
 
-    public void GoToNextPosition()
+    public virtual void GoToNextPosition()
     {
         transform.position = navMeshAgent.nextPosition;
         GetComponent<PlaceObjectsToSurface>().StartPlacing(

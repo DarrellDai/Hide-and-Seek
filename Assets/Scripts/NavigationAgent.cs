@@ -161,6 +161,8 @@ public class NavigationAgent : GameAgent
         }
         else
             transform.Rotate(transform.up, act[2] * 360f / 16);
+        camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
+        
     }
 
     public virtual void GoToNextPosition()
@@ -168,7 +170,6 @@ public class NavigationAgent : GameAgent
         transform.position = navMeshAgent.nextPosition;
         GetComponent<PlaceObjectsToSurface>().StartPlacing(
             navMeshAgent.velocity, false, true);
-        camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
     }
 
     /// <summary>

@@ -33,6 +33,8 @@ public class RandomNavigationAgent : NavigationAgent
         {
             GoToNextPosition();
         }
+        camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
+        
     }
 
     /*/// <summary>

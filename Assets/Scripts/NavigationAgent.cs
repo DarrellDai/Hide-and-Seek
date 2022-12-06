@@ -24,6 +24,7 @@ public class NavigationAgent : GameAgent
     [HideInInspector] public Vector3 destinationPosition;
     [HideInInspector] public bool toChooseNextDestination = true;
     [HideInInspector] public bool arrived;
+    public bool topDownView = true;
     public int halfNumDivisionEachSide = 4;
     public int halfRangeAsNumGrids = 3;
     private float gridSize;
@@ -95,6 +96,8 @@ public class NavigationAgent : GameAgent
     /// <param name="sensor"></param>
     public override void CollectObservations(VectorSensor sensor)
     {
+        if (topDownView)
+            camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
         base.CollectObservations(sensor);
         for (var i = 0; i < destinationVisited.GetLength(0); i++)
         {
@@ -161,8 +164,9 @@ public class NavigationAgent : GameAgent
         }
         else
             transform.Rotate(transform.up, act[2] * 360f / 16);
-        camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
-        
+        if (topDownView)
+            camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
+
     }
 
     public virtual void GoToNextPosition()

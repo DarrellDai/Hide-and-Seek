@@ -20,6 +20,17 @@ public class RandomNavigationAgent : NavigationAgent
         // Enable navMeshAgent when it's able to move
         navMeshAgent.enabled = true;
         // Prevent NavMeshAgent is not active on NavMesh issue
+        MakeRandomDestination();
+
+        if (!arrived & navMeshAgent.isActiveAndEnabled)
+        {
+            GoToNextPosition();
+        }
+
+    }
+
+    public void MakeRandomDestination()
+    {
         if (toChooseNextDestination && navMeshAgent.isActiveAndEnabled)
         {
             sampledGrid = new Vector2(Random.Range(0, halfNumDivisionEachSide * 2),
@@ -28,13 +39,6 @@ public class RandomNavigationAgent : NavigationAgent
             MakeNewDestination();
             toChooseNextDestination = false;
         }
-
-        if (!arrived & navMeshAgent.isActiveAndEnabled)
-        {
-            GoToNextPosition();
-        }
-        camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
-        
     }
 
     /*/// <summary>

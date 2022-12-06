@@ -4,6 +4,7 @@ using Unity.MLAgents.Actuators;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class TargetDetectingAgent : RandomNavigationAgent
 {
@@ -22,12 +23,14 @@ public class TargetDetectingAgent : RandomNavigationAgent
     private List<Ray> rays;
     
     
+    
     /// <summary>
     ///     Initialize ML-agent.
     /// </summary>
     public override void Initialize()
     {
         base.Initialize();
+        topDownView = false;
         //Initialize field of view
         fieldOfView = GetComponent<FieldOfView>();
         fieldOfView.isDetected = false;
@@ -90,12 +93,8 @@ public class TargetDetectingAgent : RandomNavigationAgent
         
         base.OnActionReceived(actionBuffers);
     }
-    public override void GoToNextPosition()
-    {
-        transform.position = navMeshAgent.nextPosition;
-        GetComponent<PlaceObjectsToSurface>().StartPlacing(
-            navMeshAgent.velocity, false, true);
-    }
+    
+
     /// <summary>
     /// Detect hider's from camera view, but can't take into account occlusion 
     /// </summary>

@@ -104,7 +104,6 @@ public class RandomNavigationAgent : GameAgent
                 if (!navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f)
                 {
                     toChooseNextDestination = true;
-                    transform.Rotate(transform.up, 90f);
                 }
             }
     }
@@ -176,7 +175,6 @@ public class RandomNavigationAgent : GameAgent
         else
             chosenGrid = sampledGrid;
         NavMeshHit hit;
-        chosenGrid = Vector2.zero;
         NavMesh.SamplePosition(GetPositionFromGrid(chosenGrid), out hit, Mathf.Infinity, NavMesh.AllAreas);
         destinationPosition = hit.position;
         nextGrid = new Vector2(Mathf.Floor((destinationPosition.x + mapSize) / gridSize),

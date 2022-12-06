@@ -123,7 +123,7 @@ MonoBehaviour:
   toChooseNextDestination: 1
   arrived: 0
   halfNumDivisionEachSide: 4
-  halfRangeAsNumGrids: 3
+  halfRangeAsNumGrids: 2
   sampledGrid: {x: 0, y: 0}
   destination: {fileID: 0}
   navMeshAgent: {fileID: 0}

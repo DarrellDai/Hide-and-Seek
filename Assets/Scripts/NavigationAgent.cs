@@ -159,7 +159,7 @@ public class NavigationAgent : GameAgent
             GoToNextPosition();
         }
         else
-            transform.Rotate(transform.up, act[2]);
+            transform.Rotate(transform.up, act[2] * 180f / 16);
     }
 
     public virtual void GoToNextPosition()

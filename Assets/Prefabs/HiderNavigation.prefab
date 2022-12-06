@@ -51,6 +51,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3205237125464756111, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8179526670904147410, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
       propertyPath: m_Name
       value: HiderNavigation
@@ -119,6 +123,7 @@ MonoBehaviour:
   toChooseNextDestination: 1
   arrived: 0
   halfNumDivisionEachSide: 4
+  halfRangeAsNumGrids: 3
   sampledGrid: {x: 0, y: 0}
   destination: {fileID: 0}
   navMeshAgent: {fileID: 0}

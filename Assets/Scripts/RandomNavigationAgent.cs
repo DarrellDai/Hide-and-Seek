@@ -40,6 +40,9 @@ public class RandomNavigationAgent : GameAgent
     
     private bool overlap;
 
+    //Path planned by NavMesh
+    public NavMeshPath path;
+
     private Vector2 last2dDestination;
     private float rotation;
 

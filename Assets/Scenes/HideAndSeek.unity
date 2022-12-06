@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 40919617}
   - component: {fileID: 40919616}
   m_Layer: 9
-  m_Name: SeekerNavigation(Clone)
+  m_Name: SeekerDetection(Clone)
   m_TagString: Seeker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5825,7 +5825,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
-  m_BehaviorType: 0
+  m_BehaviorType: 1
   m_BehaviorName: Hider
   TeamId: 0
   m_UseChildSensors: 1
@@ -7482,7 +7482,7 @@ MonoBehaviour:
   destinationSpawner: {fileID: 697367312}
   fieldOfViewSpawner: {fileID: 110601439}
   players:
-  - playerToSpawn: {fileID: 8179526670904147410, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
+  - playerToSpawn: {fileID: 8930748831854472290, guid: 937712ad86e632a4f88aeaa493558133, type: 3}
     trainingMode: 0
   - playerToSpawn: {fileID: 975044687332221977, guid: 4e247ac091b62f14b98e2d755fd5a3cd, type: 3}
     trainingMode: 0

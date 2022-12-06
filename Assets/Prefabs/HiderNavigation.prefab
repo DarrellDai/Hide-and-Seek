@@ -1,140 +1,59 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &8692523113519772173
+--- !u!1001 &753192494446449072
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 657964924729085919, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
-      propertyPath: m_Name
-      value: HiderNavigation
-      objectReference: {fileID: 0}
-    - target: {fileID: 3296868389167821990, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
-      propertyPath: m_Speed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3296868389167821990, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
-      propertyPath: m_Height
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3296868389167821990, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
-      propertyPath: m_Radius
-      value: 0.57
-      objectReference: {fileID: 0}
-    - target: {fileID: 3296868389167821990, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
-      propertyPath: m_AngularSpeed
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 7561878447963400932, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
+    - target: {fileID: 1176349714673408233, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7561878447963400932, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
+    - target: {fileID: 1176349714673408233, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7561878447963400932, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
+    - target: {fileID: 1176349714673408233, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7561878447963400932, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
+    - target: {fileID: 1176349714673408233, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7561878447963400932, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
+    - target: {fileID: 1176349714673408233, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7561878447963400932, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
+    - target: {fileID: 1176349714673408233, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7561878447963400932, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
+    - target: {fileID: 1176349714673408233, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7561878447963400932, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
+    - target: {fileID: 1176349714673408233, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7561878447963400932, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
+    - target: {fileID: 1176349714673408233, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7561878447963400932, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
+    - target: {fileID: 1176349714673408233, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7561878447963400932, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
+    - target: {fileID: 1176349714673408233, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6021187044804546245, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
-  m_SourcePrefab: {fileID: 100100000, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
---- !u!20 &6402398037526491101 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 2340720271785942480, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
-  m_PrefabInstance: {fileID: 8692523113519772173}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8179526670904147410 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 657964924729085919, guid: 1b5ae1e50db3b4b439771968bf90e1bb, type: 3}
-  m_PrefabInstance: {fileID: 8692523113519772173}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7820068726365309966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8179526670904147410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73006ca19b84a3949b7ea29ff33cbc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  moveInput:
-    m_Name: Move Input
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: a9be98d1-fe86-4076-8095-f2c74273e47c
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  dirInput:
-    m_Name: Dir Input
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 9e3921c2-f211-4bd7-a37b-384deee1d422
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  mapSize: 0
-  moveSpeed: 0.1
-  rotateSpeed: 100
-  trainingMode: 0
-  alive: 0
-  skipReward: 0
-  startPosition: {x: 0, y: 0, z: 0}
-  startRotation: {x: 0, y: 0, z: 0, w: 0}
-  detected: 
-  destinationSpawner: {fileID: 0}
-  extraOffset: 0.1
-  overlapTestBoxSizeForDestination: {x: 0, y: 0, z: 0}
-  destinationPosition: {x: 0, y: 0, z: 0}
-  toChooseNextDestination: 1
-  arrived: 0
-  halfNumDivisionEachSide: 4
-  sampledGrid: {x: 0, y: 0}
-  destination: {fileID: 0}
-  navMeshAgent: {fileID: 0}
-  camera: {fileID: 6402398037526491101}
+    - target: {fileID: 8179526670904147410, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
+      propertyPath: m_Name
+      value: HiderNavigation
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}

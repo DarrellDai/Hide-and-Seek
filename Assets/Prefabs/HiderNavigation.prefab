@@ -122,6 +122,7 @@ MonoBehaviour:
   destinationPosition: {x: 0, y: 0, z: 0}
   toChooseNextDestination: 1
   arrived: 0
+  topDownView: 1
   halfNumDivisionEachSide: 4
   halfRangeAsNumGrids: 2
   sampledGrid: {x: 0, y: 0}
@@ -142,8 +143,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Camera: {fileID: 5956577362477071981}
   m_SensorName: CameraSensor
-  m_Width: 84
-  m_Height: 84
+  m_Width: 80
+  m_Height: 80
   m_Grayscale: 0
   m_ObservationType: 0
   m_ObservationStacks: 1

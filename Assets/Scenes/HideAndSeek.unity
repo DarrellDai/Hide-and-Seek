@@ -5711,7 +5711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 282f342c2ab144bf38be65d4d0c4e07d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Camera: {fileID: 1600812349}
+  m_Camera: {fileID: 963194227}
   m_SensorName: CameraSensor
   m_Width: 80
   m_Height: 80
@@ -5839,7 +5839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 65
+    VectorObservationSize: 67
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -7513,8 +7513,8 @@ MonoBehaviour:
   numStepToFreeze: 0
   hasCameras: 1
   cameras:
-  - {fileID: 1600812349}
-  - {fileID: 1828601338}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &2043555393
 MonoBehaviour:
   m_ObjectHideFlags: 0

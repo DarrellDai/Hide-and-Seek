@@ -81,6 +81,9 @@ public class NavigationAgent : GameAgent
         //Turn off auto-pilot in NavMeshAgent so the agent can move manually
         navMeshAgent.updatePosition = false;
         navMeshAgent.enabled = false;
+        var mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        mainCamera.transform.position = new Vector3(0, mapSize/Mathf.Tan(mainCamera.fieldOfView / 2 * Mathf.PI / 180),0);
+        //ScreenCapture.CaptureScreenshot("C:/Users/daish/Desktop/TopDown.png");
     }
 
     public override void OnEpisodeBegin()
@@ -99,6 +102,7 @@ public class NavigationAgent : GameAgent
         if (topDownView)
             camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
         base.CollectObservations(sensor);
+        sensor.AddObservation(currentGrid);
         for (var i = 0; i < destinationVisited.GetLength(0); i++)
         {
             for (var j = 0; j < destinationVisited.GetLength(1); j++)

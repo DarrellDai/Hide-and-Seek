@@ -41,9 +41,7 @@ public class PlayerSpawner : MonoBehaviour
 
     [Tooltip("Player spawner as the parent of all destinations")]
     public GameObject destinationSpawner;
-
-    [Tooltip("Player spawner as the parent of all field of views mesh")]
-    public GameObject fieldOfViewSpawner;
+    
 
     [Tooltip("Players to spawn")] public Player[] players;
 
@@ -54,9 +52,6 @@ public class PlayerSpawner : MonoBehaviour
     public bool hasCameras;
 
     [HideInInspector] public Camera[] cameras;
-
-    [Tooltip("field of view of player's camera")]
-    public int fieldOfView;
 
     private RaycastHit hit;
 
@@ -132,7 +127,6 @@ public class PlayerSpawner : MonoBehaviour
             //Set camera as field of view
             gameAgent.transform.Find("Camera").gameObject.SetActive(true);
             cameras[order] = gameAgent.transform.Find("Camera").GetComponent<Camera>();
-            cameras[order].fieldOfView = fieldOfView;
 
             if (humanPlay)
             {

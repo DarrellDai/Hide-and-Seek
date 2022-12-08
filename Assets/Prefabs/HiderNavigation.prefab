@@ -55,6 +55,10 @@ PrefabInstance:
       propertyPath: m_BehaviorType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3205237125464756111, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
+      propertyPath: m_BrainParameters.VectorObservationSize
+      value: 66
+      objectReference: {fileID: 0}
     - target: {fileID: 8179526670904147410, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
       propertyPath: m_Name
       value: HiderNavigation

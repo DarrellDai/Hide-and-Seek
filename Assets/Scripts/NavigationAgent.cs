@@ -89,6 +89,15 @@ public class NavigationAgent : GameAgent
     public override void OnEpisodeBegin()
     {
         base.OnEpisodeBegin();
+        for (int i = 0; i < 2 * halfNumDivisionEachSide; i++)
+        {
+            for (int j = 0; j < 2 * halfNumDivisionEachSide; j++)
+            {
+                destinationVisited[i, j] = false;
+            }
+        }
+
+        UpdateDestinationAndEgocentricMask();
         // Disable navMeshAgent so it's nextPosition won't move to cause teleport
         navMeshAgent.enabled = false;
     }

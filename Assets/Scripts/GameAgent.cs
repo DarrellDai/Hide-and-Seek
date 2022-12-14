@@ -145,8 +145,8 @@ public class GameAgent : Agent
         gameObject.layer = LayerMask.NameToLayer(gameObject.tag);
         gameObject.GetComponent<Collider>().enabled = true;
         PlayerSpawner.ResetCamera(gameObject.transform);
-        playerSpawner.RelocatePlayer(gameObject.transform, true);
-        //transform.rotation = startRotation;
+        playerSpawner.RelocatePlayer(gameObject.transform, false);
+        transform.rotation = startRotation;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         step = 1;

@@ -20,13 +20,13 @@ public class AgentManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (PlayerSpawner.CountActiveNumHider(playerSpawner.playerSpawner)==0)
         {
             for (var i = 0; i < players.Length; i++)
             {
-                players[i].GetComponent<GameAgent>().EndEpisode();
+                players[i].GetComponent<GameAgent>().EndEpisode(); 
             }
         }
     }

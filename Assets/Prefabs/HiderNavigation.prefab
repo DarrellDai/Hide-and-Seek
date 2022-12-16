@@ -59,6 +59,14 @@ PrefabInstance:
       propertyPath: m_BrainParameters.VectorObservationSize
       value: 67
       objectReference: {fileID: 0}
+    - target: {fileID: 6152726204454012587, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
+      propertyPath: m_Speed
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6152726204454012587, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
+      propertyPath: m_AngularSpeed
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 8179526670904147410, guid: 08759c7639eabeb49827b6b0d6247feb, type: 3}
       propertyPath: m_Name
       value: HiderNavigation

@@ -255,10 +255,13 @@ public class PlayerSpawner : MonoBehaviour
         var position = camera.transform.position;
         var rotation = camera.transform.rotation;
         var rect = camera.rect;
+        var fieldOfView = camera.fieldOfView;
+        
         camera.Reset();
         camera.transform.position = position;
         camera.transform.rotation = rotation;
         camera.rect = rect;
+        camera.fieldOfView = fieldOfView; 
     }
 
     /// <summary>

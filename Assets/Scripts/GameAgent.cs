@@ -214,7 +214,7 @@ public class GameAgent : Agent
         var flag = false;
         dirToGo = transform.forward * act[0];
         rotateDir = Vector3.up * act[1];
-        transform.Rotate(rotateDir, Time.deltaTime * rotateSpeed);
+        transform.Rotate(rotateDir, Time.fixedDeltaTime * rotateSpeed);
         GetComponent<Rigidbody>().velocity = dirToGo * moveSpeed;
         if (act[0] != 0)
         {

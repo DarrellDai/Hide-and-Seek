@@ -33,7 +33,7 @@ public class PlaceObjectsToSurface : MonoBehaviour
             transform.position += Vector3.up * GetComponent<Collider>().bounds.extents.y;
         Physics.SyncTransforms();
         //Cast downward ray along its normal direction
-        ray = new Ray(transform.position + Time.deltaTime * velocity, Vector3.down);
+        ray = new Ray(transform.position + Time.fixedDeltaTime * velocity, Vector3.down);
         isHit = Physics.Raycast(ray, out hitInfo, 1000,
             1 << LayerMask.NameToLayer("Terrain")| 1<<LayerMask.NameToLayer("Rock"));
         if (isHit)
@@ -61,8 +61,8 @@ public class PlaceObjectsToSurface : MonoBehaviour
             {
                 // Prevent sudden change to make the rotation smooth
                 transform.rotation =
-                    Quaternion.Slerp(originalRotation, transform.rotation, smoothSpeed * Time.deltaTime);
-                transform.position = Vector3.Lerp(originalPosition, transform.position, velocity.magnitude * Time.deltaTime);
+                    Quaternion.Slerp(originalRotation, transform.rotation, smoothSpeed * Time.fixedDeltaTime);
+                transform.position = Vector3.Lerp(originalPosition, transform.position, velocity.magnitude * Time.fixedDeltaTime);
             }
         }
     }

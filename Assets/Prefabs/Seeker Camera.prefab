@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Seeker Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 4362365491874742518, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
+      propertyPath: m_Constraints
+      value: 116
+      objectReference: {fileID: 0}
     - target: {fileID: 6401107384440928803, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -58,6 +62,10 @@ PrefabInstance:
     - target: {fileID: 6897989443055156527, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7182098553998876162, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
+      propertyPath: moveSpeed
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7277039349646896453, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
       propertyPath: m_BehaviorType

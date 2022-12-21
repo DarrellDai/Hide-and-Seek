@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Unity.Mathematics;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
@@ -170,13 +171,13 @@ public class NavigationAgent : GameAgent
             selectNextDestination();
             MakeNewDestination();
         }
-
-        if (!arrived & navMeshAgent.isActiveAndEnabled)
+        GoToNextPosition();
+        /*if (navMeshAgent.isActiveAndEnabled)
         {
             GoToNextPosition();
         }
         else
-            transform.Rotate(transform.up, act[2] * 360f / 16);
+            transform.Rotate(transform.up, act[2] * 360f / 16);*/
         if (topDownView)
             camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
 
@@ -184,9 +185,34 @@ public class NavigationAgent : GameAgent
 
     public virtual void GoToNextPosition()
     {
-        transform.position = navMeshAgent.nextPosition;
-        GetComponent<PlaceObjectsToSurface>().StartPlacing(
-            navMeshAgent.velocity, false, true);
+        
+        NavMeshHit hit;
+        Vector3 AgentPosition;
+        if(NavMesh.SamplePosition(transform.position, 
+               out hit, 1.0f, 
+               NavMesh.AllAreas))
+        {
+            AgentPosition = hit.position;
+            NavMeshPath path=new NavMeshPath();
+            navMeshAgent.CalculatePath(destinationPosition, path);
+            if (path.corners.Length > 1)
+            {
+                navMeshAgent.isStopped = false;
+                if (Vector3.Distance(AgentPosition, path.corners[1])>navMeshAgent.radius + 0.1)
+                {
+                    Vector3 direction = path.corners[1] - AgentPosition;
+                    var newDir = Vector3.RotateTowards(transform.forward, direction, Single.PositiveInfinity, Single.PositiveInfinity);
+                    var newRot = Quaternion.LookRotation(newDir);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, newRot, Time.fixedDeltaTime * navMeshAgent.angularSpeed);
+                    navMeshAgent.Move(transform.forward * Time.fixedDeltaTime * navMeshAgent.speed);
+                    //transform.position = navMeshAgent.nextPosition;
+                    GetComponent<PlaceObjectsToSurface>().StartPlacing(
+                        navMeshAgent.velocity, false, true);
+                }
+            }
+        }
+
+        
     }
 
     /// <summary>
@@ -233,7 +259,7 @@ public class NavigationAgent : GameAgent
         destination = new GameObject("Destination");
         destination.transform.position = destinationPosition;
         destination.transform.parent = destinationSpawner.transform;
-        navMeshAgent.destination = destination.transform.position;
+        //navMeshAgent.destination = destination.transform.position;
     }
 
     /*/// <summary>

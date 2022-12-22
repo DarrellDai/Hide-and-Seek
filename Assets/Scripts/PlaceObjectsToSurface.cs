@@ -41,8 +41,10 @@ public class PlaceObjectsToSurface : MonoBehaviour
             objectToPlaceCollider = GetComponent<Collider>();
 
             //Change the destinationPosition so the bottom of the object touches the surface
+            /*offset = Vector3.Distance(objectToPlaceCollider.ClosestPoint(hitInfo.point),
+                objectToPlaceCollider.bounds.center) * hitInfo.normal;*/
             offset = Vector3.Distance(objectToPlaceCollider.ClosestPoint(hitInfo.point),
-                objectToPlaceCollider.bounds.center) * hitInfo.normal;
+                objectToPlaceCollider.bounds.center) * Vector3.up;
             Vector3 finalPosition = hitInfo.point + offset;
 
             //offset = objectToPlaceCollider.bounds.extents.magnitude / 2 * hitInfo.normal;

@@ -1,5 +1,5 @@
 using System;
-using System.IO;
+using Unity.Collections;
 using Unity.Mathematics;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
@@ -36,13 +36,15 @@ public class NavigationAgent : GameAgent
     [HideInInspector] public Vector2 sampledGrid;
     private Vector2 chosenGrid;
     private Vector2 nextGrid;
+    private Vector3[] nextPathArr;
+    private NavMeshPath navMeshPath;
 
     [HideInInspector] public GameObject destination;
     [HideInInspector] public NavMeshAgent navMeshAgent;
     public Camera camera;
 
     private bool overlap;
-
+    
     //Path planned by NavMesh
 
     private Vector2 last2dDestination;
@@ -54,7 +56,7 @@ public class NavigationAgent : GameAgent
     public override void Initialize()
     {
         base.Initialize();
-
+        navMeshPath = new NavMeshPath();
         destinationSpace = new Vector2[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         destinationVisited = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         egocentricMask = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
@@ -171,13 +173,13 @@ public class NavigationAgent : GameAgent
             selectNextDestination();
             MakeNewDestination();
         }
-        GoToNextPosition();
-        /*if (navMeshAgent.isActiveAndEnabled)
+
+        if (navMeshAgent.isActiveAndEnabled)
         {
             GoToNextPosition();
         }
         else
-            transform.Rotate(transform.up, act[2] * 360f / 16);*/
+            transform.Rotate(transform.up, act[2] * 360f / 16);
         if (topDownView)
             camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
 
@@ -186,32 +188,59 @@ public class NavigationAgent : GameAgent
     public virtual void GoToNextPosition()
     {
         
+        //transform.position = navMeshAgent.nextPosition;
+        navMeshAgent.nextPosition = transform.position;
+        Vector3 agentPosition=transform.position;
         NavMeshHit hit;
-        Vector3 AgentPosition;
         if(NavMesh.SamplePosition(transform.position, 
                out hit, 1.0f, 
                NavMesh.AllAreas))
         {
-            AgentPosition = hit.position;
-            NavMeshPath path=new NavMeshPath();
-            navMeshAgent.CalculatePath(destinationPosition, path);
-            if (path.corners.Length > 1)
+            agentPosition = hit.position;
+            /*transform.position = agentPosition;*/
+        }
+        navMeshAgent.CalculatePath(destination.transform.position, navMeshPath);
+        for (int index=1;index<navMeshPath.corners.Length;index++)
+        {
+            if (navMeshPath.corners.Length > index)
             {
-                navMeshAgent.isStopped = false;
-                if (Vector3.Distance(AgentPosition, path.corners[1])>navMeshAgent.radius + 0.1)
+                /*Vector2 flatOffest = new Vector2(agentPosition.x - navMeshPath.corners[index].x,
+                    agentPosition.z - navMeshPath.corners[index].z);*/
+                //Debug.Log(Vector3.Distance(agentPosition, navMeshPath.corners[index]));
+                Debug.Log("destination: " + navMeshPath.corners[index] + "agent position: " + agentPosition + "Distance: " + Vector3.Distance(agentPosition, navMeshPath.corners[index]));
+                if (Vector3.Distance(agentPosition, navMeshPath.corners[index]) > 0.1f)
                 {
-                    Vector3 direction = path.corners[1] - AgentPosition;
-                    var newDir = Vector3.RotateTowards(transform.forward, direction, Single.PositiveInfinity, Single.PositiveInfinity);
-                    var newRot = Quaternion.LookRotation(newDir);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, newRot, Time.fixedDeltaTime * navMeshAgent.angularSpeed);
-                    navMeshAgent.Move(transform.forward * Time.fixedDeltaTime * navMeshAgent.speed);
-                    //transform.position = navMeshAgent.nextPosition;
+                    
+                    transform.position =
+                        Vector3.MoveTowards(agentPosition, navMeshPath.corners[index], Time.fixedDeltaTime * navMeshAgent.speed); 
+                    /*navMeshAgent.Move(navMeshPath.corners[index]-agentPosition);*/
                     GetComponent<PlaceObjectsToSurface>().StartPlacing(
                         navMeshAgent.velocity, false, true);
+                    break;
                 }
             }
         }
 
+        for (int i=1;i<navMeshPath.corners.Length;i++)
+        {
+            print(navMeshPath.corners[i]);
+            
+            Debug.DrawLine(navMeshPath.corners[i-1],navMeshPath.corners[i], Color.cyan);
+        }
+
+
+        //var agentPosition=new Vector3();
+        /*NavMeshHit hit;
+        if(NavMesh.SamplePosition(transform.position, 
+               out hit, 1.0f, 
+               NavMesh.AllAreas))
+        {
+            agentPosition = hit.position;
+        }
+
+        transform.position = agentPosition;
+        if (navMeshPath.corners.Length>1)
+            navMeshAgent.Move(navMeshPath.corners[1]-agentPosition);*/
         
     }
 
@@ -258,8 +287,18 @@ public class NavigationAgent : GameAgent
         Destroy(destination);
         destination = new GameObject("Destination");
         destination.transform.position = destinationPosition;
-        destination.transform.parent = destinationSpawner.transform;
+        destination.transform.parent = destinationSpawner.transform; 
         //navMeshAgent.destination = destination.transform.position;
+        
+        // print(destination.transform.position);
+         /*for (int i = 0; i < navMeshPath.corners.Length; i++)
+        {
+            print(navMeshPath.corners[i]);
+        }*/
+        
+        /*navMeshAgent.CalculatePath(destination.transform.position, navMeshPath);
+        nextPathArr = navMeshPath.corners;
+        print(nextPathArr.Length);*/
     }
 
     /*/// <summary>

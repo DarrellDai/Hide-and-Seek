@@ -29,9 +29,12 @@ public class PlayerSpawner : MonoBehaviour
 
     [HideInInspector] public Vector3 randPosition;
 
+    [FormerlySerializedAs("radius")]
     [FormerlySerializedAs("overlapTestBoxSize")]
     [Tooltip("The box size the destination needs to be away from rocks and other players")]
-    public float radius = 2;
+    public float distanceFromRocks = 1;
+
+    public float distanceFromPlayers = 5;
 
     [HideInInspector] public LayerMask hiderLayer;
     [HideInInspector] public LayerMask seekerLayer;
@@ -156,23 +159,33 @@ public class PlayerSpawner : MonoBehaviour
     public void FindRandPosition()
     {
         overlap = true;
+        var count = 0;
+        var currentDistanceFromPlayers = distanceFromPlayers;
         while (overlap)
         {
+            if (count == 20)
+            {
+                currentDistanceFromPlayers = currentDistanceFromPlayers - 0.5f;
+                count = 0;
+            }
             // Don't need to add TerrainSpawner's position, because when an object is
             // added to another one as child, the current position will become local position
             randPosition = new Vector3(Random.Range(-itemSpread, itemSpread), 100,
                 Random.Range(-itemSpread, itemSpread));
-            CheckOverlap();
+            CheckOverlap(currentDistanceFromPlayers);
+            count++;
         }
     }
 
     /// <summary>
     ///     Check if the spawned player is too close to rocks or other players.
     /// </summary>
-    public void CheckOverlap()
+    public void CheckOverlap(float currentDistanceFromPlayers)
     {
-        if (!Physics.SphereCast(randPosition, radius, Vector3.down, out hit, 1000,
-                1 << seekerLayer | 1 << hiderLayer | 1 << rockLayer))
+        if (!Physics.SphereCast(randPosition, distanceFromRocks, Vector3.down, out hit, 1000,
+                1 << rockLayer) && !Physics.SphereCast(randPosition, currentDistanceFromPlayers, Vector3.down, out hit,
+                1000,
+                1 << seekerLayer | 1 << hiderLayer))
         {
             overlap = false;
             //var spawnRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
@@ -256,12 +269,12 @@ public class PlayerSpawner : MonoBehaviour
         var rotation = camera.transform.rotation;
         var rect = camera.rect;
         var fieldOfView = camera.fieldOfView;
-        
+
         camera.Reset();
         camera.transform.position = position;
         camera.transform.rotation = rotation;
         camera.rect = rect;
-        camera.fieldOfView = fieldOfView; 
+        camera.fieldOfView = fieldOfView;
     }
 
     /// <summary>

@@ -127,7 +127,18 @@ public class GameAgent : Agent
         startRotation = transform.rotation;
         step = 1;
         //originalColor=transform.Find("Body").GetComponent<Renderer>().material.color;
-        Random.InitState(0);
+        
+        var args = Environment.GetCommandLineArgs();
+        for (var i = 0; i < args.Length - 1; i++)
+        {
+            if (args[i].Contains("seed") && int.TryParse(args[i+1], out var seed))
+            {
+                Random.InitState(seed);
+                break;
+            }
+        }
+        
+        
     }
 
     /// <summary>

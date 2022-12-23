@@ -62,7 +62,7 @@ public class NavigationAgent : GameAgent
         destinationVisited = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         egocentricMask = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         gridSize = mapSize / halfNumDivisionEachSide;
-        camera.transform.localPosition = new Vector3(0,
+        camera.transform.position = new Vector3(0,
             halfRangeAsNumGrids * gridSize / Mathf.Tan(camera.fieldOfView / 2 * Mathf.PI / 180) -
             GetComponent<Collider>().bounds.extents.y, 0);
         camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
@@ -220,10 +220,10 @@ public class NavigationAgent : GameAgent
             transform.rotation =
                 Quaternion.Slerp(transform.rotation,
                     newRot, Time.fixedDeltaTime * 10f);
-            transform.position =
-                Vector3.Lerp(transform.position,
+            transform.position += Time.fixedDeltaTime * navMeshAgent.speed * transform.forward;
+                /*Vector3.Lerp(transform.position,
                     transform.position + Time.fixedDeltaTime * navMeshAgent.speed * transform.forward,
-                    Time.fixedDeltaTime * navMeshAgent.speed * 10f);
+                    Time.fixedDeltaTime * navMeshAgent.speed * 10f);*/
 
             GetComponent<PlaceObjectsToSurface>().StartPlacing(
                 navMeshAgent.velocity, false, true);

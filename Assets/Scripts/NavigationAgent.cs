@@ -194,7 +194,7 @@ public class NavigationAgent : GameAgent
             else
             {
                 toChooseNextDestination = true;
-                //transform.Rotate(transform.up, act[2] * 360f / 16);
+                transform.Rotate(transform.up, act[2] * 360f / 16);
             }
         }
 

@@ -78,6 +78,14 @@ public class GameAgent : Agent
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.backgroundColor = Color.black;
             camera.cullingMask = 0;
+            AddReward(-1);
+            hiderDestroyFlag = false;
+            alive = false;
+            gameObject.transform.GetChild(0).gameObject.SetActive(false);
+            gameObject.transform.GetChild(1).gameObject.SetActive(false);
+            gameObject.GetComponent<Collider>().enabled = false;
+            gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+            EndEpisode();
         }
 
         //Todo: Add the reward at the same time as hider getting caught
@@ -86,6 +94,7 @@ public class GameAgent : Agent
             //Add reward when catch a hider
             AddReward(1);
             //print("Caught");
+            EndEpisode();
         }
 
     }
@@ -159,7 +168,7 @@ public class GameAgent : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         //Destroy hiders when caught
-        if (gameObject.CompareTag("Hider") && hiderDestroyFlag)
+        /*if (gameObject.CompareTag("Hider") && hiderDestroyFlag)
         {
             AddReward(-1);
             hiderDestroyFlag = false;
@@ -168,7 +177,7 @@ public class GameAgent : Agent
             gameObject.transform.GetChild(1).gameObject.SetActive(false);
             gameObject.GetComponent<Collider>().enabled = false;
             gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
-        }
+        }*/
 
         sensor.AddObservation(alive);
 

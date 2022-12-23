@@ -770,7 +770,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 136706335}
-  - component: {fileID: 136706336}
   m_Layer: 0
   m_Name: PlayerSpawner
   m_TagString: Untagged
@@ -795,19 +794,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &136706336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 136706334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb680c00e3f5f2441b7081469c8a1558, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ifEndEpisode: 0
 --- !u!1 &154766669
 GameObject:
   m_ObjectHideFlags: 0
@@ -7484,8 +7470,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoUpdate: 1
   playerSpawner: {fileID: 136706334}
-  numHiders: 1
-  numSeekers: 1
+  numHiders: 0
+  numSeekers: 0
   humanPlay: 0
   singlePlayer: 0
   terrainAndRockSetting: {fileID: 2043555393}
@@ -7493,7 +7479,8 @@ MonoBehaviour:
   itemSpread: 3.5
   distanceFromBound: 1.5
   randPosition: {x: 3.0813413, y: 100, z: 1.835738}
-  radius: 1
+  distanceFromRocks: 1
+  distanceFromPlayers: 5
   hiderLayer:
     serializedVersion: 2
     m_Bits: 10
@@ -7516,8 +7503,8 @@ MonoBehaviour:
   numStepToFreeze: 0
   hasCameras: 1
   cameras:
-  - {fileID: 56875531}
-  - {fileID: 1318335472}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &2043555393
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -251,7 +251,7 @@ public class PlayerSpawner : MonoBehaviour
     public static void ResetCamera(Transform transform)
     {
         //Turn its camera to black when a hider is caught 
-        var camera = transform.Find("Camera").GetComponent<Camera>();
+        var camera = transform.gameObject.GetComponent<GameAgent>().camera;
         var position = camera.transform.position;
         var rotation = camera.transform.rotation;
         var rect = camera.rect;

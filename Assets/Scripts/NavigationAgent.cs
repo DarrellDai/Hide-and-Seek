@@ -42,7 +42,7 @@ public class NavigationAgent : GameAgent
 
     [HideInInspector] public GameObject destination;
     [HideInInspector] public NavMeshAgent navMeshAgent;
-    public Camera camera;
+    
 
     private bool overlap;
 
@@ -89,7 +89,7 @@ public class NavigationAgent : GameAgent
         mainCamera.transform.position =
             new Vector3(0, mapSize / Mathf.Tan(mainCamera.fieldOfView / 2 * Mathf.PI / 180), 0);
         //ScreenCapture.CaptureScreenshot("C:/Users/daish/Desktop/TopDown.png");
-        cameraDistance = transform.Find("Camera").localPosition.y;
+        cameraDistance = camera.transform.localPosition.y;
     }
 
     public override void OnEpisodeBegin()
@@ -205,7 +205,7 @@ public class NavigationAgent : GameAgent
     {
         if (topDownView)
         {
-            camera.transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z);
+            camera.transform.position = new Vector3(transform.position.x, cameraDistance, transform.position.z);
             camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
         }
     }

@@ -1,106 +1,128 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &8811582737654797686
+--- !u!1001 &6770085470562580121
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4108957136159350552, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
-      propertyPath: m_Name
-      value: Seeker Camera
-      objectReference: {fileID: 0}
-    - target: {fileID: 4362365491874742518, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
-      propertyPath: m_Constraints
-      value: 116
-      objectReference: {fileID: 0}
-    - target: {fileID: 6401107384440928803, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
+    - target: {fileID: 217439646002415957, guid: 0f9db8843abea08498216df03dd12ab3, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6401107384440928803, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
+    - target: {fileID: 217439646002415957, guid: 0f9db8843abea08498216df03dd12ab3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6401107384440928803, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
+    - target: {fileID: 217439646002415957, guid: 0f9db8843abea08498216df03dd12ab3, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6401107384440928803, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
+    - target: {fileID: 217439646002415957, guid: 0f9db8843abea08498216df03dd12ab3, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6401107384440928803, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
+    - target: {fileID: 217439646002415957, guid: 0f9db8843abea08498216df03dd12ab3, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6401107384440928803, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
+    - target: {fileID: 217439646002415957, guid: 0f9db8843abea08498216df03dd12ab3, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6401107384440928803, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
+    - target: {fileID: 217439646002415957, guid: 0f9db8843abea08498216df03dd12ab3, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6401107384440928803, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
+    - target: {fileID: 217439646002415957, guid: 0f9db8843abea08498216df03dd12ab3, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6401107384440928803, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
+    - target: {fileID: 217439646002415957, guid: 0f9db8843abea08498216df03dd12ab3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6401107384440928803, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
+    - target: {fileID: 217439646002415957, guid: 0f9db8843abea08498216df03dd12ab3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6401107384440928803, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
+    - target: {fileID: 217439646002415957, guid: 0f9db8843abea08498216df03dd12ab3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6897989443055156527, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7182098553998876162, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
-      propertyPath: moveSpeed
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7277039349646896453, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
-      propertyPath: m_BehaviorType
-      value: 0
+    - target: {fileID: 750341320989896295, guid: 0f9db8843abea08498216df03dd12ab3, type: 3}
+      propertyPath: m_Name
+      value: Seeker Camera
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 2154032851308160097, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
-  m_SourcePrefab: {fileID: 100100000, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
---- !u!1 &4849520754401036910 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4108957136159350552, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
-  m_PrefabInstance: {fileID: 8811582737654797686}
+    - {fileID: 9035511237321020394, guid: 0f9db8843abea08498216df03dd12ab3, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 0f9db8843abea08498216df03dd12ab3, type: 3}
+--- !u!20 &1000462377446314402 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5770931806429701947, guid: 0f9db8843abea08498216df03dd12ab3, type: 3}
+  m_PrefabInstance: {fileID: 6770085470562580121}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &570622824256010247
+--- !u!1 &2645930789789434797 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8740379485616043316, guid: 0f9db8843abea08498216df03dd12ab3, type: 3}
+  m_PrefabInstance: {fileID: 6770085470562580121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &819631143499883112
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4849520754401036910}
+  m_GameObject: {fileID: 2645930789789434797}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 282f342c2ab144bf38be65d4d0c4e07d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f93993e6421b2b47abe908571e45651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Camera: {fileID: 7644458346636564577}
-  m_SensorName: CameraSensor
-  m_Width: 84
-  m_Height: 84
-  m_Grayscale: 0
-  m_ObservationType: 0
-  m_ObservationStacks: 1
-  m_Compression: 1
---- !u!20 &7644458346636564577 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 1179826061583191319, guid: b37e0f1a5990b4d43b832c01477b06ad, type: 3}
-  m_PrefabInstance: {fileID: 8811582737654797686}
-  m_PrefabAsset: {fileID: 0}
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  moveInput:
+    m_Name: Move Input
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: a785e9aa-cfef-4bbf-825c-9a9c1ff2a36e
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  dirInput:
+    m_Name: Dir Input
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 4a8f3361-b9d0-4280-8d5b-b34c3b439a72
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  mapSize: 0
+  moveSpeed: 0.5
+  rotateSpeed: 200
+  trainingMode: 0
+  alive: 0
+  skipReward: 0
+  startPosition: {x: 0, y: 0, z: 0}
+  startRotation: {x: 0, y: 0, z: 0, w: 0}
+  camera: {fileID: 1000462377446314402}
+  detected: 
+  destinationSpawner: {fileID: 0}
+  extraOffset: 0.1
+  overlapTestBoxSizeForDestination: {x: 0, y: 0, z: 0}
+  destinationPosition: {x: 0, y: 0, z: 0}
+  toChooseNextDestination: 1
+  arrived: 0
+  topDownView: 1
+  halfNumDivisionEachSide: 4
+  halfRangeAsNumGrids: 3
+  sampledGrid: {x: 0, y: 0}
+  agentPosition: {x: 0, y: 0, z: 0}
+  cameraDistance: 0
+  destination: {fileID: 0}
+  navMeshAgent: {fileID: 0}

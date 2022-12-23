@@ -1,139 +1,79 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5681402523957260500
+--- !u!1001 &9078340132257115411
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 172410705160534497, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 37c6721473446134e9b68801b41a18a2, type: 2}
-    - target: {fileID: 909464609945188482, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1873819494543363414, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
-      propertyPath: m_BehaviorName
-      value: Hider
-      objectReference: {fileID: 0}
-    - target: {fileID: 1873819494543363414, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
-      propertyPath: m_BehaviorType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1873819494543363414, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
-      propertyPath: m_BrainParameters.VectorObservationSize
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 2114414503041482257, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
-      propertyPath: dirInput.m_SingletonActionBindings.Array.data[1].m_Path
-      value: <Keyboard>/leftArrow
-      objectReference: {fileID: 0}
-    - target: {fileID: 2114414503041482257, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
-      propertyPath: dirInput.m_SingletonActionBindings.Array.data[2].m_Path
-      value: <Keyboard>/rightArrow
-      objectReference: {fileID: 0}
-    - target: {fileID: 2114414503041482257, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
-      propertyPath: moveInput.m_SingletonActionBindings.Array.data[1].m_Path
-      value: <Keyboard>/downArrow
-      objectReference: {fileID: 0}
-    - target: {fileID: 2114414503041482257, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
-      propertyPath: moveInput.m_SingletonActionBindings.Array.data[2].m_Path
-      value: <Keyboard>/upArrow
-      objectReference: {fileID: 0}
-    - target: {fileID: 2271765189817258503, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2749822629588277808, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
+    - target: {fileID: 512697788278671677, guid: e8c669e76090606efb3bd2d2e65b44e8, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2749822629588277808, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
+    - target: {fileID: 512697788278671677, guid: e8c669e76090606efb3bd2d2e65b44e8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2749822629588277808, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
+    - target: {fileID: 512697788278671677, guid: e8c669e76090606efb3bd2d2e65b44e8, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2749822629588277808, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
+    - target: {fileID: 512697788278671677, guid: e8c669e76090606efb3bd2d2e65b44e8, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2749822629588277808, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
+    - target: {fileID: 512697788278671677, guid: e8c669e76090606efb3bd2d2e65b44e8, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2749822629588277808, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
+    - target: {fileID: 512697788278671677, guid: e8c669e76090606efb3bd2d2e65b44e8, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2749822629588277808, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
+    - target: {fileID: 512697788278671677, guid: e8c669e76090606efb3bd2d2e65b44e8, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2749822629588277808, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
+    - target: {fileID: 512697788278671677, guid: e8c669e76090606efb3bd2d2e65b44e8, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2749822629588277808, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
+    - target: {fileID: 512697788278671677, guid: e8c669e76090606efb3bd2d2e65b44e8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2749822629588277808, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
+    - target: {fileID: 512697788278671677, guid: e8c669e76090606efb3bd2d2e65b44e8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2749822629588277808, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
+    - target: {fileID: 512697788278671677, guid: e8c669e76090606efb3bd2d2e65b44e8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3539632635404106068, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5186434704145792779, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
+    - target: {fileID: 1040411417738702351, guid: e8c669e76090606efb3bd2d2e65b44e8, type: 3}
       propertyPath: m_Name
       value: Hider
       objectReference: {fileID: 0}
-    - target: {fileID: 5186434704145792779, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
+    - target: {fileID: 2354583297526318849, guid: e8c669e76090606efb3bd2d2e65b44e8, type: 3}
+      propertyPath: m_BehaviorName
+      value: Hider
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678203105208539216, guid: e8c669e76090606efb3bd2d2e65b44e8, type: 3}
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 5186434704145792779, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
+    - target: {fileID: 8501348288283558919, guid: e8c669e76090606efb3bd2d2e65b44e8, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9031378674493191516, guid: e8c669e76090606efb3bd2d2e65b44e8, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9031378674493191516, guid: e8c669e76090606efb3bd2d2e65b44e8, type: 3}
       propertyPath: m_TagString
       value: Hider
       objectReference: {fileID: 0}
-    - target: {fileID: 5195865621448103058, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5716992992970935888, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7140652009953494130, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
-      propertyPath: m_Speed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7140652009953494130, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
-      propertyPath: m_Height
-      value: 0.59
-      objectReference: {fileID: 0}
-    - target: {fileID: 7140652009953494130, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
-      propertyPath: m_Radius
-      value: 0.64
-      objectReference: {fileID: 0}
-    - target: {fileID: 7140652009953494130, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
-      propertyPath: m_Acceleration
-      value: 10000
-      objectReference: {fileID: 0}
-    - target: {fileID: 7140652009953494130, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
-      propertyPath: m_ObstacleAvoidanceType
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 018adfb9416d1d54c8a01afb20e55450, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: e8c669e76090606efb3bd2d2e65b44e8, type: 3}

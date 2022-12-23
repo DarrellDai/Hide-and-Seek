@@ -41,8 +41,6 @@ public class TargetDetectingAgent : RandomNavigationAgent
         {
             renderers[i] = hiders[i].transform.Find("Body").GetComponent<Renderer>();
         }
-        camera.transform.localPosition = Vector3.zero;
-        camera.transform.localRotation = Quaternion.identity; 
     }
 
     /// <summary>

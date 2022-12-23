@@ -220,7 +220,12 @@ public class NavigationAgent : GameAgent
             transform.rotation =
                 Quaternion.Slerp(transform.rotation,
                     newRot, Time.fixedDeltaTime * 10f);
-            transform.position += Time.fixedDeltaTime * navMeshAgent.speed * transform.forward;
+            if ((navMeshPath.corners[1] - agentPosition).magnitude>Time.fixedDeltaTime * navMeshAgent.speed)
+                transform.position += Time.fixedDeltaTime * navMeshAgent.speed * target;
+            else
+            {
+                transform.position += (navMeshPath.corners[1] - agentPosition).magnitude * target;
+            }
                 /*Vector3.Lerp(transform.position,
                     transform.position + Time.fixedDeltaTime * navMeshAgent.speed * transform.forward,
                     Time.fixedDeltaTime * navMeshAgent.speed * 10f);*/

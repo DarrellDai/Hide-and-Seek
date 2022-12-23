@@ -41,6 +41,7 @@ public class RandomNavigationAgent : NavigationAgent
                 toChooseNextDestination = true;
             }
         }
+        CorrectCamera();
 
     }
 

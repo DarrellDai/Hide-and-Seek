@@ -240,11 +240,13 @@ public class GameAgent : Agent
         {
             GetComponent<PlaceObjectsToSurface>().StartPlacing(moveSpeed * dirToGo, true, false);
         }
+
+        CorrectCamera();
     }
 
-    IEnumerator PreparationBeforeGame()
-    {
-        yield return new WaitForSecondsRealtime(100);
-        
-    }
+    public virtual void CorrectCamera()
+        {
+            camera.transform.localPosition = Vector3.zero;
+            camera.transform.localRotation = Quaternion.identity;
+        }
 }

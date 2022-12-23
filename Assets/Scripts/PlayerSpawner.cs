@@ -122,14 +122,14 @@ public class PlayerSpawner : MonoBehaviour
         GameObject clone = Instantiate(players[order].playerToSpawn, randPosition,
             quaternion.identity);
         //Don't use InverseTransformPoint, it'll use the future transform.position to infer current collider's local position
-        clone.transform.position = 2 * clone.transform.position - clone.GetComponent<Collider>().bounds.center;
+        clone.transform.position = 2 * clone.transform.position - clone.transform.Find("Character").GetComponent<Collider>().bounds.center;
         clone.transform.parent = playerSpawner.transform;
-        var gameAgent = clone.GetComponent<GameAgent>();
+        var gameAgent = clone.transform.Find("Character").GetComponent<GameAgent>(); 
         if (hasCameras)
         {
             //Set camera as field of view
-            gameAgent.transform.Find("Camera").gameObject.SetActive(true);
-            cameras[order] = gameAgent.transform.Find("Camera").GetComponent<Camera>();
+            clone.transform.Find("Camera").gameObject.SetActive(true);
+            cameras[order] = clone.transform.Find("Camera").GetComponent<Camera>();
 
             if (humanPlay)
             {
@@ -151,7 +151,7 @@ public class PlayerSpawner : MonoBehaviour
         }
 
         gameAgent.trainingMode = players[order].trainingMode;
-        var placeObjectsToSurface = clone.GetComponent<PlaceObjectsToSurface>();
+        var placeObjectsToSurface = clone.transform.Find("Character").GetComponent<PlaceObjectsToSurface>(); 
         placeObjectsToSurface.StartPlacing(Vector3.zero, false, false);
         Physics.SyncTransforms();
     }

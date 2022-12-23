@@ -61,11 +61,17 @@ public class NavigationAgent : GameAgent
         destinationSpace = new Vector2[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         destinationVisited = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         egocentricMask = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
-        gridSize = mapSize / halfNumDivisionEachSide;
-        camera.transform.position = new Vector3(0,
-            halfRangeAsNumGrids * gridSize / Mathf.Tan(camera.fieldOfView / 2 * Mathf.PI / 180) -
-            GetComponent<Collider>().bounds.extents.y, 0);
-        camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
+        gridSize = mapSize / halfNumDivisionEachSide; 
+        if (topDownView)
+        {
+            camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
+            camera.transform.position = new Vector3(0,
+                halfRangeAsNumGrids * gridSize / Mathf.Tan(camera.fieldOfView / 2 * Mathf.PI / 180) -
+                GetComponent<Collider>().bounds.extents.y, 0);
+            cameraDistance = camera.transform.position.y;
+        }
+        
+        
         for (int i = 0; i < 2 * halfNumDivisionEachSide; i++)
         {
             for (int j = 0; j < 2 * halfNumDivisionEachSide; j++)
@@ -85,11 +91,8 @@ public class NavigationAgent : GameAgent
         //Turn off auto-pilot in NavMeshAgent so the agent can move manually
         navMeshAgent.updatePosition = false;
         navMeshAgent.enabled = false;
-        var mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        mainCamera.transform.position =
-            new Vector3(0, mapSize / Mathf.Tan(mainCamera.fieldOfView / 2 * Mathf.PI / 180), 0);
         //ScreenCapture.CaptureScreenshot("C:/Users/daish/Desktop/TopDown.png");
-        cameraDistance = camera.transform.localPosition.y;
+        
     }
 
     public override void OnEpisodeBegin()
@@ -114,7 +117,7 @@ public class NavigationAgent : GameAgent
     /// <param name="sensor"></param>
     public override void CollectObservations(VectorSensor sensor)
     {
-        CorrectTopdownCamera();
+        CorrectCamera();
         //camera.transform.rotation = Quaternion.Slerp(camera.transform.rotation, Quaternion.Euler(new Vector3(90, 0, 0)), Time.fixedDeltaTime * navMeshAgent.angularSpeed);
         base.CollectObservations(sensor);
         sensor.AddObservation(currentGrid);
@@ -198,15 +201,20 @@ public class NavigationAgent : GameAgent
             }
         }
 
-        CorrectTopdownCamera();
+        CorrectCamera();
     }
 
-    private void CorrectTopdownCamera()
+    public override void CorrectCamera()
     {
         if (topDownView)
         {
             camera.transform.position = new Vector3(transform.position.x, cameraDistance, transform.position.z);
             camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
+        }
+        else
+        {
+            camera.transform.localPosition = transform.localPosition;
+            camera.transform.localRotation = transform.localRotation; 
         }
     }
 

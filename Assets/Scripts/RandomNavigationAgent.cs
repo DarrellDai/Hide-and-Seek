@@ -22,9 +22,24 @@ public class RandomNavigationAgent : NavigationAgent
         // Prevent NavMeshAgent is not active on NavMesh issue
         MakeRandomDestination();
 
-        if (!arrived & navMeshAgent.isActiveAndEnabled)
+        if (navMeshAgent.isActiveAndEnabled)
         {
-            GoToNextPosition();
+            navMeshAgent.nextPosition = transform.position;
+            agentPosition = transform.position;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(transform.position,
+                    out hit, 1.0f,
+                    NavMesh.AllAreas))
+            {
+                agentPosition = hit.position;
+            }
+
+            if (Vector3.Distance(destinationPosition, agentPosition) > 1f)
+                GoToNextPosition();
+            else
+            {
+                toChooseNextDestination = true;
+            }
         }
 
     }

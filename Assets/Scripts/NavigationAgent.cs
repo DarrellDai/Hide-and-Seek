@@ -36,15 +36,16 @@ public class NavigationAgent : GameAgent
     [HideInInspector] public Vector2 sampledGrid;
     private Vector2 chosenGrid;
     private Vector2 nextGrid;
-    private Vector3[] nextPathArr;
     private NavMeshPath navMeshPath;
+    public Vector3 agentPosition;
+    [HideInInspector] public float cameraDistance;
 
     [HideInInspector] public GameObject destination;
     [HideInInspector] public NavMeshAgent navMeshAgent;
     public Camera camera;
 
     private bool overlap;
-    
+
     //Path planned by NavMesh
 
     private Vector2 last2dDestination;
@@ -85,8 +86,10 @@ public class NavigationAgent : GameAgent
         navMeshAgent.updatePosition = false;
         navMeshAgent.enabled = false;
         var mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        mainCamera.transform.position = new Vector3(0, mapSize/Mathf.Tan(mainCamera.fieldOfView / 2 * Mathf.PI / 180),0);
+        mainCamera.transform.position =
+            new Vector3(0, mapSize / Mathf.Tan(mainCamera.fieldOfView / 2 * Mathf.PI / 180), 0);
         //ScreenCapture.CaptureScreenshot("C:/Users/daish/Desktop/TopDown.png");
+        cameraDistance = transform.Find("Camera").localPosition.y;
     }
 
     public override void OnEpisodeBegin()
@@ -111,8 +114,8 @@ public class NavigationAgent : GameAgent
     /// <param name="sensor"></param>
     public override void CollectObservations(VectorSensor sensor)
     {
-        if (topDownView)
-            camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
+        CorrectTopdownCamera();
+        //camera.transform.rotation = Quaternion.Slerp(camera.transform.rotation, Quaternion.Euler(new Vector3(90, 0, 0)), Time.fixedDeltaTime * navMeshAgent.angularSpeed);
         base.CollectObservations(sensor);
         sensor.AddObservation(currentGrid);
         for (var i = 0; i < destinationVisited.GetLength(0); i++)
@@ -133,7 +136,7 @@ public class NavigationAgent : GameAgent
         {
             toChooseNextDestination = true;
         }
-        else if (!navMeshAgent.pathPending)
+        /*else if (!navMeshAgent.pathPending)
             if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
             {
                 if (!navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f)
@@ -141,7 +144,7 @@ public class NavigationAgent : GameAgent
                     arrived = true;
                     toChooseNextDestination = true;
                 }
-            }
+            }*/
     }
 
     /// <summary>
@@ -172,76 +175,59 @@ public class NavigationAgent : GameAgent
         {
             selectNextDestination();
             MakeNewDestination();
+
+            navMeshAgent.nextPosition = transform.position;
+            agentPosition = transform.position;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(transform.position,
+                    out hit, 1.0f,
+                    NavMesh.AllAreas))
+            {
+                agentPosition = hit.position;
+                /*transform.position = agentPosition;
+                GetComponent<PlaceObjectsToSurface>().StartPlacing(
+                    navMeshAgent.velocity, false, true);*/
+            }
+
+            if (Vector3.Distance(destinationPosition, agentPosition) > 0.1f)
+                GoToNextPosition();
+            else
+            {
+                toChooseNextDestination = true;
+                //transform.Rotate(transform.up, act[2] * 360f / 16);
+            }
         }
 
-        if (navMeshAgent.isActiveAndEnabled)
-        {
-            GoToNextPosition();
-        }
-        else
-            transform.Rotate(transform.up, act[2] * 360f / 16);
+        CorrectTopdownCamera();
+    }
+
+    private void CorrectTopdownCamera()
+    {
         if (topDownView)
+        {
+            camera.transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z);
             camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
-
+        }
     }
 
     public virtual void GoToNextPosition()
     {
-        
-        //transform.position = navMeshAgent.nextPosition;
-        navMeshAgent.nextPosition = transform.position;
-        Vector3 agentPosition=transform.position;
-        NavMeshHit hit;
-        if(NavMesh.SamplePosition(transform.position, 
-               out hit, 1.0f, 
-               NavMesh.AllAreas))
-        {
-            agentPosition = hit.position;
-            /*transform.position = agentPosition;*/
-        }
         navMeshAgent.CalculatePath(destination.transform.position, navMeshPath);
-        for (int index=1;index<navMeshPath.corners.Length;index++)
+        if (navMeshPath.corners.Length > 1)
         {
-            if (navMeshPath.corners.Length > index)
-            {
-                /*Vector2 flatOffest = new Vector2(agentPosition.x - navMeshPath.corners[index].x,
-                    agentPosition.z - navMeshPath.corners[index].z);*/
-                //Debug.Log(Vector3.Distance(agentPosition, navMeshPath.corners[index]));
-                Debug.Log("destination: " + navMeshPath.corners[index] + "agent position: " + agentPosition + "Distance: " + Vector3.Distance(agentPosition, navMeshPath.corners[index]));
-                if (Vector3.Distance(agentPosition, navMeshPath.corners[index]) > 0.1f)
-                {
-                    
-                    transform.position =
-                        Vector3.MoveTowards(agentPosition, navMeshPath.corners[index], Time.fixedDeltaTime * navMeshAgent.speed); 
-                    /*navMeshAgent.Move(navMeshPath.corners[index]-agentPosition);*/
-                    GetComponent<PlaceObjectsToSurface>().StartPlacing(
-                        navMeshAgent.velocity, false, true);
-                    break;
-                }
-            }
+            var target = (navMeshPath.corners[1] - agentPosition).normalized;
+            var newRot = Quaternion.LookRotation(target);
+            transform.rotation =
+                Quaternion.Slerp(transform.rotation,
+                    newRot, Time.fixedDeltaTime * 10f);
+            transform.position =
+                Vector3.Lerp(transform.position,
+                    transform.position + Time.fixedDeltaTime * navMeshAgent.speed * transform.forward,
+                    Time.fixedDeltaTime * navMeshAgent.speed * 10f);
+
+            GetComponent<PlaceObjectsToSurface>().StartPlacing(
+                navMeshAgent.velocity, false, true);
         }
-
-        for (int i=1;i<navMeshPath.corners.Length;i++)
-        {
-            print(navMeshPath.corners[i]);
-            
-            Debug.DrawLine(navMeshPath.corners[i-1],navMeshPath.corners[i], Color.cyan);
-        }
-
-
-        //var agentPosition=new Vector3();
-        /*NavMeshHit hit;
-        if(NavMesh.SamplePosition(transform.position, 
-               out hit, 1.0f, 
-               NavMesh.AllAreas))
-        {
-            agentPosition = hit.position;
-        }
-
-        transform.position = agentPosition;
-        if (navMeshPath.corners.Length>1)
-            navMeshAgent.Move(navMeshPath.corners[1]-agentPosition);*/
-        
     }
 
     /// <summary>
@@ -287,30 +273,10 @@ public class NavigationAgent : GameAgent
         Destroy(destination);
         destination = new GameObject("Destination");
         destination.transform.position = destinationPosition;
-        destination.transform.parent = destinationSpawner.transform; 
+        destination.transform.parent = destinationSpawner.transform;
         //navMeshAgent.destination = destination.transform.position;
-        
-        // print(destination.transform.position);
-         /*for (int i = 0; i < navMeshPath.corners.Length; i++)
-        {
-            print(navMeshPath.corners[i]);
-        }*/
-        
-        /*navMeshAgent.CalculatePath(destination.transform.position, navMeshPath);
-        nextPathArr = navMeshPath.corners;
-        print(nextPathArr.Length);*/
     }
-
-    /*/// <summary>
-    ///     Draw the planned path.
-    /// </summary>
-    public void DrawPath()
-    {
-        path = new NavMeshPath();
-        NavMesh.CalculatePath(transform.position, destination.transform.position, NavMesh.AllAreas, path);
-        for (var i = 0; i < path.corners.Length - 1; i++)
-            Debug.DrawLine(path.corners[i], path.corners[i + 1], Color.magenta);
-    }*/
+    
 
 
     private Vector3 GetPositionFromGrid(Vector2 gridIndex)

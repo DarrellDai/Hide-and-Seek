@@ -338,9 +338,12 @@ public class NavigationAgent : GameAgent
     /// </summary>
     public void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position,2f);
-        if (destination!=null)
-            Gizmos.DrawWireCube(destination.transform.position, Vector3.one*2f); 
+        if (Application.isPlaying)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(GetPositionFromGrid(sampledGrid), 2f);
+            if (destination != null)
+                Gizmos.DrawWireCube(destination.transform.position, Vector3.one * 2f);
+        }
     }*/
 }

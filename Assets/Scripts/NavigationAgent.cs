@@ -26,13 +26,13 @@ public class NavigationAgent : GameAgent
     [HideInInspector] public bool toChooseNextDestination = true;
     [HideInInspector] public bool arrived;
     public bool topDownView = true;
-    public int halfNumDivisionEachSide = 4;
-    public int halfRangeAsNumGrids = 3;
+    public readonly int halfNumDivisionEachSide = 4;
+    public readonly int halfRangeAsNumGrids = 2;
     private float gridSize;
     private Vector2[,] destinationSpace;
     private bool[,] destinationVisited;
     private bool[,] egocentricMask;
-    private Vector2 currentGrid;
+    private Vector2Int currentGrid;
     [HideInInspector] public Vector2 sampledGrid;
     private Vector2 chosenGrid;
     private Vector2 nextGrid;
@@ -42,7 +42,7 @@ public class NavigationAgent : GameAgent
 
     [HideInInspector] public GameObject destination;
     [HideInInspector] public NavMeshAgent navMeshAgent;
-    
+
 
     private bool overlap;
 
@@ -61,17 +61,23 @@ public class NavigationAgent : GameAgent
         destinationSpace = new Vector2[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         destinationVisited = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         egocentricMask = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
-        gridSize = mapSize / halfNumDivisionEachSide; 
+        gridSize = mapSize / halfNumDivisionEachSide;
         if (topDownView)
         {
             camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
             camera.transform.position = new Vector3(0,
-                halfRangeAsNumGrids * gridSize / Mathf.Tan(camera.fieldOfView / 2 * Mathf.PI / 180) -
+                (halfRangeAsNumGrids + 1 / 2f) * gridSize / Mathf.Tan(camera.fieldOfView / 2 * Mathf.PI / 180) -
                 GetComponent<Collider>().bounds.extents.y, 0);
             cameraDistance = camera.transform.position.y;
         }
-        
-        
+        if (transform.parent.Find("FixedCamera") != null)
+        {
+            GameObject.Find("Main Camera").SetActive(false);
+            transform.parent.Find("FixedCamera").transform.position = new Vector3(0,
+                mapSize / Mathf.Tan(camera.fieldOfView / 2 * Mathf.PI / 180), 0);
+        }
+
+
         for (int i = 0; i < 2 * halfNumDivisionEachSide; i++)
         {
             for (int j = 0; j < 2 * halfNumDivisionEachSide; j++)
@@ -92,7 +98,6 @@ public class NavigationAgent : GameAgent
         navMeshAgent.updatePosition = false;
         navMeshAgent.enabled = false;
         //ScreenCapture.CaptureScreenshot("C:/Users/daish/Desktop/TopDown.png");
-        
     }
 
     public override void OnEpisodeBegin()
@@ -106,7 +111,6 @@ public class NavigationAgent : GameAgent
             }
         }
 
-        UpdateDestinationAndEgocentricMask();
         // Disable navMeshAgent so it's nextPosition won't move to cause teleport
         navMeshAgent.enabled = false;
     }
@@ -117,6 +121,7 @@ public class NavigationAgent : GameAgent
     /// <param name="sensor"></param>
     public override void CollectObservations(VectorSensor sensor)
     {
+        UpdateDestinationAndEgocentricMask();
         CorrectCamera();
         //camera.transform.rotation = Quaternion.Slerp(camera.transform.rotation, Quaternion.Euler(new Vector3(90, 0, 0)), Time.fixedDeltaTime * navMeshAgent.angularSpeed);
         base.CollectObservations(sensor);
@@ -159,7 +164,7 @@ public class NavigationAgent : GameAgent
         arrived = false;
         CheckIfArrived();
         base.OnActionReceived(actionBuffers);
-        UpdateDestinationAndEgocentricMask();
+
         //DrawPath();
     }
 
@@ -214,7 +219,7 @@ public class NavigationAgent : GameAgent
         else
         {
             camera.transform.localPosition = transform.localPosition;
-            camera.transform.localRotation = transform.localRotation; 
+            camera.transform.localRotation = transform.localRotation;
         }
     }
 
@@ -228,15 +233,15 @@ public class NavigationAgent : GameAgent
             transform.rotation =
                 Quaternion.Slerp(transform.rotation,
                     newRot, Time.fixedDeltaTime * 10f);
-            if ((navMeshPath.corners[1] - agentPosition).magnitude>Time.fixedDeltaTime * navMeshAgent.speed)
+            if ((navMeshPath.corners[1] - agentPosition).magnitude > Time.fixedDeltaTime * navMeshAgent.speed)
                 transform.position += Time.fixedDeltaTime * navMeshAgent.speed * target;
             else
             {
                 transform.position += (navMeshPath.corners[1] - agentPosition).magnitude * target;
             }
-                /*Vector3.Lerp(transform.position,
-                    transform.position + Time.fixedDeltaTime * navMeshAgent.speed * transform.forward,
-                    Time.fixedDeltaTime * navMeshAgent.speed * 10f);*/
+            /*Vector3.Lerp(transform.position,
+                transform.position + Time.fixedDeltaTime * navMeshAgent.speed * transform.forward,
+                Time.fixedDeltaTime * navMeshAgent.speed * 10f);*/
 
             GetComponent<PlaceObjectsToSurface>().StartPlacing(
                 navMeshAgent.velocity, false, true);
@@ -289,7 +294,6 @@ public class NavigationAgent : GameAgent
         destination.transform.parent = destinationSpawner.transform;
         //navMeshAgent.destination = destination.transform.position;
     }
-    
 
 
     private Vector3 GetPositionFromGrid(Vector2 gridIndex)
@@ -317,17 +321,17 @@ public class NavigationAgent : GameAgent
             }
         }
 
-        currentGrid = new Vector2(Mathf.Floor((transform.position.x + mapSize) / gridSize),
-            Mathf.Floor((transform.position.z + mapSize) / gridSize));
-        for (int i = -halfRangeAsNumGrids; i < halfRangeAsNumGrids; i++)
+        currentGrid = new Vector2Int((int)Mathf.Floor((transform.position.x + mapSize) / gridSize),
+            (int)Mathf.Floor((transform.position.z + mapSize) / gridSize));
+        for (int i = -halfRangeAsNumGrids; i <= halfRangeAsNumGrids; i++)
         {
-            for (int j = -halfRangeAsNumGrids; j < halfRangeAsNumGrids; j++)
+            for (int j = -halfRangeAsNumGrids; j <= halfRangeAsNumGrids; j++)
             {
                 if (currentGrid.x + i >= 0 && currentGrid.y + j >= 0 &&
                     currentGrid.x + i < 2 * halfNumDivisionEachSide && currentGrid.y + j < 2 * halfNumDivisionEachSide)
                 {
-                    destinationVisited[(int)currentGrid.x + i, (int)currentGrid.y + j] = true;
-                    egocentricMask[(int)currentGrid.x + i, (int)currentGrid.y + j] = true;
+                    destinationVisited[currentGrid.x + i, currentGrid.y + j] = true;
+                    egocentricMask[currentGrid.x + i, currentGrid.y + j] = true;
                 }
             }
         }

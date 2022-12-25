@@ -97,7 +97,8 @@ public class NavigationAgent : GameAgent
         //Turn off auto-pilot in NavMeshAgent so the agent can move manually
         navMeshAgent.updatePosition = false;
         navMeshAgent.enabled = false;
-        //ScreenCapture.CaptureScreenshot("C:/Users/daish/Desktop/TopDown.png");
+        if (CompareTag("Hider"))
+            ScreenCapture.CaptureScreenshot("/home/darrelldai/Desktop/TopDown.png"); 
     }
 
     public override void OnEpisodeBegin()

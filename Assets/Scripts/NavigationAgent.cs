@@ -96,7 +96,9 @@ public class NavigationAgent : GameAgent
         navMeshAgent = GetComponent<NavMeshAgent>();
         //Turn off auto-pilot in NavMeshAgent so the agent can move manually
         navMeshAgent.updatePosition = false;
-        navMeshAgent.enabled = false;
+        navMeshAgent.updateRotation = false;
+        navMeshAgent.updateUpAxis = false;
+        navMeshAgent.enabled = false; 
         if (CompareTag("Hider"))
             ScreenCapture.CaptureScreenshot("/home/darrelldai/Desktop/TopDown.png"); 
     }

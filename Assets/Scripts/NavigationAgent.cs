@@ -26,8 +26,8 @@ public class NavigationAgent : GameAgent
     [HideInInspector] public bool toChooseNextDestination = true;
     [HideInInspector] public bool arrived;
     public bool topDownView = true;
-    public readonly int halfNumDivisionEachSide = 4;
-    public readonly int halfRangeAsNumGrids = 2;
+    public int halfNumDivisionEachSide = 4;
+    public int halfRangeAsNumGrids = 2;
     private float gridSize;
     private Vector2[,] destinationSpace;
     private bool[,] destinationVisited;
@@ -99,8 +99,9 @@ public class NavigationAgent : GameAgent
         navMeshAgent.updateRotation = false;
         navMeshAgent.updateUpAxis = false;
         navMeshAgent.enabled = false; 
-        /*if (CompareTag("Hider"))
-            ScreenCapture.CaptureScreenshot("/home/darrelldai/Desktop/TopDown.png"); */
+        if (CompareTag("Hider"))
+            ScreenCapture.CaptureScreenshot("/home/darrelldai/Desktop/TopDown_Big_Map.png"); 
+        
     }
 
     public override void OnEpisodeBegin()

@@ -99,8 +99,8 @@ public class NavigationAgent : GameAgent
         navMeshAgent.updateRotation = false;
         navMeshAgent.updateUpAxis = false;
         navMeshAgent.enabled = false; 
-        if (CompareTag("Hider"))
-            ScreenCapture.CaptureScreenshot("/home/darrelldai/Desktop/TopDown.png"); 
+        /*if (CompareTag("Hider"))
+            ScreenCapture.CaptureScreenshot("/home/darrelldai/Desktop/TopDown.png"); */
     }
 
     public override void OnEpisodeBegin()

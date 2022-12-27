@@ -109,7 +109,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6724322058400197138, guid: 8b7dc9b7bb4a98cb096e482e8fe20d13, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 259
+      value: 261
       objectReference: {fileID: 0}
     - target: {fileID: 6724322058400197138, guid: 8b7dc9b7bb4a98cb096e482e8fe20d13, type: 3}
       propertyPath: m_BrainParameters.VectorActionSize.Array.data[0]
@@ -246,6 +246,7 @@ MonoBehaviour:
   topDownView: 1
   halfNumDivisionEachSide: 8
   halfRangeAsNumGrids: 4
+  gridSize: 0
   sampledGrid: {x: 0, y: 0}
   agentPosition: {x: 0, y: 0, z: 0}
   cameraDistance: 0

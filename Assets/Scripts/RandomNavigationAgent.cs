@@ -11,6 +11,17 @@ using Random = UnityEngine.Random;
 
 public class RandomNavigationAgent : NavigationAgent
 {
+    public override void OnEpisodeBegin()
+    {
+        base.OnEpisodeBegin();
+        for (int i = 0; i < 2 * halfNumDivisionEachSide; i++)
+        {
+            for (int j = 0; j < 2 * halfNumDivisionEachSide; j++)
+            {
+                destinationVisited[i, j] = true;
+            }
+        }
+    }
     /// <summary>
     ///     Move the agent along the path planned by NavMesh, and place the agent on and normal to surface after each move,
     ///     skip placing if it makes the agent out of bound.

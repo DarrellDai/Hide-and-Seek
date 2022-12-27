@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Sensors;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.AI;
@@ -82,7 +83,9 @@ public class TargetDetectingAgent : RandomNavigationAgent
         }
         if (detectedRenderer!=null)
         {
-            destinationPosition = detectedRenderer.transform.position;
+            sampledGrid = new Vector2(Mathf.Floor((detectedRenderer.transform.position.x + mapSize) / gridSize),
+                Mathf.Floor((detectedRenderer.transform.position.z + mapSize) / gridSize));
+            selectNextDestination();
         }
         if (navMeshAgent.isActiveAndEnabled)
         {
@@ -91,7 +94,6 @@ public class TargetDetectingAgent : RandomNavigationAgent
         
         base.OnActionReceived(actionBuffers);
     }
-    
 
     /// <summary>
     /// Detect hider's from camera view, but can't take into account occlusion 

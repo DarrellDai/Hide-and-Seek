@@ -30,9 +30,9 @@ public class NavigationAgent : GameAgent
     public bool topDownView = true;
     public int halfNumDivisionEachSide = 4;
     public int halfRangeAsNumGrids = 2;
-    private float gridSize;
+    [HideInInspector] public float gridSize;
     private Vector2[,] destinationSpace;
-    private bool[,] destinationVisited;
+    public bool[,] destinationVisited;
     private bool[,] egocentricMask;
     private Vector2Int currentGrid;
     [HideInInspector] public Vector2 sampledGrid;
@@ -152,9 +152,9 @@ public class NavigationAgent : GameAgent
     {
         UpdateDestinationAndEgocentricMask();
         CorrectCamera();
-        //camera.transform.rotation = Quaternion.Slerp(camera.transform.rotation, Quaternion.Euler(new Vector3(90, 0, 0)), Time.fixedDeltaTime * navMeshAgent.angularSpeed);
         base.CollectObservations(sensor);
         sensor.AddObservation(currentGrid);
+        sensor.AddObservation(sampledGrid);
         for (var i = 0; i < destinationVisited.GetLength(0); i++)
         {
             for (var j = 0; j < destinationVisited.GetLength(1); j++)
@@ -325,7 +325,7 @@ public class NavigationAgent : GameAgent
     }
 
 
-    private Vector3 GetPositionFromGrid(Vector2 gridIndex)
+    public Vector3 GetPositionFromGrid(Vector2 gridIndex)
     {
         var center = new Vector3();
         var position = new Vector3(destinationSpace[(int)gridIndex.x, (int)gridIndex.y].x, 30,
@@ -371,7 +371,7 @@ public class NavigationAgent : GameAgent
     /// </summary>
     public void OnDrawGizmos()
     {
-        if (Application.isPlaying)
+        if (Application.isPlaying && CompareTag("Seeker"))
         {
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(GetPositionFromGrid(sampledGrid), 2f);

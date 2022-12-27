@@ -9,11 +9,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 25165352140814548, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
       propertyPath: m_Speed
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1000462377446314402, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
       propertyPath: field of view
       value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000462377446314402, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
+      propertyPath: near clip plane
+      value: 0.12
       objectReference: {fileID: 0}
     - target: {fileID: 3890042652284771897, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
       propertyPath: m_Width
@@ -77,23 +81,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8737249417825923568, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 579
+      value: 259
       objectReference: {fileID: 0}
     - target: {fileID: 8737249417825923568, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
       propertyPath: m_BrainParameters.VectorActionSize.Array.data[0]
-      value: 24
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8737249417825923568, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
       propertyPath: m_BrainParameters.VectorActionSize.Array.data[1]
-      value: 24
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8737249417825923568, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
       propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.data[0]
-      value: 24
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8737249417825923568, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
       propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.data[1]
-      value: 24
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 819631143499883112, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
@@ -150,6 +154,7 @@ MonoBehaviour:
   skipReward: 0
   startPosition: {x: 0, y: 0, z: 0}
   startRotation: {x: 0, y: 0, z: 0, w: 0}
+  playerSpawner: {fileID: 0}
   camera: {fileID: 5506021261661297963}
   detected: 
   destinationSpawner: {fileID: 0}
@@ -159,7 +164,7 @@ MonoBehaviour:
   toChooseNextDestination: 1
   arrived: 0
   topDownView: 1
-  halfNumDivisionEachSide: 12
+  halfNumDivisionEachSide: 8
   halfRangeAsNumGrids: 4
   sampledGrid: {x: 0, y: 0}
   agentPosition: {x: 0, y: 0, z: 0}

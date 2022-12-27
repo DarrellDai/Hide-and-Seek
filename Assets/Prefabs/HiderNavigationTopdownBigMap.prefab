@@ -97,27 +97,27 @@ PrefabInstance:
       objectReference: {fileID: 5362875072555153640}
     - target: {fileID: 2614342351438799670, guid: 8b7dc9b7bb4a98cb096e482e8fe20d13, type: 3}
       propertyPath: m_Speed
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6724322058400197138, guid: 8b7dc9b7bb4a98cb096e482e8fe20d13, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 579
+      value: 259
       objectReference: {fileID: 0}
     - target: {fileID: 6724322058400197138, guid: 8b7dc9b7bb4a98cb096e482e8fe20d13, type: 3}
       propertyPath: m_BrainParameters.VectorActionSize.Array.data[0]
-      value: 24
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 6724322058400197138, guid: 8b7dc9b7bb4a98cb096e482e8fe20d13, type: 3}
       propertyPath: m_BrainParameters.VectorActionSize.Array.data[1]
-      value: 24
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 6724322058400197138, guid: 8b7dc9b7bb4a98cb096e482e8fe20d13, type: 3}
       propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.data[0]
-      value: 24
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 6724322058400197138, guid: 8b7dc9b7bb4a98cb096e482e8fe20d13, type: 3}
       propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.data[1]
-      value: 24
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 7356136493725268600, guid: 8b7dc9b7bb4a98cb096e482e8fe20d13, type: 3}
       propertyPath: m_Name
@@ -226,6 +226,7 @@ MonoBehaviour:
   skipReward: 0
   startPosition: {x: 0, y: 0, z: 0}
   startRotation: {x: 0, y: 0, z: 0, w: 0}
+  playerSpawner: {fileID: 0}
   camera: {fileID: 7197473178659764227}
   detected: 
   destinationSpawner: {fileID: 0}
@@ -235,7 +236,7 @@ MonoBehaviour:
   toChooseNextDestination: 1
   arrived: 0
   topDownView: 1
-  halfNumDivisionEachSide: 12
+  halfNumDivisionEachSide: 8
   halfRangeAsNumGrids: 4
   sampledGrid: {x: 0, y: 0}
   agentPosition: {x: 0, y: 0, z: 0}

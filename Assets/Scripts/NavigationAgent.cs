@@ -10,6 +10,7 @@ using UnityEngine.AI;
 using UnityEngine.Assertions.Must;
 using UnityEngine.Serialization;
 using UnityEngine.TextCore.Text;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class NavigationAgent : GameAgent
@@ -70,6 +71,7 @@ public class NavigationAgent : GameAgent
                 GetComponent<Collider>().bounds.extents.y, 0);
             cameraDistance = camera.transform.position.y;
         }
+
         if (transform.parent.Find("FixedCamera") != null)
         {
             GameObject.Find("Main Camera").SetActive(false);
@@ -100,10 +102,17 @@ public class NavigationAgent : GameAgent
         navMeshAgent.updatePosition = false;
         navMeshAgent.updateRotation = false;
         navMeshAgent.updateUpAxis = false;
-        navMeshAgent.enabled = false; 
-        if (CompareTag("Hider"))
-            ScreenCapture.CaptureScreenshot("/home/darrelldai/Desktop/TopDown_Big_Map.png"); 
-        
+        navMeshAgent.enabled = false;
+        /*if (CompareTag("Hider"))
+        {
+            var fixedCamera = transform.parent.Find("FixedCamera").GetComponent<Camera>();
+            fixedCamera.rect = new Rect(0f, 0f,
+                1f, 1f);
+            fixedCamera.targetDisplay = 1;
+            fixedCamera.cullingMask = ~(1 << LayerMask.NameToLayer("Hider") | 1 << LayerMask.NameToLayer("Seeker"));
+
+            ScreenCapture.CaptureScreenshot("/home/darrelldai/Desktop/TopDown_Big_Map.png");
+        }*/
     }
 
     public override void OnEpisodeBegin()

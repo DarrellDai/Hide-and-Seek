@@ -15,6 +15,10 @@ PrefabInstance:
       propertyPath: field of view
       value: 150
       objectReference: {fileID: 0}
+    - target: {fileID: 1000462377446314402, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
+      propertyPath: near clip plane
+      value: 0.12
+      objectReference: {fileID: 0}
     - target: {fileID: 6313364606870624510, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
       propertyPath: m_Name
       value: SeekerDetection
@@ -122,6 +126,7 @@ MonoBehaviour:
   skipReward: 0
   startPosition: {x: 0, y: 0, z: 0}
   startRotation: {x: 0, y: 0, z: 0, w: 0}
+  playerSpawner: {fileID: 0}
   camera: {fileID: 5506021261661297963}
   detected: 
   destinationSpawner: {fileID: 0}
@@ -131,6 +136,8 @@ MonoBehaviour:
   toChooseNextDestination: 1
   arrived: 0
   topDownView: 1
+  halfNumDivisionEachSide: 4
+  halfRangeAsNumGrids: 2
   sampledGrid: {x: 0, y: 0}
   agentPosition: {x: 0, y: 0, z: 0}
   cameraDistance: 0

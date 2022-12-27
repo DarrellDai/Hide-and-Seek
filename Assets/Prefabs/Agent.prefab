@@ -89,7 +89,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.2
+  near clip plane: 0.12
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -480,6 +480,7 @@ MonoBehaviour:
   skipReward: 0
   startPosition: {x: 0, y: 0, z: 0}
   startRotation: {x: 0, y: 0, z: 0, w: 0}
+  playerSpawner: {fileID: 0}
   camera: {fileID: 6057201028926531411}
   detected: 
 --- !u!114 &3877223326110865695

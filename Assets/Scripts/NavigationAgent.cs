@@ -2,6 +2,7 @@ using System;
 using Unity.Collections;
 using Unity.Mathematics;
 using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Policies;
 using Unity.MLAgents.Sensors;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -63,14 +64,7 @@ public class NavigationAgent : GameAgent
         destinationVisited = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         egocentricMask = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         gridSize = mapSize / halfNumDivisionEachSide;
-        if (topDownView)
-        {
-            camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
-            camera.transform.position = new Vector3(0,
-                (halfRangeAsNumGrids + 1 / 2f) * gridSize / Mathf.Tan(camera.fieldOfView / 2 * Mathf.PI / 180) -
-                GetComponent<Collider>().bounds.extents.y, 0);
-            cameraDistance = camera.transform.position.y;
-        }
+        
 
         if (transform.parent.Find("FixedCamera") != null)
         {
@@ -103,6 +97,26 @@ public class NavigationAgent : GameAgent
         navMeshAgent.updateRotation = false;
         navMeshAgent.updateUpAxis = false;
         navMeshAgent.enabled = false;
+        var args = Environment.GetCommandLineArgs();
+        for (var i = 0; i < args.Length - 1; i++)
+        {
+            if (args[i].Contains("speed") && float.TryParse(args[i+1], out var speed))
+            {
+                navMeshAgent.speed = speed;
+            }
+            if (args[i].Contains("half_range_as_num_grids") && int.TryParse(args[i+1], out var inputHalfRangeAsNumGrids))
+            {
+                halfRangeAsNumGrids = inputHalfRangeAsNumGrids;
+            }
+        }
+        if (topDownView)
+        {
+            camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
+            camera.transform.position = new Vector3(0,
+                (halfRangeAsNumGrids + 1 / 2f) * gridSize / Mathf.Tan(camera.fieldOfView / 2 * Mathf.PI / 180) -
+                GetComponent<Collider>().bounds.extents.y, 0);
+            cameraDistance = camera.transform.position.y;
+        }
         /*if (CompareTag("Hider"))
         {
             var fixedCamera = transform.parent.Find("FixedCamera").GetComponent<Camera>();

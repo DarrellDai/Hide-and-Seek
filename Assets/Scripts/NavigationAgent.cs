@@ -75,6 +75,8 @@ public class NavigationAgent : GameAgent
             GameObject.Find("Main Camera").SetActive(false);
             transform.parent.Find("FixedCamera").transform.position = new Vector3(0,
                 mapSize / Mathf.Tan(camera.fieldOfView / 2 * Mathf.PI / 180), 0);
+            transform.parent.Find("FixedCamera").GetComponent<Camera>().rect = new Rect(0f, 0f,
+                (float)1 / (GameObject.Find("PlayerSpawner").transform.childCount + 1), 1f);
         }
 
 

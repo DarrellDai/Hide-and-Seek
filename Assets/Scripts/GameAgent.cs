@@ -44,7 +44,7 @@ public class GameAgent : Agent
     private Quaternion lastRotation;
 
     //Player spawner as the parent of all players
-    private PlayerSpawner playerSpawner;
+    [HideInInspector] public PlayerSpawner playerSpawner;
     public Camera camera;
 
 

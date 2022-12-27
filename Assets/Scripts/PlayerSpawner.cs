@@ -269,12 +269,14 @@ public class PlayerSpawner : MonoBehaviour
         var rotation = camera.transform.rotation;
         var rect = camera.rect;
         var fieldOfView = camera.fieldOfView;
+        var nearClipPlane = camera.nearClipPlane;
 
         camera.Reset();
         camera.transform.position = position;
         camera.transform.rotation = rotation;
         camera.rect = rect;
         camera.fieldOfView = fieldOfView;
+        camera.nearClipPlane = nearClipPlane;
     }
 
     /// <summary>

@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 25165352140814548, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
       propertyPath: m_Speed
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1000462377446314402, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
       propertyPath: field of view
@@ -19,9 +19,17 @@ PrefabInstance:
       propertyPath: near clip plane
       value: 0.12
       objectReference: {fileID: 0}
+    - target: {fileID: 3890042652284771897, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
+      propertyPath: m_Width
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 3890042652284771897, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
+      propertyPath: m_Height
+      value: 128
+      objectReference: {fileID: 0}
     - target: {fileID: 6313364606870624510, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
       propertyPath: m_Name
-      value: SeekerDetection
+      value: SeekerDetectionBigMapPositionOnly
       objectReference: {fileID: 0}
     - target: {fileID: 6841157950969872332, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
       propertyPath: m_RootOrder
@@ -73,7 +81,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8737249417825923568, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 69
+      value: 261
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737249417825923568, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
+      propertyPath: m_BrainParameters.VectorActionSize.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737249417825923568, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
+      propertyPath: m_BrainParameters.VectorActionSize.Array.data[0]
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737249417825923568, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
+      propertyPath: m_BrainParameters.VectorActionSize.Array.data[1]
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737249417825923568, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
+      propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737249417825923568, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
+      propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.data[0]
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737249417825923568, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
+      propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.data[1]
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 819631143499883112, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
@@ -140,8 +172,8 @@ MonoBehaviour:
   toChooseNextDestination: 1
   arrived: 0
   topDownView: 1
-  halfNumDivisionEachSide: 4
-  halfRangeAsNumGrids: 2
+  halfNumDivisionEachSide: 8
+  halfRangeAsNumGrids: 4
   gridSize: 0
   sampledGrid: {x: 0, y: 0}
   agentPosition: {x: 0, y: 0, z: 0}

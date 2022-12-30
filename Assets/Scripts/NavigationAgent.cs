@@ -31,9 +31,9 @@ public class NavigationAgent : GameAgent
     public int halfNumDivisionEachSide = 4;
     public int halfRangeAsNumGrids = 2;
     [HideInInspector] public float gridSize;
-    private Vector2[,] destinationSpace;
+    public Vector2[,] destinationSpace;
     public bool[,] destinationVisited;
-    private bool[,] egocentricMask;
+    public bool[,] egocentricMask;
     private Vector2Int currentGrid;
     [HideInInspector] public Vector2 sampledGrid;
     private Vector2 chosenGrid;
@@ -339,7 +339,7 @@ public class NavigationAgent : GameAgent
         return center;
     }
 
-    private void UpdateDestinationAndEgocentricMask()
+    public virtual void UpdateDestinationAndEgocentricMask()
     {
         for (var i = 0; i < destinationVisited.GetLength(0); i++)
         {

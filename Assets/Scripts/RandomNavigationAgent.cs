@@ -36,16 +36,16 @@ public class RandomNavigationAgent : NavigationAgent
         if (navMeshAgent.isActiveAndEnabled)
         {
             navMeshAgent.nextPosition = transform.position;
-            agentPosition = transform.position;
+            agentPositionOnNavMesh = transform.position;
             NavMeshHit hit;
             if (NavMesh.SamplePosition(transform.position,
                     out hit, 1.0f,
                     NavMesh.AllAreas))
             {
-                agentPosition = hit.position;
+                agentPositionOnNavMesh = hit.position;
             }
 
-            if (Vector3.Distance(destinationPosition, agentPosition) > 1f)
+            if (Vector3.Distance(destinationPosition, agentPositionOnNavMesh) > 1f)
                 GoToNextPosition();
             else
             {

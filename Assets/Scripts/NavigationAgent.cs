@@ -39,7 +39,7 @@ public class NavigationAgent : GameAgent
     private Vector2 chosenGrid;
     private Vector2 nextGrid;
     private NavMeshPath navMeshPath;
-    public Vector3 agentPosition;
+    public Vector3 agentPositionOnNavMesh;
     [HideInInspector] public float cameraDistance;
 
     [HideInInspector] public GameObject destination;
@@ -212,21 +212,20 @@ public class NavigationAgent : GameAgent
         {
             selectNextDestination();
             MakeNewDestination();
-
-            navMeshAgent.nextPosition = transform.position;
-            agentPosition = transform.position;
+            
             NavMeshHit hit;
             if (NavMesh.SamplePosition(transform.position,
                     out hit, 1.0f,
                     NavMesh.AllAreas))
             {
-                agentPosition = hit.position;
-                /*transform.position = agentPosition;
+                agentPositionOnNavMesh = hit.position;
+                transform.position = agentPositionOnNavMesh;
                 GetComponent<PlaceObjectsToSurface>().StartPlacing(
-                    navMeshAgent.velocity, false, true);*/
+                    navMeshAgent.velocity, false, false);
+                navMeshAgent.nextPosition = agentPositionOnNavMesh;
             }
 
-            if (Vector3.Distance(destinationPosition, agentPosition) > 0.1f)
+            if (Vector3.Distance(destinationPosition, agentPositionOnNavMesh) > 0.1f)
                 GoToNextPosition();
             else
             {
@@ -257,16 +256,16 @@ public class NavigationAgent : GameAgent
         navMeshAgent.CalculatePath(destination.transform.position, navMeshPath);
         if (navMeshPath.corners.Length > 1)
         {
-            var target = (navMeshPath.corners[1] - agentPosition).normalized;
+            var target = (navMeshPath.corners[1] - agentPositionOnNavMesh).normalized;
             var newRot = Quaternion.LookRotation(target);
             transform.rotation =
                 Quaternion.Slerp(transform.rotation,
                     newRot, Time.fixedDeltaTime * 10f);
-            if ((navMeshPath.corners[1] - agentPosition).magnitude > Time.fixedDeltaTime * navMeshAgent.speed)
+            if ((navMeshPath.corners[1] - agentPositionOnNavMesh).magnitude > Time.fixedDeltaTime * navMeshAgent.speed)
                 transform.position += Time.fixedDeltaTime * navMeshAgent.speed * target;
             else
             {
-                transform.position += (navMeshPath.corners[1] - agentPosition).magnitude * target;
+                transform.position += (navMeshPath.corners[1] - agentPositionOnNavMesh).magnitude * target;
             }
             /*Vector3.Lerp(transform.position,
                 transform.position + Time.fixedDeltaTime * navMeshAgent.speed * transform.forward,

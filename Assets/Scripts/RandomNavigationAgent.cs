@@ -45,7 +45,7 @@ public class RandomNavigationAgent : NavigationAgent
                 agentPositionOnNavMesh = hit.position;
             }
 
-            if (Vector3.Distance(destinationPosition, agentPositionOnNavMesh) > 1f)
+            if (Vector3.Distance(destinationPosition, agentPositionOnNavMesh) > navMeshAgent.radius)
                 GoToNextPosition();
             else
             {

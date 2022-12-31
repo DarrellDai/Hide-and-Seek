@@ -19,6 +19,7 @@ public class GameAgent : Agent
     public InputAction dirInput;
 
     [HideInInspector] public float mapSize;
+    [HideInInspector] public float colliderRadius;
 
     //Player's parameter
     public float moveSpeed = 0.5f;
@@ -32,8 +33,6 @@ public class GameAgent : Agent
 
     //If true, destroy the hider on the next step 
     private bool hiderDestroyFlag;
-
-    public bool skipReward;
 
     public Vector3 startPosition;
 
@@ -114,6 +113,7 @@ public class GameAgent : Agent
         //Get map size
         var terrainAndRockSetting = FindObjectOfType<TerrainAndRockSetting>();
         mapSize = terrainAndRockSetting.CalculateMapSize() / 2;
+        colliderRadius = GetComponent<SphereCollider>().radius;
 
         /*//Ignore collision between same agents
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Seeker"), LayerMask.NameToLayer("Seeker"));

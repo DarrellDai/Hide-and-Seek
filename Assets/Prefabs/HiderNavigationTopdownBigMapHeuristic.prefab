@@ -1,0 +1,134 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8172232509121803335
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3526450907499452013, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526450907499452013, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526450907499452013, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526450907499452013, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526450907499452013, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526450907499452013, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526450907499452013, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526450907499452013, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526450907499452013, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526450907499452013, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526450907499452013, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4151552679882142047, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_Name
+      value: HiderNavigationTopdownBigMapHeuristic
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5581798741904387776, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+--- !u!20 &1336185439550180420 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 7197473178659764227, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+  m_PrefabInstance: {fileID: 8172232509121803335}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4310352351988784715 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5384309039512758796, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+  m_PrefabInstance: {fileID: 8172232509121803335}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &543989807309415719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4310352351988784715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc09b1b5bb395ee4aaf6bb83b66aa063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  moveInput:
+    m_Name: Move Input
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 70ba19d8-944b-4241-abdd-0ae3227e8edd
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  dirInput:
+    m_Name: Dir Input
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: e96af53a-bb6b-496a-871a-5560d796dff7
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  mapSize: 0
+  moveSpeed: 0.5
+  rotateSpeed: 200
+  trainingMode: 0
+  alive: 0
+  skipReward: 0
+  startPosition: {x: 0, y: 0, z: 0}
+  startRotation: {x: 0, y: 0, z: 0, w: 0}
+  playerSpawner: {fileID: 0}
+  camera: {fileID: 1336185439550180420}
+  detected: 
+  destinationSpawner: {fileID: 0}
+  extraOffset: 0.1
+  overlapTestBoxSizeForDestination: {x: 0, y: 0, z: 0}
+  destinationPosition: {x: 0, y: 0, z: 0}
+  toChooseNextDestination: 1
+  arrived: 0
+  topDownView: 1
+  fixedCamera: {fileID: 0}
+  halfNumDivisionEachSide: 8
+  halfRangeAsNumGrids: 4
+  gridSize: 0
+  sampledGrid: {x: 0, y: 0}
+  chosenGrid: {x: 0, y: 0}
+  nextGrid: {x: 0, y: 0}
+  agentPositionOnNavMesh: {x: 0, y: 0, z: 0}
+  cameraDistance: 0
+  destination: {fileID: 0}
+  navMeshAgent: {fileID: 0}
+  lastAction: 

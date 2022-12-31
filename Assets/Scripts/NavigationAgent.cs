@@ -54,7 +54,7 @@ public class NavigationAgent : GameAgent
 
     //Path planned by NavMesh
 
-    private int[] lastAction;
+    [HideInInspector] public int[] lastAction;
     private float rotation;
 
     /// <summary>
@@ -328,7 +328,7 @@ public class NavigationAgent : GameAgent
         nextGrid = GetGridFromPosition(destinationPosition);
     }
 
-    private Vector2 GetGridFromPosition(Vector3 position)
+    public Vector2 GetGridFromPosition(Vector3 position)
     {
         return new Vector2(Mathf.Floor((position.x + mapSize) / gridSize),
             Mathf.Floor((position.z + mapSize) / gridSize));
@@ -388,27 +388,7 @@ public class NavigationAgent : GameAgent
             }
         }
     }
-    public override void Heuristic(in ActionBuffers actionsOut)
-    {
-        var discreteActionsOut = actionsOut.DiscreteActions;
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            Ray ray = Camera.main.ScreenPointToRay(
-                new Vector3(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y, 0)); 
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
 
-                var selectedPosition = GetGridFromPosition(hit.point);
-                discreteActionsOut[0] = (int)selectedPosition.x;
-                discreteActionsOut[1] = (int)selectedPosition.y;
-            }
-        }
-        else
-        {
-            discreteActionsOut[0] = lastAction[0];
-            discreteActionsOut[1] = lastAction[1];
-        }
-    }
 
 
     /*/// <summary>

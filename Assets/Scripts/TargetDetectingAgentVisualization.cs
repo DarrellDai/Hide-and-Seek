@@ -14,7 +14,7 @@ using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class NavigationAgentVisualization : NavigationAgent
+public class TargetDetectingAgentVisualization : TargetDetectingAgent
 {
     private GameObject[,] gridsVisulization;
     private Color originalColor;
@@ -30,16 +30,13 @@ public class NavigationAgentVisualization : NavigationAgent
         {
             for (int j = 0; j < 2 * halfNumDivisionEachSide; j++)
             {
-                if (CompareTag("Hider"))
-                {
-                    gridsVisulization[i, j] = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                    gridsVisulization[i, j].transform.SetParent(GameObject.Find("PlaneSpawner").transform);
-                    gridsVisulization[i, j].transform.position =
-                        new Vector3(destinationSpace[i, j].x, 0.01f, destinationSpace[i, j].y);
-                    gridsVisulization[i, j].transform.localScale = Vector3.one * gridSize / 10f;
-                    gridsVisulization[i, j].GetComponent<Renderer>().material.SetFloat("_Mode", 3);
-                    gridsVisulization[i, j].GetComponent<Renderer>().material.color = Color.clear;
-                }
+                gridsVisulization[i, j] = GameObject.CreatePrimitive(PrimitiveType.Plane);
+                gridsVisulization[i, j].transform.SetParent(GameObject.Find("PlaneSpawner").transform);
+                gridsVisulization[i, j].transform.position =
+                    new Vector3(destinationSpace[i, j].x, 0.01f, destinationSpace[i, j].y);
+                gridsVisulization[i, j].transform.localScale = Vector3.one * gridSize / 10f;
+                gridsVisulization[i, j].GetComponent<Renderer>().material.SetFloat("_Mode", 3);
+                gridsVisulization[i, j].GetComponent<Renderer>().material.color = Color.clear;
             }
         }
 
@@ -59,47 +56,43 @@ public class NavigationAgentVisualization : NavigationAgent
         {
             for (int j = 0; j < 2 * halfNumDivisionEachSide; j++)
             {
-                if (CompareTag("Hider"))
-                {
-                    gridsVisulization[i, j].GetComponent<Renderer>().material.color = Color.clear;
-                }
+                gridsVisulization[i, j].GetComponent<Renderer>().material.color = Color.clear;
             }
         }
 
-        if (CompareTag("Hider"))
-        {
-            var color = Color.magenta;
-            color.a = 0.1f;
-            gridsVisulization[(int)nextGrid.x, (int)nextGrid.y].GetComponent<Renderer>().material.color = color;
-            color = Color.yellow;
-            gridsVisulization[(int)sampledGrid.x, (int)sampledGrid.y].GetComponent<Renderer>().material.color = color;
-        }
+        var color = Color.magenta;
+        color.a = 0.1f;
+        gridsVisulization[(int)nextGrid.x, (int)nextGrid.y].GetComponent<Renderer>().material.color = color;
+        color = Color.yellow;
+        gridsVisulization[(int)sampledGrid.x, (int)sampledGrid.y].GetComponent<Renderer>().material.color = color;
     }
 
     public override void UpdateDestinationAndEgocentricMask()
     {
         base.UpdateDestinationAndEgocentricMask();
-
-        for (var i = 0; i < destinationVisited.GetLength(0); i++)
+        /*if (CompareTag("Hider"))
         {
-            for (var j = 0; j < destinationVisited.GetLength(1); j++)
+            for (var i = 0; i < destinationVisited.GetLength(0); i++)
             {
-                gridsVisulization[i, j].GetComponent<Renderer>().material.color = Color.clear;
-                if (destinationVisited[i, j])
+                for (var j = 0; j < destinationVisited.GetLength(1); j++)
                 {
-                    var color = Color.blue;
-                    color.a = 0.1f;
-                    gridsVisulization[i, j].GetComponent<Renderer>().material.color = color;
-                }
+                    gridsVisulization[i, j].GetComponent<Renderer>().material.color = Color.clear;
+                    if (destinationVisited[i, j])
+                    {
+                        var color = Color.blue;
+                        color.a = 0.1f;
+                        gridsVisulization[i, j].GetComponent<Renderer>().material.color = color;
+                    }
 
-                if (egocentricMask[i, j])
-                {
-                    var color = Color.red;
-                    color.a = 0.1f;
-                    gridsVisulization[i, j].GetComponent<Renderer>().material.color = color;
+                    if (egocentricMask[i, j])
+                    {
+                        var color = Color.red;
+                        color.a = 0.1f;
+                        gridsVisulization[i, j].GetComponent<Renderer>().material.color = color;
+                    }
                 }
             }
-        }
+        }*/
     }
 
     /// <summary>

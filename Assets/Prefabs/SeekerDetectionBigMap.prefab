@@ -84,12 +84,20 @@ PrefabInstance:
       value: 261
       objectReference: {fileID: 0}
     - target: {fileID: 8737249417825923568, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
+      propertyPath: m_BrainParameters.VectorActionSize.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737249417825923568, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
       propertyPath: m_BrainParameters.VectorActionSize.Array.data[0]
       value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8737249417825923568, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
       propertyPath: m_BrainParameters.VectorActionSize.Array.data[1]
       value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8737249417825923568, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
+      propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8737249417825923568, guid: 79f90e66fd8d4418fbbfbfeb9732bfa0, type: 3}
       propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.data[0]
@@ -164,14 +172,18 @@ MonoBehaviour:
   toChooseNextDestination: 1
   arrived: 0
   topDownView: 1
+  fixedCamera: {fileID: 0}
   halfNumDivisionEachSide: 8
   halfRangeAsNumGrids: 4
   gridSize: 0
   sampledGrid: {x: 0, y: 0}
-  agentPosition: {x: 0, y: 0, z: 0}
+  chosenGrid: {x: 0, y: 0}
+  nextGrid: {x: 0, y: 0}
+  agentPositionOnNavMesh: {x: 0, y: 0, z: 0}
   cameraDistance: 0
   destination: {fileID: 0}
   navMeshAgent: {fileID: 0}
+  lastAction: 
 --- !u!114 &5133967969861628681
 MonoBehaviour:
   m_ObjectHideFlags: 0

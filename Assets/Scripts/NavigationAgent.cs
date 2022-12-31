@@ -40,8 +40,8 @@ public class NavigationAgent : GameAgent
     public bool[,] egocentricMask;
     private Vector2Int currentGrid;
     [HideInInspector] public Vector2 sampledGrid;
-    private Vector2 chosenGrid;
-    private Vector2 nextGrid;
+    [HideInInspector] public Vector2 chosenGrid;
+    [HideInInspector] public Vector2 nextGrid;
     private NavMeshPath navMeshPath;
     public Vector3 agentPositionOnNavMesh;
     [HideInInspector] public float cameraDistance;
@@ -217,7 +217,6 @@ public class NavigationAgent : GameAgent
     /// </summary>
     public override void MoveAgent(ActionSegment<int> act)
     {
-        //Debug.Log(act[0].ToString()+act[1].ToString());
         for (int i=0; i<act.Length;i++)
         {
             lastAction[i] = act[i];
@@ -355,11 +354,12 @@ public class NavigationAgent : GameAgent
             destinationSpace[(int)gridIndex.x, (int)gridIndex.y].y);
         RaycastHit hit;
 
-        if (Physics.Raycast(position, Vector3.down, out hit))
+        if (Physics.Raycast(position, Vector3.down, out hit, Mathf.Infinity,
+                ~(1 << LayerMask.NameToLayer("Hider") | 1 << LayerMask.NameToLayer("Seeker"))))
         {
             center = hit.point + new Vector3(0, overlapTestBoxSizeForDestination.y, 0);
         }
-
+        
         return center;
     }
 
@@ -391,7 +391,7 @@ public class NavigationAgent : GameAgent
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var discreteActionsOut = actionsOut.DiscreteActions;
-        if (Mouse.current.leftButton.isPressed)
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             Ray ray = Camera.main.ScreenPointToRay(
                 new Vector3(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y, 0)); 

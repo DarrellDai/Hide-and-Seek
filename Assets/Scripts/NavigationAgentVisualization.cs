@@ -16,7 +16,6 @@ using Random = UnityEngine.Random;
 
 public class NavigationAgentVisualization : NavigationAgent
 {
-
     private GameObject[,] gridsVisulization;
     private Color originalColor;
 
@@ -43,10 +42,10 @@ public class NavigationAgentVisualization : NavigationAgent
                 }
             }
         }
+
         originalColor = transform.Find("Body").GetComponent<Renderer>().material.color;
     }
-    
-    
+
 
     /// <summary>
     ///     Update when action received.
@@ -58,12 +57,14 @@ public class NavigationAgentVisualization : NavigationAgent
         transform.Find("Body").GetComponent<Renderer>().material.color = originalColor;
         if (CompareTag("Hider"))
         {
-            var color = Color.yellow;
+            var color = Color.gray;
             color.a = 0.1f;
+            gridsVisulization[(int)nextGrid.x, (int)nextGrid.y].GetComponent<Renderer>().material.color = color;
+            color = Color.yellow;
             gridsVisulization[(int)sampledGrid.x, (int)sampledGrid.y].GetComponent<Renderer>().material.color = color;
         }
     }
-    
+
     public override void UpdateDestinationAndEgocentricMask()
     {
         base.UpdateDestinationAndEgocentricMask();
@@ -79,7 +80,6 @@ public class NavigationAgentVisualization : NavigationAgent
                         var color = Color.blue;
                         color.a = 0.1f;
                         gridsVisulization[i, j].GetComponent<Renderer>().material.color = color;
-                        Debug.Log(gridsVisulization[i, j]);
                     }
 
                     if (egocentricMask[i, j])
@@ -98,12 +98,16 @@ public class NavigationAgentVisualization : NavigationAgent
     /// </summary>
     public void OnDrawGizmos()
     {
-        if (Application.isPlaying && CompareTag("Seeker"))
+        if (Application.isPlaying)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(GetPositionFromGrid(sampledGrid), 2f);
             if (destination != null)
-                Gizmos.DrawWireCube(destination.transform.position, Vector3.one * 2f);
+                Gizmos.DrawWireCube(destination.transform.position, Vector3.one * 1f);
+            Gizmos.color = Color.white;
+            if (chosenGrid != null)
+            {
+                Gizmos.DrawWireCube(GetPositionFromGrid(chosenGrid), Vector3.one * 1f);
+            }
         }
     }
 }

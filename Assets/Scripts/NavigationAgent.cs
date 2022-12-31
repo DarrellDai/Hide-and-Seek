@@ -9,9 +9,12 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Assertions.Must;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using MouseButton = UnityEngine.UIElements.MouseButton;
 using Random = UnityEngine.Random;
 
 public class NavigationAgent : GameAgent
@@ -28,6 +31,7 @@ public class NavigationAgent : GameAgent
     [HideInInspector] public bool toChooseNextDestination = true;
     [HideInInspector] public bool arrived;
     public bool topDownView = true;
+    [HideInInspector] public Transform fixedCamera;
     public int halfNumDivisionEachSide = 4;
     public int halfRangeAsNumGrids = 2;
     [HideInInspector] public float gridSize;
@@ -50,7 +54,7 @@ public class NavigationAgent : GameAgent
 
     //Path planned by NavMesh
 
-    private Vector2 last2dDestination;
+    private int[] lastAction;
     private float rotation;
 
     /// <summary>
@@ -69,10 +73,16 @@ public class NavigationAgent : GameAgent
         if (transform.parent.Find("FixedCamera") != null)
         {
             GameObject.Find("Main Camera").SetActive(false);
-            transform.parent.Find("FixedCamera").transform.position = new Vector3(0,
+            fixedCamera = transform.parent.Find("FixedCamera");
+            fixedCamera.tag = "MainCamera";
+            fixedCamera.position = new Vector3(0,
                 mapSize / Mathf.Tan(camera.fieldOfView / 2 * Mathf.PI / 180), 0);
-            transform.parent.Find("FixedCamera").GetComponent<Camera>().rect = new Rect(0f, 0f,
+            fixedCamera.GetComponent<Camera>().rect = new Rect(0f, 0f,
                 (float)1 / (GameObject.Find("PlayerSpawner").transform.childCount + 1), 1f);
+        }
+        else
+        {
+            fixedCamera = GameObject.Find("Main Camera").transform;
         }
 
 
@@ -142,6 +152,9 @@ public class NavigationAgent : GameAgent
 
         // Disable navMeshAgent so it's nextPosition won't move to cause teleport
         navMeshAgent.enabled = false;
+        lastAction = new int[GetComponent<BehaviorParameters>().BrainParameters.ActionSpec.NumDiscreteActions];
+
+
     }
 
     /// <summary>
@@ -204,6 +217,11 @@ public class NavigationAgent : GameAgent
     /// </summary>
     public override void MoveAgent(ActionSegment<int> act)
     {
+        //Debug.Log(act[0].ToString()+act[1].ToString());
+        for (int i=0; i<act.Length;i++)
+        {
+            lastAction[i] = act[i];
+        }
         // Enable navMeshAgent when it's able to move
         navMeshAgent.enabled = true;
         // Prevent NavMeshAgent is not active on NavMesh issue
@@ -221,7 +239,7 @@ public class NavigationAgent : GameAgent
                 agentPositionOnNavMesh = hit.position;
                 transform.position = agentPositionOnNavMesh;
                 GetComponent<PlaceObjectsToSurface>().StartPlacing(
-                    navMeshAgent.velocity, false, false);
+                    navMeshAgent.velocity, false, true);
                 navMeshAgent.nextPosition = agentPositionOnNavMesh;
             }
 
@@ -281,6 +299,7 @@ public class NavigationAgent : GameAgent
     /// </summary>
     public void selectNextDestination()
     {
+
         if (!destinationVisited[(int)sampledGrid.x, (int)sampledGrid.y])
         {
             float distance = Mathf.Infinity;
@@ -307,8 +326,13 @@ public class NavigationAgent : GameAgent
         NavMeshHit hit;
         NavMesh.SamplePosition(GetPositionFromGrid(chosenGrid), out hit, Mathf.Infinity, NavMesh.AllAreas);
         destinationPosition = hit.position;
-        nextGrid = new Vector2(Mathf.Floor((destinationPosition.x + mapSize) / gridSize),
-            Mathf.Floor((destinationPosition.z + mapSize) / gridSize));
+        nextGrid = GetGridFromPosition(destinationPosition);
+    }
+
+    private Vector2 GetGridFromPosition(Vector3 position)
+    {
+        return new Vector2(Mathf.Floor((position.x + mapSize) / gridSize),
+            Mathf.Floor((position.z + mapSize) / gridSize));
     }
 
     /// <summary>
@@ -364,6 +388,28 @@ public class NavigationAgent : GameAgent
             }
         }
     }
+    public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        var discreteActionsOut = actionsOut.DiscreteActions;
+        if (Mouse.current.leftButton.isPressed)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(
+                new Vector3(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y, 0)); 
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+
+                var selectedPosition = GetGridFromPosition(hit.point);
+                discreteActionsOut[0] = (int)selectedPosition.x;
+                discreteActionsOut[1] = (int)selectedPosition.y;
+            }
+        }
+        else
+        {
+            discreteActionsOut[0] = lastAction[0];
+            discreteActionsOut[1] = lastAction[1];
+        }
+    }
+
 
     /*/// <summary>
     /// Highlight the hider in sphere and destination in box with green color 

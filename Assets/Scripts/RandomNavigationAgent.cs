@@ -35,21 +35,8 @@ public class RandomNavigationAgent : NavigationAgent
 
         if (navMeshAgent.isActiveAndEnabled)
         {
-            navMeshAgent.nextPosition = transform.position;
-            agentPositionOnNavMesh = transform.position;
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(transform.position,
-                    out hit, 1.0f,
-                    NavMesh.AllAreas))
-            {
-                agentPositionOnNavMesh = hit.position;
-            }
-            if (Vector3.Distance(destinationPosition, agentPositionOnNavMesh) > colliderRadius)
-                GoToNextPosition();
-            else
-            {
-                toChooseNextDestination = true;
-            }
+            PlaceAgentToClosestNavMesh();
+            DecideToMoveOrSelectNextDestination();
         }
         CorrectCamera();
 

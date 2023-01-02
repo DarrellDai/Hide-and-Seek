@@ -26,12 +26,13 @@ public class NavigationAgentHeuristic : NavigationAgent
         {
             Ray ray = Camera.main.ScreenPointToRay(
                 new Vector3(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y, 0)); 
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity,
+                    ~(1 << LayerMask.NameToLayer("Hider") | 1 << LayerMask.NameToLayer("Seeker"))))
             {
 
-                var selectedPosition = GetGridFromPosition(hit.point);
-                discreteActionsOut[0] = (int)selectedPosition.x;
-                discreteActionsOut[1] = (int)selectedPosition.y;
+                var selectedGrid = GetGridFromPosition(hit.point); 
+                discreteActionsOut[0] = (int)selectedGrid.x;
+                discreteActionsOut[1] = (int)selectedGrid.y;
             }
         }
         else

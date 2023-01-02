@@ -1,80 +1,75 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5254087997785500329
+--- !u!1001 &2693298801812062941
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1591628534207042679, guid: bc304c30afcd41b43b33374f42fbdb7f, type: 3}
-      propertyPath: m_Name
-      value: SeekerDetectionBigMapHeuristicVisualization
-      objectReference: {fileID: 0}
-    - target: {fileID: 2268590421764518725, guid: bc304c30afcd41b43b33374f42fbdb7f, type: 3}
+    - target: {fileID: 7063314017177860053, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2268590421764518725, guid: bc304c30afcd41b43b33374f42fbdb7f, type: 3}
+    - target: {fileID: 7063314017177860053, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2268590421764518725, guid: bc304c30afcd41b43b33374f42fbdb7f, type: 3}
+    - target: {fileID: 7063314017177860053, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2268590421764518725, guid: bc304c30afcd41b43b33374f42fbdb7f, type: 3}
+    - target: {fileID: 7063314017177860053, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2268590421764518725, guid: bc304c30afcd41b43b33374f42fbdb7f, type: 3}
+    - target: {fileID: 7063314017177860053, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2268590421764518725, guid: bc304c30afcd41b43b33374f42fbdb7f, type: 3}
+    - target: {fileID: 7063314017177860053, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2268590421764518725, guid: bc304c30afcd41b43b33374f42fbdb7f, type: 3}
+    - target: {fileID: 7063314017177860053, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2268590421764518725, guid: bc304c30afcd41b43b33374f42fbdb7f, type: 3}
+    - target: {fileID: 7063314017177860053, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2268590421764518725, guid: bc304c30afcd41b43b33374f42fbdb7f, type: 3}
+    - target: {fileID: 7063314017177860053, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2268590421764518725, guid: bc304c30afcd41b43b33374f42fbdb7f, type: 3}
+    - target: {fileID: 7063314017177860053, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2268590421764518725, guid: bc304c30afcd41b43b33374f42fbdb7f, type: 3}
+    - target: {fileID: 7063314017177860053, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7739666775323021543, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
+      propertyPath: m_Name
+      value: SeekerDetectionBigMapHeuristicVisualization
+      objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 1935597396374306617, guid: bc304c30afcd41b43b33374f42fbdb7f, type: 3}
-  m_SourcePrefab: {fileID: 100100000, guid: bc304c30afcd41b43b33374f42fbdb7f, type: 3}
---- !u!20 &325125691508275074 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 5506021261661297963, guid: bc304c30afcd41b43b33374f42fbdb7f, type: 3}
-  m_PrefabInstance: {fileID: 5254087997785500329}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3303798432703686029 stripped
+    - {fileID: 7467768382969052073, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
+--- !u!1 &4408455247163083113 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 7292231705873501988, guid: bc304c30afcd41b43b33374f42fbdb7f, type: 3}
-  m_PrefabInstance: {fileID: 5254087997785500329}
+  m_CorrespondingSourceObject: {fileID: 1751194699909204916, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
+  m_PrefabInstance: {fileID: 2693298801812062941}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7781530201866786722
+--- !u!114 &9218176409314747969
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3303798432703686029}
+  m_GameObject: {fileID: 4408455247163083113}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: edca5efd9e4941ef931fc3ee6c7d9cd3, type: 3}
@@ -88,7 +83,7 @@ MonoBehaviour:
     m_Name: Move Input
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 33dc31c5-9375-44cd-836b-7b7924e76772
+    m_Id: 262b4fef-10c3-4711-b6f4-3b909fde5085
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
@@ -97,21 +92,23 @@ MonoBehaviour:
     m_Name: Dir Input
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 60dbff7b-7285-4fe8-a03f-b9e8d16e91ed
+    m_Id: e941fbd1-194f-4e08-888a-49fe9fd39550
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
   mapSize: 0
+  colliderRadius: 0
   moveSpeed: 0.5
   rotateSpeed: 200
   trainingMode: 0
   alive: 0
-  skipReward: 0
+  randomRelocate: 1
   startPosition: {x: 0, y: 0, z: 0}
   startRotation: {x: 0, y: 0, z: 0, w: 0}
   playerSpawner: {fileID: 0}
-  camera: {fileID: 325125691508275074}
+  camera: {fileID: 0}
+  navMesh: 0
   detected: 
   destinationSpawner: {fileID: 0}
   extraOffset: 0.1
@@ -121,8 +118,8 @@ MonoBehaviour:
   arrived: 0
   topDownView: 1
   fixedCamera: {fileID: 0}
-  halfNumDivisionEachSide: 8
-  halfRangeAsNumGrids: 4
+  halfNumDivisionEachSide: 4
+  halfRangeAsNumGrids: 2
   gridSize: 0
   sampledGrid: {x: 0, y: 0}
   chosenGrid: {x: 0, y: 0}

@@ -33,10 +33,11 @@ public class GameAgent : Agent
 
     //If true, destroy the hider on the next step 
     private bool hiderDestroyFlag;
+    public bool randomRelocate = true;
 
     public Vector3 startPosition;
 
-    public Quaternion startRotation;
+    public Quaternion startRotation; 
 
     //Player's destinationPosition and rotation on the last step
     private Vector3 lastPosition;
@@ -51,7 +52,7 @@ public class GameAgent : Agent
     private int step;
 
     [HideInInspector] public bool navMesh;
-    
+
     [HideInInspector] public List<bool> detected;
     //private Color originalColor;
 
@@ -69,7 +70,6 @@ public class GameAgent : Agent
 
     public void OnCollisionEnter(Collision collision)
     {
-
         if (collision.gameObject.CompareTag("Seeker") && gameObject.CompareTag("Hider"))
         {
             //Add reward when get caught as a hider
@@ -97,7 +97,6 @@ public class GameAgent : Agent
             //print("Caught");
             EndEpisode();
         }
-
     }
 
     /// <summary>
@@ -105,7 +104,6 @@ public class GameAgent : Agent
     /// </summary>
     public override void Initialize()
     {
-
         //Enable inputs
         moveInput.Enable();
         dirInput.Enable();
@@ -129,18 +127,16 @@ public class GameAgent : Agent
         startRotation = transform.rotation;
         step = 1;
         //originalColor=transform.Find("Body").GetComponent<Renderer>().material.color;
-        
+
         var args = Environment.GetCommandLineArgs();
         for (var i = 0; i < args.Length - 1; i++)
         {
-            if (args[i].Contains("seed") && int.TryParse(args[i+1], out var seed))
+            if (args[i].Contains("seed") && int.TryParse(args[i + 1], out var seed))
             {
                 Random.InitState(seed);
                 break;
             }
         }
-        
-        
     }
 
     /// <summary>
@@ -159,16 +155,23 @@ public class GameAgent : Agent
     /// </summary>
     public override void OnEpisodeBegin()
     {
-        
-        stepLeftToFreeze = playerSpawner.humanPlay? playerSpawner.numStepToFreeze:0;
+        stepLeftToFreeze = playerSpawner.humanPlay ? playerSpawner.numStepToFreeze : 0;
         alive = true;
         gameObject.transform.GetChild(0).gameObject.SetActive(true);
         gameObject.transform.GetChild(1).gameObject.SetActive(true);
         gameObject.layer = LayerMask.NameToLayer(gameObject.tag);
         gameObject.GetComponent<Collider>().enabled = true;
         PlayerSpawner.ResetCamera(gameObject.transform);
-        playerSpawner.RelocatePlayer(gameObject.transform, true, navMesh); 
-        //transform.rotation = startRotation;
+        if (randomRelocate)
+        {
+            playerSpawner.RelocatePlayer(gameObject.transform, true, navMesh);
+            transform.rotation = startRotation;
+        }
+        else
+        {
+            playerSpawner.RelocatePlayer(gameObject.transform, false, navMesh);
+        }
+
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         step = 1;
@@ -247,8 +250,8 @@ public class GameAgent : Agent
     }
 
     public virtual void CorrectCamera()
-        {
-            camera.transform.localPosition = Vector3.zero;
-            camera.transform.localRotation = Quaternion.identity;
-        }
+    {
+        camera.transform.localPosition = Vector3.zero;
+        camera.transform.localRotation = Quaternion.identity;
+    }
 }

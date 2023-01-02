@@ -2,6 +2,7 @@ using System;
 using Unity.Mathematics;
 using Unity.MLAgents.Policies;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -282,7 +283,7 @@ public class PlayerSpawner : MonoBehaviour
     /// <summary>
     ///     Place the player to a random destinationPosition
     /// </summary>
-    public void RelocatePlayer(Transform agent, bool isRandom)
+    public void RelocatePlayer(Transform agent, bool isRandom, bool navMesh)
     {
         agent.rotation = quaternion.identity;
         if (isRandom)
@@ -297,6 +298,16 @@ public class PlayerSpawner : MonoBehaviour
             agent.position = agent.GetComponent<GameAgent>().startPosition;
         }
 
+        if (navMesh)
+        {
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(agent.position,
+                    out hit, Mathf.Infinity,
+                    NavMesh.AllAreas))
+            {
+                agent.position = hit.position;
+            }
+        }
         agent.GetComponent<PlaceObjectsToSurface>().StartPlacing(Vector3.zero, false, false);
         Physics.SyncTransforms();
     }

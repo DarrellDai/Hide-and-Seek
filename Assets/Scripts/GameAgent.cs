@@ -50,6 +50,8 @@ public class GameAgent : Agent
     // Step count in an episode
     private int step;
 
+    [HideInInspector] public bool navMesh;
+    
     [HideInInspector] public List<bool> detected;
     //private Color originalColor;
 
@@ -165,7 +167,7 @@ public class GameAgent : Agent
         gameObject.layer = LayerMask.NameToLayer(gameObject.tag);
         gameObject.GetComponent<Collider>().enabled = true;
         PlayerSpawner.ResetCamera(gameObject.transform);
-        playerSpawner.RelocatePlayer(gameObject.transform, true);
+        playerSpawner.RelocatePlayer(gameObject.transform, true, navMesh); 
         //transform.rotation = startRotation;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         GetComponent<Rigidbody>().angularVelocity = Vector3.zero;

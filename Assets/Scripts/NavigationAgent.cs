@@ -63,6 +63,7 @@ public class NavigationAgent : GameAgent
     public override void Initialize()
     {
         base.Initialize();
+        navMesh = true;
         navMeshPath = new NavMeshPath();
         destinationSpace = new Vector2[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         destinationVisited = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
@@ -72,18 +73,18 @@ public class NavigationAgent : GameAgent
 
         if (transform.parent.Find("FixedCamera") != null)
         {
-            GameObject.Find("Main Camera").SetActive(false);
             fixedCamera = transform.parent.Find("FixedCamera");
             fixedCamera.tag = "MainCamera";
-            fixedCamera.position = new Vector3(0,
-                mapSize / Mathf.Tan(camera.fieldOfView / 2 * Mathf.PI / 180), 0);
-            fixedCamera.GetComponent<Camera>().rect = new Rect(0f, 0f,
-                (float)1 / (GameObject.Find("PlayerSpawner").transform.childCount + 1), 1f);
         }
         else
         {
             fixedCamera = GameObject.Find("Main Camera").transform;
         }
+        
+        fixedCamera.position = new Vector3(0,
+            mapSize / Mathf.Tan(fixedCamera.GetComponent<Camera>().fieldOfView / 2 * Mathf.PI / 180), 0);
+        fixedCamera.GetComponent<Camera>().rect = new Rect(0f, 0f,
+            (float)1 / (GameObject.Find("PlayerSpawner").transform.childCount + 1), 1f);
 
 
         for (int i = 0; i < 2 * halfNumDivisionEachSide; i++)
@@ -243,7 +244,7 @@ public class NavigationAgent : GameAgent
             }
 
             if (Vector3.Distance(destinationPosition, agentPositionOnNavMesh) > 0.1f)
-                GoToNextPosition();
+                GoToNextPosition(); 
             else
             {
                 toChooseNextDestination = true;

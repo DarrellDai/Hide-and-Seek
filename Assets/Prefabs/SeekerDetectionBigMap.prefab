@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1591628534207042679, guid: 8c04d4b1515927756bca001a373441c3, type: 3}
       propertyPath: m_Name
-      value: SeekerDetection Variant
+      value: SeekerDetectionBigMap
       objectReference: {fileID: 0}
     - target: {fileID: 1935597396374306617, guid: 8c04d4b1515927756bca001a373441c3, type: 3}
       propertyPath: moveSpeed
@@ -65,7 +65,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4092637488462822777, guid: 8c04d4b1515927756bca001a373441c3, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 261
+      value: 264
       objectReference: {fileID: 0}
     - target: {fileID: 4092637488462822777, guid: 8c04d4b1515927756bca001a373441c3, type: 3}
       propertyPath: m_BrainParameters.VectorActionSize.Array.data[0]

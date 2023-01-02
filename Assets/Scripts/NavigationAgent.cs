@@ -166,6 +166,7 @@ public class NavigationAgent : GameAgent
         CorrectCamera();
         base.CollectObservations(sensor);
         sensor.AddObservation(currentGrid);
+        sensor.AddObservation(transform.position);
         sensor.AddObservation(sampledGrid);
         for (var i = 0; i < destinationVisited.GetLength(0); i++)
         {

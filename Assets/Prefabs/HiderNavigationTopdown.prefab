@@ -101,7 +101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6724322058400197138, guid: 8b7dc9b7bb4a98cb096e482e8fe20d13, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 69
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 6724322058400197138, guid: 8b7dc9b7bb4a98cb096e482e8fe20d13, type: 3}
       propertyPath: m_BrainParameters.VectorActionSize.Array.size
@@ -211,15 +211,17 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   mapSize: 0
+  colliderRadius: 0
   moveSpeed: 0.5
   rotateSpeed: 200
   trainingMode: 0
   alive: 0
-  skipReward: 0
+  randomRelocate: 1
   startPosition: {x: 0, y: 0, z: 0}
   startRotation: {x: 0, y: 0, z: 0, w: 0}
   playerSpawner: {fileID: 0}
   camera: {fileID: 7197473178659764227}
+  navMesh: 0
   detected: 
   destinationSpawner: {fileID: 0}
   extraOffset: 0.1

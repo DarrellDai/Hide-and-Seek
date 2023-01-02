@@ -69,22 +69,20 @@ public class NavigationAgent : GameAgent
         destinationVisited = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         egocentricMask = new bool[halfNumDivisionEachSide * 2, halfNumDivisionEachSide * 2];
         gridSize = mapSize / halfNumDivisionEachSide;
-        
+
 
         if (transform.parent.Find("FixedCamera") != null)
         {
+            if (GameObject.Find("Main Camera")!=null)
+                GameObject.Find("Main Camera").SetActive(false);   
             fixedCamera = transform.parent.Find("FixedCamera");
             fixedCamera.tag = "MainCamera";
+
+            fixedCamera.position = new Vector3(0,
+                mapSize / Mathf.Tan(fixedCamera.GetComponent<Camera>().fieldOfView / 2 * Mathf.PI / 180), 0);
+            fixedCamera.GetComponent<Camera>().rect = new Rect(0f, 0f,
+                (float)1 / (GameObject.Find("PlayerSpawner").transform.childCount + 1), 1f);
         }
-        else
-        {
-            fixedCamera = GameObject.Find("Main Camera").transform;
-        }
-        
-        fixedCamera.position = new Vector3(0,
-            mapSize / Mathf.Tan(fixedCamera.GetComponent<Camera>().fieldOfView / 2 * Mathf.PI / 180), 0);
-        fixedCamera.GetComponent<Camera>().rect = new Rect(0f, 0f,
-            (float)1 / (GameObject.Find("PlayerSpawner").transform.childCount + 1), 1f);
 
 
         for (int i = 0; i < 2 * halfNumDivisionEachSide; i++)
@@ -230,29 +228,37 @@ public class NavigationAgent : GameAgent
         {
             selectNextDestination();
             MakeNewDestination();
-            
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(transform.position,
-                    out hit, 1.0f,
-                    NavMesh.AllAreas))
-            {
-                agentPositionOnNavMesh = hit.position;
-                transform.position = agentPositionOnNavMesh;
-                GetComponent<PlaceObjectsToSurface>().StartPlacing(
-                    navMeshAgent.velocity, false, true);
-                navMeshAgent.nextPosition = agentPositionOnNavMesh;
-            }
-
-            if (Vector3.Distance(destinationPosition, agentPositionOnNavMesh) > 0.1f)
-                GoToNextPosition(); 
-            else
-            {
-                toChooseNextDestination = true;
-                /*transform.Rotate(transform.up, act[2] * 360f / 16);*/
-            }
+            PlaceAgentToClosestNavMesh();
+            DecideToMoveOrSelectNextDestination();
         }
 
         CorrectCamera(); 
+    }
+
+    public void DecideToMoveOrSelectNextDestination()
+    {
+        if (Vector3.Distance(destinationPosition, agentPositionOnNavMesh) > 0.1f)
+            GoToNextPosition();
+        else
+        {
+            toChooseNextDestination = true;
+            /*transform.Rotate(transform.up, act[2] * 360f / 16);*/
+        }
+    }
+
+    public void PlaceAgentToClosestNavMesh()
+    {
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(transform.position,
+                out hit, 1.0f,
+                NavMesh.AllAreas))
+        {
+            agentPositionOnNavMesh = hit.position;
+            transform.position = agentPositionOnNavMesh;
+            GetComponent<PlaceObjectsToSurface>().StartPlacing(
+                navMeshAgent.velocity, false, true);
+            navMeshAgent.nextPosition = agentPositionOnNavMesh;
+        }
     }
 
     public override void CorrectCamera()
@@ -358,7 +364,11 @@ public class NavigationAgent : GameAgent
         if (Physics.Raycast(position, Vector3.down, out hit, Mathf.Infinity,
                 ~(1 << LayerMask.NameToLayer("Hider") | 1 << LayerMask.NameToLayer("Seeker"))))
         {
-            center = hit.point + new Vector3(0, overlapTestBoxSizeForDestination.y, 0);
+            center = hit.point;
+        }
+        else
+        {
+            throw new Exception("The grid is not on the terrain");
         }
         
         return center;

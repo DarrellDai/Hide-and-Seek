@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
 using Unity.Collections;
 using Unity.Mathematics;
 using Unity.MLAgents.Actuators;
@@ -38,7 +41,7 @@ public class NavigationAgent : GameAgent
     public Vector2[,] destinationSpace;
     public bool[,] destinationVisited;
     public bool[,] egocentricMask;
-    private Vector2Int currentGrid;
+    [HideInInspector] public Vector2Int currentGrid;
     [HideInInspector] public Vector2 sampledGrid;
     [HideInInspector] public Vector2 chosenGrid;
     [HideInInspector] public Vector2 nextGrid;
@@ -73,8 +76,8 @@ public class NavigationAgent : GameAgent
 
         if (transform.parent.Find("FixedCamera") != null)
         {
-            if (GameObject.Find("Main Camera")!=null)
-                GameObject.Find("Main Camera").SetActive(false);   
+            if (GameObject.Find("Main Camera") != null)
+                GameObject.Find("Main Camera").SetActive(false);
             fixedCamera = transform.parent.Find("FixedCamera");
             fixedCamera.tag = "MainCamera";
 
@@ -109,15 +112,18 @@ public class NavigationAgent : GameAgent
         var args = Environment.GetCommandLineArgs();
         for (var i = 0; i < args.Length - 1; i++)
         {
-            if (args[i].Contains("speed") && float.TryParse(args[i+1], out var speed))
+            if (args[i].Contains("speed") && float.TryParse(args[i + 1], out var speed))
             {
                 navMeshAgent.speed = speed;
             }
-            if (args[i].Contains("half_range_as_num_grids") && int.TryParse(args[i+1], out var inputHalfRangeAsNumGrids))
+
+            if (args[i].Contains("half_range_as_num_grids") &&
+                int.TryParse(args[i + 1], out var inputHalfRangeAsNumGrids))
             {
                 halfRangeAsNumGrids = inputHalfRangeAsNumGrids;
             }
         }
+
         if (topDownView)
         {
             camera.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
@@ -126,6 +132,7 @@ public class NavigationAgent : GameAgent
                 GetComponent<Collider>().bounds.extents.y, 0);
             cameraDistance = camera.transform.position.y;
         }
+
         /*if (CompareTag("Hider"))
         {
             var fixedCamera = transform.parent.Find("FixedCamera").GetComponent<Camera>();
@@ -152,8 +159,6 @@ public class NavigationAgent : GameAgent
         // Disable navMeshAgent so it's nextPosition won't move to cause teleport
         navMeshAgent.enabled = false;
         lastAction = new int[GetComponent<BehaviorParameters>().BrainParameters.ActionSpec.NumDiscreteActions];
-
-
     }
 
     /// <summary>
@@ -165,6 +170,7 @@ public class NavigationAgent : GameAgent
         UpdateDestinationAndEgocentricMask();
         CorrectCamera();
         base.CollectObservations(sensor);
+        
         sensor.AddObservation(currentGrid);
         sensor.AddObservation(transform.position);
         sensor.AddObservation(sampledGrid);
@@ -217,10 +223,11 @@ public class NavigationAgent : GameAgent
     /// </summary>
     public override void MoveAgent(ActionSegment<int> act)
     {
-        for (int i=0; i<act.Length;i++)
+        for (int i = 0; i < act.Length; i++)
         {
             lastAction[i] = act[i];
         }
+
         // Enable navMeshAgent when it's able to move
         navMeshAgent.enabled = true;
         // Prevent NavMeshAgent is not active on NavMesh issue
@@ -233,7 +240,7 @@ public class NavigationAgent : GameAgent
             DecideToMoveOrSelectNextDestination();
         }
 
-        CorrectCamera(); 
+        CorrectCamera();
     }
 
     public void DecideToMoveOrSelectNextDestination()
@@ -251,7 +258,7 @@ public class NavigationAgent : GameAgent
     {
         NavMeshHit hit;
         if (NavMesh.SamplePosition(transform.position,
-                out hit, 1.0f,
+                out hit, Mathf.Infinity,
                 NavMesh.AllAreas))
         {
             agentPositionOnNavMesh = hit.position;
@@ -306,7 +313,6 @@ public class NavigationAgent : GameAgent
     /// </summary>
     public void selectNextDestination()
     {
-
         if (!destinationVisited[(int)sampledGrid.x, (int)sampledGrid.y])
         {
             float distance = Mathf.Infinity;
@@ -371,7 +377,7 @@ public class NavigationAgent : GameAgent
         {
             throw new Exception("The grid is not on the terrain");
         }
-        
+
         return center;
     }
 
@@ -400,7 +406,6 @@ public class NavigationAgent : GameAgent
             }
         }
     }
-
 
 
     /*/// <summary>

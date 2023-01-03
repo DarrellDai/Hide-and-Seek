@@ -245,8 +245,8 @@ public class NavigationAgent : GameAgent
 
     public void DecideToMoveOrSelectNextDestination()
     {
-        if (Vector3.Distance(destinationPosition, agentPositionOnNavMesh) > 0.1f)
-            GoToNextPosition();
+        if (Vector3.Distance(destinationPosition, agentPositionOnNavMesh) > 0.001f)
+            GoToNextPosition(); 
         else
         {
             toChooseNextDestination = true;

@@ -19,6 +19,14 @@ PrefabInstance:
       propertyPath: randomRelocate
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1935597396374306617, guid: 8c04d4b1515927756bca001a373441c3, type: 3}
+      propertyPath: halfRangeAsNumGrids
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935597396374306617, guid: 8c04d4b1515927756bca001a373441c3, type: 3}
+      propertyPath: halfNumDivisionEachSide
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2268590421764518725, guid: 8c04d4b1515927756bca001a373441c3, type: 3}
       propertyPath: m_RootOrder
       value: 0

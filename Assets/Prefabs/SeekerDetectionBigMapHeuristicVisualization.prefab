@@ -58,6 +58,11 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 7467768382969052073, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
+--- !u!20 &1474820589559700326 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 3537324064364108219, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
+  m_PrefabInstance: {fileID: 2693298801812062941}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4408455247163083113 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1751194699909204916, guid: af9fdc9544f3f36a0a1357687963d915, type: 3}
@@ -107,7 +112,7 @@ MonoBehaviour:
   startPosition: {x: 0, y: 0, z: 0}
   startRotation: {x: 0, y: 0, z: 0, w: 0}
   playerSpawner: {fileID: 0}
-  camera: {fileID: 0}
+  camera: {fileID: 1474820589559700326}
   navMesh: 0
   detected: 
   destinationSpawner: {fileID: 0}
@@ -118,9 +123,10 @@ MonoBehaviour:
   arrived: 0
   topDownView: 1
   fixedCamera: {fileID: 0}
-  halfNumDivisionEachSide: 4
-  halfRangeAsNumGrids: 2
+  halfNumDivisionEachSide: 8
+  halfRangeAsNumGrids: 4
   gridSize: 0
+  currentGrid: {x: 0, y: 0}
   sampledGrid: {x: 0, y: 0}
   chosenGrid: {x: 0, y: 0}
   nextGrid: {x: 0, y: 0}

@@ -369,7 +369,7 @@ public class NavigationAgent : GameAgent
         RaycastHit hit;
 
         if (Physics.Raycast(position, Vector3.down, out hit, Mathf.Infinity,
-                ~(1 << LayerMask.NameToLayer("Hider") | 1 << LayerMask.NameToLayer("Seeker"))))
+                1 << LayerMask.NameToLayer("Terrain")))
         {
             center = hit.point;
         }

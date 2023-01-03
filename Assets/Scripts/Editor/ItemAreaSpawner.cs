@@ -81,7 +81,7 @@ public class ItemAreaSpawner : ScriptableObject
         clone.tag = "Rock";
         var flags = StaticEditorFlags.NavigationStatic;
         GameObjectUtility.SetStaticEditorFlags(clone, flags);
-        //GameObjectUtility.SetNavMeshArea(clone, GameObjectUtility.GetNavMeshAreaFromName("Not Walkable"));
+        GameObjectUtility.SetNavMeshArea(clone, GameObjectUtility.GetNavMeshAreaFromName("Not Walkable"));  
         RandomizeByAxis(randomRotationRange, clone);
         RandomizeObjectScale(clone);
         PlaceToSurface(clone);

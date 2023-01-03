@@ -73,7 +73,7 @@ public class TargetDetectingAgent : RandomNavigationAgent
             float minDistance=Single.PositiveInfinity;
             foreach (Renderer renderer in detectedRenderers)
             {
-                float distance=Vector3.Distance(renderer.transform.position, transform.position);
+                float distance=Vector3.Distance(renderer.transform.parent.transform.position, transform.position); 
                 if (distance < minDistance)
                 {
                     detectedRenderer = renderer;
@@ -83,8 +83,8 @@ public class TargetDetectingAgent : RandomNavigationAgent
         }
         if (detectedRenderer!=null)
         {
-            sampledGrid = new Vector2(Mathf.Floor((detectedRenderer.transform.position.x + mapSize) / gridSize),
-                Mathf.Floor((detectedRenderer.transform.position.z + mapSize) / gridSize));
+            sampledGrid = new Vector2(Mathf.Floor((detectedRenderer.transform.parent.transform.position.x + mapSize) / gridSize),
+                Mathf.Floor((detectedRenderer.transform.parent.transform.position.z + mapSize) / gridSize));
             selectNextDestination();
         }
         if (navMeshAgent.isActiveAndEnabled)

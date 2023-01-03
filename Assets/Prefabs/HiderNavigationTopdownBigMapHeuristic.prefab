@@ -7,6 +7,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1675381453300340817, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_BrainParameters.VectorObservationSize
+      value: 264
+      objectReference: {fileID: 0}
+    - target: {fileID: 1675381453300340817, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_BrainParameters.VectorActionSize.Array.data[0]
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1675381453300340817, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_BrainParameters.VectorActionSize.Array.data[1]
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1675381453300340817, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.data[0]
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1675381453300340817, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.data[1]
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 3526450907499452013, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -54,6 +74,14 @@ PrefabInstance:
     - target: {fileID: 4151552679882142047, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
       propertyPath: m_Name
       value: HiderNavigationTopdownBigMapHeuristic
+      objectReference: {fileID: 0}
+    - target: {fileID: 6628420884832155544, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_Width
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 6628420884832155544, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_Height
+      value: 128
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5581798741904387776, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
@@ -103,15 +131,17 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   mapSize: 0
+  colliderRadius: 0
   moveSpeed: 0.5
   rotateSpeed: 200
   trainingMode: 0
   alive: 0
-  skipReward: 0
+  randomRelocate: 1
   startPosition: {x: 0, y: 0, z: 0}
   startRotation: {x: 0, y: 0, z: 0, w: 0}
   playerSpawner: {fileID: 0}
   camera: {fileID: 1336185439550180420}
+  navMesh: 0
   detected: 
   destinationSpawner: {fileID: 0}
   extraOffset: 0.1
@@ -124,6 +154,7 @@ MonoBehaviour:
   halfNumDivisionEachSide: 8
   halfRangeAsNumGrids: 4
   gridSize: 0
+  currentGrid: {x: 0, y: 0}
   sampledGrid: {x: 0, y: 0}
   chosenGrid: {x: 0, y: 0}
   nextGrid: {x: 0, y: 0}

@@ -25,19 +25,16 @@ public class GameAgent : Agent
     public float moveSpeed = 0.5f;
     public float rotateSpeed = 200f;
 
-    //If in training or inference mode
-    public bool trainingMode;
-
     //If true, meaning the agent is still activated 
-    public bool alive;
+    [HideInInspector] public bool alive;
 
     //If true, destroy the hider on the next step 
     private bool hiderDestroyFlag;
     public bool randomRelocate = true;
 
-    public Vector3 startPosition;
+    [HideInInspector] public Vector3 startPosition;
 
-    public Quaternion startRotation; 
+    [HideInInspector] public Quaternion startRotation; 
 
     //Player's destinationPosition and rotation on the last step
     private Vector3 lastPosition;
@@ -65,7 +62,7 @@ public class GameAgent : Agent
     private void OnDestroy()
     {
         moveInput.Disable();
-        dirInput.Disable();
+        dirInput.Disable(); 
     }
 
     public void OnCollisionEnter(Collision collision)
@@ -118,10 +115,7 @@ public class GameAgent : Agent
         /*//Ignore collision between same agents
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Seeker"), LayerMask.NameToLayer("Seeker"));
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Hider"), LayerMask.NameToLayer("Hider"));*/
-
-
-        //Set the MaxStep as 5000 in training mode, 0 (inf) in inference mode
-        MaxStep = trainingMode ? 5000 : 0;
+        
 
         startPosition = transform.position;
         startRotation = transform.rotation;

@@ -151,7 +151,6 @@ public class PlayerSpawner : MonoBehaviour
             }
         }
 
-        gameAgent.trainingMode = players[order].trainingMode;
         var placeObjectsToSurface = clone.transform.Find("Character").GetComponent<PlaceObjectsToSurface>(); 
         placeObjectsToSurface.StartPlacing(Vector3.zero, false, false);
         Physics.SyncTransforms();

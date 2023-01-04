@@ -46,7 +46,7 @@ public class NavigationAgent : GameAgent
     [HideInInspector] public Vector2 chosenGrid;
     [HideInInspector] public Vector2 nextGrid;
     private NavMeshPath navMeshPath;
-    public Vector3 agentPositionOnNavMesh;
+    [HideInInspector] public Vector3 agentPositionOnNavMesh;
     [HideInInspector] public float cameraDistance;
 
     [HideInInspector] public GameObject destination;

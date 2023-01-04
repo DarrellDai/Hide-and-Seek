@@ -1,0 +1,139 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2311810330043202800
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5829928822384756482, guid: 68a7034f7ee93c6479c44784dc15208c, type: 3}
+      propertyPath: m_Name
+      value: SeekerDetectionBigMapReproduce
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450612756954996784, guid: 68a7034f7ee93c6479c44784dc15208c, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450612756954996784, guid: 68a7034f7ee93c6479c44784dc15208c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450612756954996784, guid: 68a7034f7ee93c6479c44784dc15208c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450612756954996784, guid: 68a7034f7ee93c6479c44784dc15208c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450612756954996784, guid: 68a7034f7ee93c6479c44784dc15208c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450612756954996784, guid: 68a7034f7ee93c6479c44784dc15208c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450612756954996784, guid: 68a7034f7ee93c6479c44784dc15208c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450612756954996784, guid: 68a7034f7ee93c6479c44784dc15208c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450612756954996784, guid: 68a7034f7ee93c6479c44784dc15208c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450612756954996784, guid: 68a7034f7ee93c6479c44784dc15208c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6450612756954996784, guid: 68a7034f7ee93c6479c44784dc15208c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6638894414150822988, guid: 68a7034f7ee93c6479c44784dc15208c, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 68a7034f7ee93c6479c44784dc15208c, type: 3}
+--- !u!1 &277127502800134305 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2579927901980400721, guid: 68a7034f7ee93c6479c44784dc15208c, type: 3}
+  m_PrefabInstance: {fileID: 2311810330043202800}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1182001154478361835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 277127502800134305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 300c37a16be4451eb2f5e26cce4dbd60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  moveInput:
+    m_Name: Move Input
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 2e70269a-e578-463f-8b9a-a59faa6b8fa4
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  dirInput:
+    m_Name: Dir Input
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: b2a27eb8-cf94-4fc0-87a2-69c8d4a2accd
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  mapSize: 0
+  colliderRadius: 0
+  moveSpeed: 0.5
+  rotateSpeed: 200
+  trainingMode: 0
+  alive: 0
+  randomRelocate: 0
+  startPosition: {x: 0, y: 0, z: 0}
+  startRotation: {x: 0, y: 0, z: 0, w: 0}
+  playerSpawner: {fileID: 0}
+  camera: {fileID: 3063268864006238894}
+  navMesh: 0
+  detected: 
+  destinationSpawner: {fileID: 0}
+  extraOffset: 0.1
+  overlapTestBoxSizeForDestination: {x: 0, y: 0, z: 0}
+  destinationPosition: {x: 0, y: 0, z: 0}
+  toChooseNextDestination: 1
+  arrived: 0
+  topDownView: 0
+  fixedCamera: {fileID: 0}
+  halfNumDivisionEachSide: 8
+  halfRangeAsNumGrids: 4
+  gridSize: 0
+  currentGrid: {x: 0, y: 0}
+  sampledGrid: {x: 0, y: 0}
+  chosenGrid: {x: 0, y: 0}
+  nextGrid: {x: 0, y: 0}
+  agentPositionOnNavMesh: {x: 0, y: 0, z: 0}
+  cameraDistance: 0
+  destination: {fileID: 0}
+  navMeshAgent: {fileID: 0}
+  lastAction: 
+  actionLogPath: /home/darrelldai/log/6/Seeker0/data/action_1.csv
+  positionLogPath: /home/darrelldai/log/6/Seeker0/data/position_1.csv
+--- !u!20 &3063268864006238894 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 763318297093901918, guid: 68a7034f7ee93c6479c44784dc15208c, type: 3}
+  m_PrefabInstance: {fileID: 2311810330043202800}
+  m_PrefabAsset: {fileID: 0}

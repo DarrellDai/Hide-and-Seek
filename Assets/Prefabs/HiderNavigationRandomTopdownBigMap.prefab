@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1675381453300340817, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
+      propertyPath: m_BehaviorType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3526450907499452013, guid: 0b83c18ec5892ea4ca257f4571328e74, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -101,7 +105,6 @@ MonoBehaviour:
   colliderRadius: 0
   moveSpeed: 0.5
   rotateSpeed: 200
-  trainingMode: 0
   alive: 0
   randomRelocate: 1
   startPosition: {x: 0, y: 0, z: 0}

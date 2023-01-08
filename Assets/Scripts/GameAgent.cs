@@ -32,8 +32,8 @@ public class GameAgent : Agent
     private bool hiderDestroyFlag;
     public bool randomRelocate = true;
 
+    
     [HideInInspector] public Vector3 startPosition;
-
     [HideInInspector] public Quaternion startRotation; 
 
     //Player's destinationPosition and rotation on the last step
@@ -159,11 +159,11 @@ public class GameAgent : Agent
         if (randomRelocate)
         {
             playerSpawner.RelocatePlayer(gameObject.transform, true, navMesh);
-            transform.rotation = startRotation;
         }
         else
         {
             playerSpawner.RelocatePlayer(gameObject.transform, false, navMesh);
+            transform.rotation = startRotation;
         }
 
         GetComponent<Rigidbody>().velocity = Vector3.zero;

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.MLAgents.Policies;
 using UnityEngine;
@@ -45,9 +46,13 @@ public class PlayerSpawner : MonoBehaviour
 
     [Tooltip("Player spawner as the parent of all destinations")]
     public GameObject destinationSpawner;
-    
+
 
     [Tooltip("Players to spawn")] public Player[] players;
+    List<Transform> hiders;
+    List<Transform> seekers;
+
+    public bool faceEachOther;
 
     [Tooltip("Number of steps to freeze seekers to give hiders Preparation time")]
     public int numStepToFreeze;
@@ -77,19 +82,44 @@ public class PlayerSpawner : MonoBehaviour
         playerSpawner.transform.position = Vector3.zero;
         playerSpawner.transform.rotation = quaternion.identity;
         playerSpawner.transform.localScale = Vector3.one;
-        CountNumHidersAndSeekers();
     }
 
-    public void CountNumHidersAndSeekers()
+    public void Awake()
+    {
+        MakePlayerList();
+    }
+
+    public void MakePlayerList()
+    {
+        seekers = new List<Transform>();
+        hiders = new List<Transform>();
+        for (var i = 0; i < playerSpawner.transform.childCount; i++)
+        {
+            if (playerSpawner.transform.GetChild(i).Find("Character").CompareTag("Seeker"))
+            {
+                seekers.Add(playerSpawner.transform.GetChild(i).Find("Character"));
+            }
+            else if (playerSpawner.transform.GetChild(i).Find("Character").CompareTag("Hider"))
+            {
+                hiders.Add(playerSpawner.transform.GetChild(i).Find("Character"));
+            }
+        }
+    }
+
+    public void CountNumPlayers()
     {
         numHiders = 0;
         numSeekers = 0;
         for (var i = 0; i < players.Length; i++)
         {
             if (players[i].playerToSpawn.CompareTag("Seeker"))
+            {
                 numSeekers++;
+            }
             else if (players[i].playerToSpawn.CompareTag("Hider"))
+            {
                 numHiders++;
+            }
         }
     }
 
@@ -123,9 +153,10 @@ public class PlayerSpawner : MonoBehaviour
         GameObject clone = Instantiate(players[order].playerToSpawn, randPosition,
             quaternion.identity);
         //Don't use InverseTransformPoint, it'll use the future transform.position to infer current collider's local position
-        clone.transform.position = 2 * clone.transform.position - clone.transform.Find("Character").GetComponent<Collider>().bounds.center;
+        clone.transform.position = 2 * clone.transform.position -
+                                   clone.transform.Find("Character").GetComponent<Collider>().bounds.center;
         clone.transform.parent = playerSpawner.transform;
-        var gameAgent = clone.transform.Find("Character").GetComponent<GameAgent>(); 
+        var gameAgent = clone.transform.Find("Character").GetComponent<GameAgent>();
         if (hasCameras)
         {
             //Set camera as field of view
@@ -151,7 +182,7 @@ public class PlayerSpawner : MonoBehaviour
             }
         }
 
-        var placeObjectsToSurface = clone.transform.Find("Character").GetComponent<PlaceObjectsToSurface>(); 
+        var placeObjectsToSurface = clone.transform.Find("Character").GetComponent<PlaceObjectsToSurface>();
         placeObjectsToSurface.StartPlacing(Vector3.zero, false, false);
         Physics.SyncTransforms();
     }
@@ -165,9 +196,10 @@ public class PlayerSpawner : MonoBehaviour
         {
             if (count == 20)
             {
-                currentDistanceFromPlayers = currentDistanceFromPlayers - 0.5f;
+                currentDistanceFromPlayers -= 0.5f;
                 count = 0;
             }
+
             // Don't need to add TerrainSpawner's position, because when an object is
             // added to another one as child, the current position will become local position
             randPosition = new Vector3(Random.Range(-itemSpread, itemSpread), 100,
@@ -290,8 +322,23 @@ public class PlayerSpawner : MonoBehaviour
             FindRandPosition();
             Physics.SyncTransforms();
             agent.position = randPosition + agent.position - agent.GetComponent<Collider>().bounds.center;
+            if (faceEachOther)
+            {
+                if (agent.CompareTag("Hider"))
+                {
+                    agent.forward = seekers[0].position - agent.position;
+                }
+                else
+                {
+                    agent.forward = hiders[0].position - agent.position;
+                }
+
+                agent.GetComponent<PlaceObjectsToSurface>().StartPlacing(Vector3.zero, false, false);
+            }
+
             Physics.SyncTransforms();
         }
+
         else
         {
             agent.position = agent.GetComponent<GameAgent>().startPosition;
@@ -307,6 +354,7 @@ public class PlayerSpawner : MonoBehaviour
                 agent.position = hit.position;
             }
         }
+
         agent.GetComponent<PlaceObjectsToSurface>().StartPlacing(Vector3.zero, false, false);
         Physics.SyncTransforms();
     }
